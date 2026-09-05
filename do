@@ -56,9 +56,17 @@ cmd_test() {
 }
 
 cmd_test_book() {
-  # booktest tests live under book/. First run records httpx interactions
-  # into books/; subsequent runs replay. Update snapshots with --update-snapshots.
-  exec uv run pytest book/ "$@"
+  # booktest tests live under book/, snapshots in books/.
+  #
+  # NOT pytest: booktest ships a console script and no pytest11 plugin, so
+  # `pytest book/` collects the tests and then fails every one of them with
+  # "fixture 't' not found". Use its own runner.
+  #
+  #   ./do test-book              run and compare against accepted snapshots
+  #   ./do test-book -a           accept the current output as the snapshot
+  #   ./do test-book -v           verbose (prints the book as it runs)
+  #   ./do test-book -i           interactive review of diffs
+  exec uv run booktest book/ "$@"
 }
 
 cmd_screenshot_teaser() {

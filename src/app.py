@@ -263,19 +263,40 @@ def get_card(key: str):
     return _card_payload(card, full=True)
 
 
+# A public endpoint that runs user-supplied SQL needs a ceiling. Not for
+# correctness — the read-only `_sql` endpoint refuses every write and DDL,
+# verified with DROP/DELETE/INSERT/CREATE/UPDATE — but because an unbounded
+# SELECT from the open internet is a cheap way to make the instance work hard.
+SQL_MAX_CHARS = 4000
+SQL_TIMEOUT_S = 15.0
+
+
 @app.post("/api/sql")
 async def run_sql(request: Request):
-    """Run an arbitrary read-only statement — this is what makes the cards editable.
+    """Run one read-only statement — this is what makes the cards editable.
 
-    No allowlist and no parsing here: the endpoint is backed by Aito's READ-ONLY
-    `_sql`, which refuses DDL and writes itself. Validating in two places would
-    mean two definitions of what is allowed, and the one that matters is the
-    engine's.
+    No allowlist and no SQL parsing of our own: the endpoint is backed by
+    Aito's READ-ONLY `_sql`, which refuses DDL and writes itself. Validating in
+    two places would mean two definitions of what is allowed, and the one that
+    matters is the engine's. What we DO impose is a size and time ceiling,
+    which is a resource question rather than a semantic one.
     """
-    stmt = (await request.body()).decode("utf-8").strip()
+    stmt = (await request.body()).decode("utf-8", errors="replace").strip()
     if not stmt:
-        raise HTTPException(status_code=400, detail="empty statement")
-    result = _run(stmt)
+        raise HTTPException(status_code=400, detail={"message": "empty statement"})
+    if len(stmt) > SQL_MAX_CHARS:
+        raise HTTPException(status_code=413, detail={
+            "message": f"statement too long ({len(stmt)} chars, limit {SQL_MAX_CHARS})"})
+    if ";" in stmt.rstrip().rstrip(";"):
+        # One statement per request. The engine would reject a batch anyway;
+        # saying so here is clearer than letting it come back as a parse error.
+        raise HTTPException(status_code=400, detail={
+            "message": "one statement per request (found a ';' mid-statement)"})
+
+    try:
+        result = sql.query(stmt, timeout=SQL_TIMEOUT_S)
+    except SqlError as e:
+        raise HTTPException(status_code=400, detail={"message": str(e), "sql": e.sql})
     return {"sql": result.sql, "columns": result.columns,
             "rows": result.rows, "ms": round(result.ms)}
 

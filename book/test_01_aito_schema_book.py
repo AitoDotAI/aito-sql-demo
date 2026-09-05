@@ -33,7 +33,11 @@ def test_aito_schema(t: bt.TestCaseRun):
         headers={"x-api-key": config.aito_key, "content-type": "application/json"},
         timeout=10.0,
     ) as client:
-        r = client.get("/api/v1/schema")
+        # v2, not v1. This database's collections are v2-native and
+        # `/api/v1/schema` answers 500 for them on build c44c348c — filed
+        # separately. The demo reads v2 everywhere, so the test should too:
+        # a smoke test ought to exercise the path the product actually uses.
+        r = client.get("/api/v2/schema")
         r.raise_for_status()
         data = r.json()
 
@@ -44,8 +48,10 @@ def test_aito_schema(t: bt.TestCaseRun):
         t.tln("_(empty schema — load data first)_")
     else:
         for table in tables:
-            cols = (data["schema"][table].get("columns") or {})
-            t.iln(f"- `{table}` — {len(cols)} columns")
+            spec = data["schema"][table]
+            cols = spec.get("columns") or {}
+            links = sum(1 for c in cols.values() if isinstance(c, dict) and c.get("link"))
+            t.iln(f"- `{table}` — {len(cols)} columns, {links} links")
 
     t.tln("")
     t.assertln("schema returns successfully", isinstance(data, dict))

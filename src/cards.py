@@ -22,10 +22,10 @@ from dataclasses import dataclass, field
 # proposition, not a slice — so narrowing means querying a narrower table, and
 # a view is the only way to make one. These are created by load.py.
 VIEWS = {
-    "a_hot": "SELECT * FROM analysis WHERE climate = 'hot'",
-    "a_temperate": "SELECT * FROM analysis WHERE climate = 'temperate'",
-    "a_3shift": "SELECT * FROM analysis WHERE shift_pattern = '3-shift'",
-    "a_consumer": "SELECT * FROM analysis WHERE grade = 'consumer'",
+    "hot_sites": "SELECT * FROM analysis WHERE climate = 'hot'",
+    "temperate_sites": "SELECT * FROM analysis WHERE climate = 'temperate'",
+    "three_shift": "SELECT * FROM analysis WHERE shift_pattern = '3-shift'",
+    "consumer_grade": "SELECT * FROM analysis WHERE grade = 'consumer'",
 }
 
 
@@ -51,7 +51,7 @@ class Card:
     rank: int = 0
     # Which table each relate() runs against. Needed because group sizes have to
     # be counted against the SAME slice the lift was computed on — counting
-    # `analysis` for a lift measured on `a_hot` would put an honest-looking `n`
+    # `analysis` for a lift measured on `hot_sites` would put an honest-looking `n`
     # next to a number it does not describe.
     table: str = "analysis"
     conditioned_table: str | None = None
@@ -71,16 +71,16 @@ CARDS: list[Card] = [
                  where => 'cooling = ''passive'' AND climate = ''hot''')"""),
         causes=q("""SELECT * FROM relate('analysis', to => 'churned = ''true''',
                     fields => 'cooling, climate, had_thermal_fault', k => 6)"""),
-        conditioned=q("""SELECT * FROM relate('a_hot', to => 'churned = ''true''',
+        conditioned=q("""SELECT * FROM relate('hot_sites', to => 'churned = ''true''',
                          fields => 'cooling', k => 3)"""),
         conditioned_label="the same question, asked only of hot-climate sites",
-        levers=q("""SELECT * FROM recommend('a_hot','cooling',
+        levers=q("""SELECT * FROM recommend('hot_sites','cooling',
                     goal => 'churned = ''false''', why => true, k => 3)"""),
         baseline=BASELINE,
         note="Neither ingredient is dangerous alone. Passive cooling reads ×1.56 over the whole "
              "book and ×1.08 inside temperate sites — it is the combination that bites, which is "
              "why ranking single fields by lift never finds it.",
-        conditioned_table="a_hot",
+        conditioned_table="hot_sites",
     ),
     Card(
         key="duty",
@@ -93,15 +93,15 @@ CARDS: list[Card] = [
                  where => 'grade = ''consumer'' AND shift_pattern = ''3-shift''')"""),
         causes=q("""SELECT * FROM relate('analysis', to => 'churned = ''true''',
                     fields => 'grade, shift_pattern, duty_cycle_pct', k => 6)"""),
-        conditioned=q("""SELECT * FROM relate('a_3shift', to => 'churned = ''true''',
+        conditioned=q("""SELECT * FROM relate('three_shift', to => 'churned = ''true''',
                          fields => 'grade', k => 3)"""),
         conditioned_label="the same question, asked only of 3-shift sites",
-        levers=q("""SELECT * FROM recommend('a_3shift','grade',
+        levers=q("""SELECT * FROM recommend('three_shift','grade',
                     goal => 'churned = ''false''', why => true, k => 3)"""),
         baseline=BASELINE,
         note="A second interaction, and a cheaper fix than the first: the duty cycle is printed "
              "on the spec sheet, so this one is catchable at quote time.",
-        conditioned_table="a_3shift",
+        conditioned_table="three_shift",
     ),
     Card(
         key="response",
@@ -132,7 +132,7 @@ CARDS: list[Card] = [
                  where => 'channel = ''distributor-ME''')"""),
         causes=q("""SELECT * FROM relate('analysis', to => 'churned = ''true''',
                     fields => 'channel, region', k => 6)"""),
-        conditioned=q("""SELECT * FROM relate('a_hot', to => 'churned = ''true''',
+        conditioned=q("""SELECT * FROM relate('hot_sites', to => 'churned = ''true''',
                          fields => 'channel', k => 3)"""),
         conditioned_label="the same question, holding climate fixed — the channel vanishes",
         levers=q("""SELECT * FROM recommend('analysis','channel',
@@ -141,7 +141,7 @@ CARDS: list[Card] = [
         note="ANSWER: no. The channel sells into the Middle East, the Middle East is hot, and hot "
              "is what churns. Hold climate fixed and distributor-ME leaves the top of the list "
              "entirely. Cutting it would have cost the revenue and fixed nothing.",
-        conditioned_table="a_hot",
+        conditioned_table="hot_sites",
     ),
     Card(
         key="commissioning",

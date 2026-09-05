@@ -2,85 +2,101 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Teaser source — Aito Sql demo</title>
+  <title>Teaser source — a 360° view of the business, in SQL</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    /* Designed at 1200×630 — `./do screenshot-teaser` captures this viewport. */
-    :root {
-      --bg-deep: #0c0f41;
-      --bg-card: #121830;
-      --border: #2a3258;
-      --text: #ffffff;
-      --text-muted: #9ba0c5;
-      --accent: #7c5cfc;
-      --accent-hot: #9b7dff;
+    /* Designed at 1200×630 — `./do screenshot-teaser` captures this view.
+       The card grid is NOT the teaser: a shrunk dashboard reads as "some
+       dashboard". What is actually unusual here is that a causal answer comes
+       back from a SELECT, so the teaser shows the statement and the answer,
+       and lets the reader do the join. */
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      width:1200px; height:630px; overflow:hidden;
+      background:#0c0f41; color:#fff;
+      font-family:'IBM Plex Sans',system-ui,sans-serif;
+      display:flex; flex-direction:column;
+      position:relative;
     }
-    html, body {
-      margin: 0; padding: 0;
-      width: 1200px; height: 630px;
-      background: var(--bg-deep);
-      color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      overflow: hidden;
+    /* one soft purple bloom, bottom-right, so the flat navy has some depth */
+    body::after {
+      content:''; position:absolute; right:-180px; bottom:-260px;
+      width:760px; height:760px; border-radius:50%;
+      background:radial-gradient(circle,rgba(124,92,252,.30) 0%,rgba(124,92,252,0) 68%);
     }
-    .frame {
-      width: 1200px; height: 630px;
-      padding: 64px 80px;
-      box-sizing: border-box;
-      display: flex; flex-direction: column; justify-content: space-between;
-      background: radial-gradient(circle at 80% 20%, rgba(124, 92, 252, 0.18) 0%, transparent 50%),
-                  var(--bg-deep);
+    .inner { position:relative; z-index:1; padding:54px 64px; display:flex; flex-direction:column; height:100%; }
+
+    .brand { display:flex; align-items:center; gap:11px; margin-bottom:34px; }
+    .dot { width:9px; height:9px; border-radius:50%; background:#12B5AD; }
+    .brand span { font-size:15px; letter-spacing:.16em; text-transform:uppercase; color:#8fa0d8; font-weight:600; }
+
+    h1 { font-size:53px; line-height:1.06; font-weight:700; letter-spacing:-.022em; max-width:15ch; }
+    h1 em { font-style:normal; color:#7C5CFC; }
+    .sub { margin-top:16px; font-size:19px; line-height:1.5; color:#b9c4e8; max-width:44ch; }
+
+    .split { display:flex; gap:38px; align-items:flex-end; margin-top:auto; }
+
+    .sql {
+      flex:1; background:rgba(255,255,255,.055);
+      border:1px solid rgba(124,92,252,.32); border-radius:11px;
+      padding:17px 19px; font-family:'IBM Plex Mono',monospace;
+      font-size:14.5px; line-height:1.72; color:#dfe6ff; min-width:0;
     }
-    .wordmark {
-      font-weight: 700; font-size: 36px; letter-spacing: -0.02em;
-    }
-    .wordmark .dot { color: var(--accent-hot); }
-    h1 {
-      margin: 0;
-      font-size: 84px; line-height: 1.05;
-      font-weight: 700; letter-spacing: -0.025em;
-      max-width: 920px;
-      background: linear-gradient(135deg, #fff 0%, var(--accent-hot) 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .sub {
-      margin-top: 24px;
-      font-size: 30px; line-height: 1.35;
-      color: var(--text-muted);
-      max-width: 880px;
-    }
-    .footer {
-      display: flex; justify-content: space-between; align-items: end;
-    }
-    .url {
-      font-size: 24px; color: var(--text-muted);
-      font-family: ui-monospace, "SF Mono", Menlo, monospace;
-    }
-    .badge {
-      background: var(--accent);
-      color: white;
-      padding: 12px 24px;
-      border-radius: 999px;
-      font-weight: 600;
-      font-size: 18px;
-      letter-spacing: 0.03em;
-      text-transform: uppercase;
-    }
+    .sql .k { color:#7C5CFC; font-weight:600; }
+    .sql .s { color:#12B5AD; }
+    .sql .c { color:#6f7fb5; }
+
+    .answer { width:335px; flex-shrink:0; }
+    .answer-row { display:flex; align-items:baseline; gap:11px; margin-bottom:5px; }
+    .val { font-family:'IBM Plex Mono',monospace; font-size:15.5px; color:#fff; width:74px; }
+    .bar { height:9px; border-radius:5px; background:#7C5CFC; }
+    .bar.dim { background:rgba(124,92,252,.30); }
+    .lift { font-family:'IBM Plex Mono',monospace; font-size:14px; color:#12B5AD; font-weight:600; }
+    .answer-cap { margin-top:13px; font-size:14px; color:#8fa0d8; line-height:1.5; }
+    .answer-cap b { color:#fff; font-weight:600; }
   </style>
 </head>
 <body>
-  <div class="frame">
-    <div class="wordmark">aito<span class="dot">..</span></div>
+  <div class="inner">
+    <div class="brand"><span class="dot"></span><span>Aito · predictive database</span></div>
 
-    <div>
-      <h1>Your demo's headline goes here</h1>
-      <p class="sub">One-line value proposition. Two lines at most. Keep it concrete — name the thing the user will get.</p>
-    </div>
+    <h1>Ask a database <em>why</em>,<br>in plain SQL.</h1>
+    <p class="sub">
+      Root causes and the lever that moves each — no model trained, nothing precomputed.
+      One <code>SELECT</code>, over the Postgres wire protocol.
+    </p>
 
-    <div class="footer">
-      <div class="url">→ yourdemo.aito.ai</div>
-      <div class="badge">Powered by Aito</div>
+    <div class="split">
+      <div class="sql">
+        <span class="c">-- why do hot-climate sites churn twice as often?</span><br>
+        <span class="k">SELECT</span> * <span class="k">FROM</span> relate(<span class="s">'hot_sites'</span>,<br>
+        &nbsp;&nbsp;to     =&gt; <span class="s">'churned = true'</span>,<br>
+        &nbsp;&nbsp;fields =&gt; <span class="s">'cooling'</span>);
+      </div>
+
+      <div class="answer">
+        <div class="answer-row">
+          <span class="val">passive</span>
+          <span class="bar" style="width:118px"></span>
+          <span class="lift">×1.81</span>
+        </div>
+        <div class="answer-row">
+          <span class="val">active</span>
+          <span class="bar dim" style="width:52px"></span>
+          <span class="lift" style="color:#8fa0d8">×0.79</span>
+        </div>
+        <div class="answer-row">
+          <span class="val">liquid</span>
+          <span class="bar dim" style="width:36px"></span>
+          <span class="lift" style="color:#8fa0d8">×0.55</span>
+        </div>
+        <p class="answer-cap">
+          Passive cooling — but <b>only where it is hot</b>. Across the whole book it reads ×1.56;
+          in temperate sites, ×1.08.
+        </p>
+      </div>
     </div>
   </div>
 </body>

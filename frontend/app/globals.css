@@ -267,6 +267,16 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tex
 
 /* RESPONSIVE — mirrors aito-demo: nav becomes left drawer, panel becomes bottom sheet */
 @media (max-width: 768px){
+  /* Touch targets. The card/SQL toggles are 27px on desktop, which is fine for
+     a mouse and under the 44px floor for a finger. Grow them on small screens
+     rather than everywhere — the desktop density is deliberate. */
+  .card-toggle,.sql-toggle{min-height:44px;padding:10px 14px;width:100%;justify-content:center}
+  .sql-actions .btn{min-height:44px;padding:10px 16px}
+  .card-grid,.skeleton-grid{grid-template-columns:1fr}
+  .card-body{grid-template-columns:1fr;gap:14px}
+  .hero-value{font-size:26px}
+  .sql-box textarea{font-size:16px}  /* 16px stops iOS zooming the page on focus */
+
   body{overflow:auto}
   .app{display:flex;flex-direction:column;height:auto;min-height:100vh;overflow:visible}
   .main{height:auto;overflow:visible;flex:1}

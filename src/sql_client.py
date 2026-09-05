@@ -54,10 +54,14 @@ class SqlClient:
     def base_url(self) -> str:
         return self._url
 
-    def query(self, sql: str) -> SqlResult:
+    def query(self, sql: str, timeout: float | None = None) -> SqlResult:
+        """Run one statement. `timeout` overrides the client default per call —
+        used by the public /api/sql route, which should not be able to hold a
+        connection for as long as the demo's own card queries may."""
         started = time.perf_counter()
         try:
-            r = self._client.post(f"{self._url}/api/v2/_sql", headers=self._headers, content=sql)
+            r = self._client.post(f"{self._url}/api/v2/_sql", headers=self._headers,
+                                  content=sql, timeout=timeout or self._client.timeout)
         except httpx.HTTPError as e:
             raise SqlError(f"could not reach Aito: {e}", sql=sql) from e
         ms = (time.perf_counter() - started) * 1000.0
