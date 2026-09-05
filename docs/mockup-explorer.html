@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>aito-sql-demo — cause &amp; effect explorer (design mockup)</title>
+<style>
+:root{
+  /* frontend/app/globals.css — so this drops into the app unchanged. */
+  --bg:#f8f6f0; --surface:#ffffff; --surface2:#f4f0e6; --surface3:#ede8d8;
+  --text:#12100a; --text2:#3a3418; --text3:#8a8060;
+  --gold:#6b4f0e; --gold-mid:#d4a030; --gold-light:#fdf0c8;
+  --red:#7a1818; --red-bg:#fde8e8;
+  --green:#185228; --green-bg:#e8f5ea;
+  --border:#dedad0; --border2:#eae6d8;
+  --teal:#12B5AD; --teal-ink:#0b6f6a; --teal-bg:#e6f5f4;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'IBM Plex Sans',ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;
+  background:var(--bg);color:var(--text);line-height:1.5;padding:22px 22px 60px;-webkit-font-smoothing:antialiased}
+.mono{font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace}
+.wrap{max-width:1280px;margin:0 auto}
+h1{font-size:19px;font-weight:600;letter-spacing:-.2px}
+.sub{font-size:12px;color:var(--text3);margin-top:2px}
+.head{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:16px}
+.op-tag{font-size:11px;color:var(--gold);background:var(--gold-light);border:1px solid #e8d8a0;border-radius:5px;padding:4px 9px}
+
+/* clickable affordance — everything in this app is a link */
+.lk{color:var(--text);border-bottom:1px dotted var(--gold-mid);cursor:pointer;text-decoration:none}
+.lk:hover{color:var(--gold);border-bottom-style:solid;background:var(--gold-light)}
+
+/* ---------- trail ---------- */
+.trail{background:var(--surface);border:1px solid var(--border2);border-radius:9px;padding:10px 14px;
+  display:flex;align-items:center;gap:7px;flex-wrap:wrap;font-size:12px;margin-bottom:10px}
+.trail-lbl{font-size:9.5px;letter-spacing:.6px;color:var(--text3);margin-right:3px}
+.trail .sep{color:var(--text3);font-size:11px}
+.trail .here{background:var(--gold-light);border:1px solid var(--gold-mid);border-radius:4px;padding:2px 7px;font-weight:600}
+
+/* ---------- filter bar ---------- */
+.filters{background:var(--surface);border:1px solid var(--border2);border-radius:9px;padding:12px 14px;margin-bottom:16px}
+.frow{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.flbl{font-size:9.5px;letter-spacing:.6px;color:var(--text3)}
+.chip{display:inline-flex;align-items:center;gap:6px;background:var(--teal-bg);border:1px solid #b8e2df;
+  color:var(--teal-ink);border-radius:5px;padding:3px 8px;font-size:11.5px}
+.chip b{font-weight:600}
+.chip .x{cursor:pointer;opacity:.6;font-size:12px}
+.chip .x:hover{opacity:1}
+.chip-add{background:var(--surface2);border:1px dashed var(--border);color:var(--text3);cursor:pointer}
+.where{margin-top:10px;padding-top:9px;border-top:1px dashed var(--border);display:flex;
+  align-items:flex-start;gap:10px;flex-wrap:wrap;justify-content:space-between}
+.where code{font-size:11px;color:var(--gold);word-break:break-word}
+.support{font-size:11px;color:var(--text3);white-space:nowrap}
+.support b{color:var(--green)}
+
+/* ---------- object header ---------- */
+.obj{background:var(--surface);border:1px solid var(--gold-mid);border-radius:10px;padding:16px 18px;
+  box-shadow:0 0 0 3px rgba(212,160,48,.13);margin-bottom:16px;
+  display:flex;gap:26px;align-items:flex-start;flex-wrap:wrap}
+.obj-main{flex:1;min-width:260px}
+.obj-kind{font-size:9.5px;letter-spacing:.6px;color:var(--text3)}
+.obj-name{font-size:22px;font-weight:600;letter-spacing:-.4px;margin-top:1px}
+.obj-desc{font-size:12.5px;color:var(--text2);margin-top:5px;max-width:62ch}
+.obj-stats{display:flex;gap:22px;flex-wrap:wrap}
+.stat .k{font-size:9.5px;letter-spacing:.5px;color:var(--text3)}
+.stat .v{font-size:19px;font-weight:600;margin-top:1px;line-height:1.1}
+.bad{color:var(--red)} .good{color:var(--green)} .flat{color:var(--text3)}
+
+/* ---------- panels ---------- */
+.panels{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+@media (max-width:920px){.panels{grid-template-columns:1fr}}
+.p{background:var(--surface);border:1px solid var(--border2);border-radius:10px;padding:14px 16px}
+.p-h{display:flex;align-items:center;gap:8px;margin-bottom:3px}
+.p-t{font-size:13px;font-weight:600}
+.p-q{font-size:11px;color:var(--text3);margin-bottom:9px}
+.fn{font-size:10px;padding:1.5px 6px;border-radius:4px;margin-left:auto;white-space:nowrap}
+.fn-rel{color:var(--gold);background:var(--gold-light);border:1px solid #e8d8a0}
+.fn-rec{color:var(--teal-ink);background:var(--teal-bg);border:1px solid #b8e2df}
+.fn-sel{color:var(--text3);background:var(--surface2);border:1px solid var(--border)}
+
+.row{display:flex;align-items:center;gap:8px;padding:4px 0;font-size:12.5px;border-bottom:1px solid var(--border2)}
+.row:last-child{border-bottom:none}
+.row-l{flex:1;min-width:0;color:var(--text2)}
+.row-n{font-size:10.5px;color:var(--text3);white-space:nowrap}
+.lift{font-size:11.5px;padding:2px 7px;border-radius:4px;white-space:nowrap;display:inline-flex;gap:4px;align-items:center}
+.lift-up{color:var(--red);background:var(--red-bg);border:1px solid #f0b8b8}
+.lift-dn{color:var(--green);background:var(--green-bg);border:1px solid #a8d8b0}
+.lift-fl{color:var(--text3);background:var(--surface2);border:1px solid var(--border)}
+.g{font-size:9px;line-height:1}
+.why-btn{width:17px;height:17px;border-radius:50%;background:var(--gold-mid);color:#fff;border:none;
+  font-size:9.5px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.why-btn:hover{background:#e8b830}
+.stage-tag{font-size:9.5px;color:var(--text3);min-width:64px}
+.lag{font-size:10.5px;color:var(--teal-ink);white-space:nowrap;min-width:52px;text-align:right}
+
+/* text tokens */
+.toks{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.tok{display:inline-flex;align-items:center;gap:5px;background:var(--surface2);border:1px solid var(--border);
+  border-radius:5px;padding:3px 8px;font-size:11.5px;cursor:pointer}
+.tok:hover{border-color:var(--gold-mid);background:var(--gold-light)}
+.tok .l{font-size:10.5px;color:var(--red)}
+.quote{font-size:11.5px;color:var(--text2);background:var(--surface2);border-left:2px solid var(--gold-mid);
+  border-radius:0 4px 4px 0;padding:7px 10px;margin-top:9px;line-height:1.55}
+.quote em{color:var(--gold);font-style:normal;font-weight:600}
+
+/* ---------- calibration demo ---------- */
+.calib{margin-top:14px;background:var(--surface);border:1px solid var(--border2);border-radius:10px;padding:14px 16px}
+.calib h2{font-size:13px;font-weight:600}
+.calib > p{font-size:11.5px;color:var(--text3);margin-top:2px;margin-bottom:11px}
+.cal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media (max-width:860px){.cal-grid{grid-template-columns:1fr}}
+.cal{border:1px solid var(--border2);border-radius:8px;padding:11px 13px;background:var(--surface2)}
+.cal-n{font-size:10.5px;color:var(--text3)}
+.cal-p{font-size:22px;font-weight:600;margin:3px 0 1px;line-height:1}
+.cal-bar{height:6px;background:var(--surface3);border-radius:3px;overflow:hidden;margin:7px 0 6px}
+.cal-bar i{display:block;height:100%;border-radius:3px;background:var(--gold-mid)}
+.cal-t{font-size:11px;color:var(--text2)}
+.cal-t b{font-family:'IBM Plex Mono',monospace}
+.verdict{font-size:10px;padding:2px 7px;border-radius:4px;display:inline-block;margin-top:7px}
+.v-ok{color:var(--green);background:var(--green-bg);border:1px solid #a8d8b0}
+.v-warn{color:var(--gold);background:var(--gold-light);border:1px solid #e8d8a0}
+.v-thin{color:var(--text3);background:var(--surface3);border:1px solid var(--border)}
+.calib .note{font-size:11.5px;color:var(--text3);margin-top:11px;padding-top:10px;border-top:1px dashed var(--border);line-height:1.6}
+.calib .note b{color:var(--text2)}
+
+/* ---------- the map ---------- */
+.map{margin-top:14px;background:var(--surface);border:1px solid var(--border2);border-radius:10px;overflow:hidden}
+.map-h{padding:13px 16px;border-bottom:1px solid var(--border2);display:flex;justify-content:space-between;
+  align-items:center;gap:14px;flex-wrap:wrap}
+.map-h h2{font-size:13px;font-weight:600}
+.map-h p{font-size:11.5px;color:var(--text3);margin-top:2px}
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12px;min-width:720px}
+th{text-align:left;font-size:9.5px;letter-spacing:.5px;color:var(--text3);font-weight:600;padding:8px 12px;
+  background:var(--surface2);border-bottom:1px solid var(--border2);white-space:nowrap}
+td{padding:8px 12px;border-bottom:1px solid var(--border2)}
+th.num,td.num{text-align:right;white-space:nowrap}
+tr.spurious td{background:#fffaf5}
+.tag{font-size:9.5px;padding:1px 6px;border-radius:4px;white-space:nowrap}
+.t-spur{color:var(--red);background:var(--red-bg);border:1px solid #f0b8b8}
+.t-real{color:var(--green);background:var(--green-bg);border:1px solid #a8d8b0}
+.t-hid{color:var(--gold);background:var(--gold-light);border:1px solid #e8d8a0}
+
+/* ---------- sql ---------- */
+.sqlbar{margin-top:14px}
+.sqlbtn{font-size:10.5px;color:var(--text2);background:var(--surface2);border:1px solid var(--border);
+  border-radius:5px;cursor:pointer;padding:5px 11px;font-family:'IBM Plex Mono',ui-monospace,monospace}
+.sqlbtn:hover{color:var(--gold);border-color:var(--gold-mid);background:var(--gold-light)}
+pre{display:none;margin-top:9px;background:#12100a;color:#e8e4d4;border-radius:8px;padding:13px 14px;
+  font-size:10.5px;line-height:1.7;overflow-x:auto;font-family:'IBM Plex Mono',ui-monospace,monospace}
+pre.open{display:block}
+pre .k{color:#d4a030} pre .s{color:#8fd694} pre .c{color:#8a8060}
+.foot{margin-top:22px;font-size:11.5px;color:var(--text3);line-height:1.7}
+.foot b{color:var(--text2)} .foot code{font-size:11px;color:var(--gold)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="head">
+    <div>
+      <h1>Cause &amp; effect explorer</h1>
+      <div class="sub">Every object is a filter, an outcome and a cause. Click anything.
+        <b>Synthetic data with a planted causal structure.</b></div>
+    </div>
+    <div class="op-tag mono">the breadcrumb IS the WHERE clause</div>
+  </div>
+
+  <!-- trail: makes "endlessly navigable" visible -->
+  <div class="trail">
+    <span class="trail-lbl mono">TRAIL</span>
+    <a class="lk">churn</a><span class="sep">→</span>
+    <a class="lk">channel = distributor-ME</a><span class="sep">→</span>
+    <a class="lk">climate = hot</a><span class="sep">→</span>
+    <span class="here mono">cooling = passive</span>
+  </div>
+
+  <!-- filter context -->
+  <div class="filters">
+    <div class="frow">
+      <span class="flbl mono">CONTEXT</span>
+      <span class="chip"><b>climate</b> = hot <span class="x">×</span></span>
+      <span class="chip"><b>shift</b> = 3-shift <span class="x">×</span></span>
+      <span class="chip chip-add">+ add filter</span>
+      <span style="flex:1"></span>
+      <span class="support">1 842 of 12 400 installs</span>
+    </div>
+    <div class="where">
+      <code class="mono">WHERE site.climate = 'hot' AND site.shift_pattern = '3-shift'
+        AND product.cooling = 'passive'</code>
+      <span class="support">support-tempering <b>0.97</b> · well supported</span>
+    </div>
+  </div>
+
+  <!-- the object -->
+  <div class="obj">
+    <div class="obj-main">
+      <div class="obj-kind mono">PRODUCT ATTRIBUTE · products.cooling</div>
+      <div class="obj-name mono">cooling = passive</div>
+      <div class="obj-desc">4 SKUs, no active cooling. Cheapest in the range, and the default quote for
+        price-led enquiries. Under this context — hot sites, three shifts — it is the strongest single
+        predictor of non-reorder anywhere in the schema.</div>
+    </div>
+    <div class="obj-stats">
+      <div class="stat"><div class="k mono">CHURN HERE</div><div class="v bad">47%</div></div>
+      <div class="stat"><div class="k mono">BASELINE</div><div class="v flat">21%</div></div>
+      <div class="stat"><div class="k mono">LIFT</div><div class="v bad">×2.04</div></div>
+      <div class="stat"><div class="k mono">AT RISK</div><div class="v bad">€ 3.1 M</div></div>
+    </div>
+  </div>
+
+  <!-- the four panels -->
+  <div class="panels">
+
+    <!-- 1 · what causes it -->
+    <div class="p">
+      <div class="p-h"><span class="p-t">What causes it</span><span class="fn fn-rel mono">relate()</span></div>
+      <div class="p-q">Why do passive units end up in these sites at all?</div>
+      <div class="row"><span class="row-l"><a class="lk">channel = distributor-ME</a></span>
+        <span class="row-n mono">n=612</span><span class="lift lift-up"><span class="g">▲</span>×2.31</span><button class="why-btn">?</button></div>
+      <div class="row"><span class="row-l"><a class="lk">angle = price-led</a></span>
+        <span class="row-n mono">n=489</span><span class="lift lift-up"><span class="g">▲</span>×1.74</span><button class="why-btn">?</button></div>
+      <div class="row"><span class="row-l"><a class="lk">industry = construction</a></span>
+        <span class="row-n mono">n=402</span><span class="lift lift-up"><span class="g">▲</span>×1.31</span><button class="why-btn">?</button></div>
+      <div class="row"><span class="row-l"><a class="lk">commissioning = self</a></span>
+        <span class="row-n mono">n=377</span><span class="lift lift-up"><span class="g">▲</span>×1.12</span><button class="why-btn">?</button></div>
+      <div class="quote">The confound, structurally: the ME distributor is not a cause of churn — it is a
+        cause of <em>selling passive units into hot regions</em>. Click it and the trail shows why its
+        own churn lift collapses once you are already standing here.</div>
+    </div>
+
+    <!-- 2 · what it causes -->
+    <div class="p">
+      <div class="p-h"><span class="p-t">What it causes</span><span class="fn fn-rel mono">relate()</span></div>
+      <div class="p-q">Downstream outcomes, by stage — and when the effect lands</div>
+      <div class="row"><span class="stage-tag mono">04 INSTALL</span><span class="row-l"><a class="lk">fault reported</a></span>
+        <span class="lag mono">+41 d</span><span class="lift lift-up"><span class="g">▲</span>×2.41</span><button class="why-btn">?</button></div>
+      <div class="row"><span class="stage-tag mono">05 SUPPORT</span><span class="row-l"><a class="lk">unresolved &gt; 24 h</a></span>
+        <span class="lag mono">+48 d</span><span class="lift lift-up"><span class="g">▲</span>×1.29</span><button class="why-btn">?</button></div>
+      <div class="row"><span class="stage-tag mono">06 FEEDBACK</span><span class="row-l"><a class="lk">detractor</a></span>
+        <span class="lag mono">+63 d</span><span class="lift lift-up"><span class="g">▲</span>×1.62</span><button class="why-btn">?</button></div>
+      <div class="row"><span class="stage-tag mono">07 CHURN</span><span class="row-l"><a class="lk">no reorder</a></span>
+        <span class="lag mono">+274 d</span><span class="lift lift-up"><span class="g">▲</span>×2.04</span><button class="why-btn">?</button></div>
+      <div class="quote">The lag column is the governance point: the decision is made at quote time and
+        the bill arrives <em>nine months later</em>, in someone else's KPI. Acquisition was already
+        bonused on the volume.</div>
+    </div>
+
+    <!-- 3 · the words -->
+    <div class="p">
+      <div class="p-h"><span class="p-t">The words that come with it</span><span class="fn fn-rel mono">relate() · text</span></div>
+      <div class="p-q">Tokens in these installs' ticket bodies, by lift on non-reorder — each one is a node</div>
+      <div class="toks">
+        <span class="tok mono">ambient <span class="l">×1.81</span></span>
+        <span class="tok mono">44C <span class="l">×1.77</span></span>
+        <span class="tok mono">shuts down <span class="l">×1.64</span></span>
+        <span class="tok mono">midday <span class="l">×1.58</span></span>
+        <span class="tok mono">thermal <span class="l">×1.44</span></span>
+        <span class="tok mono">derate <span class="l">×1.31</span></span>
+        <span class="tok mono">fan <span class="l">×1.12</span></span>
+      </div>
+      <div class="quote">“unit <em>shuts down</em> around <em>midday</em>, <em>ambient</em> reads
+        <em>44C</em> in the bay” — one ticket, and every highlighted token is a clickable cause with its
+        own downstream effects. This is <b>the vocabulary of churn</b>: the phrases customers use before
+        they leave, ranked. No embeddings, no LLM — token lift with exact arithmetic behind it.</div>
+    </div>
+
+    <!-- 4 · what to do -->
+    <div class="p">
+      <div class="p-h"><span class="p-t">What to do</span><span class="fn fn-rec mono">recommend()</span></div>
+      <div class="p-q">Ranked by P(reorder | lever, this context) — only choosable things appear here</div>
+      <div class="row"><span class="row-l">SKU → <a class="lk">HX-900 (active)</a></span>
+        <span class="row-n mono">Δ +18pp</span><span class="lift lift-dn"><span class="g">▼</span>×0.49</span><button class="why-btn">?</button></div>
+      <div class="row"><span class="row-l">SKU → <a class="lk">HX-950 (liquid)</a></span>
+        <span class="row-n mono">Δ +15pp</span><span class="lift lift-dn"><span class="g">▼</span>×0.56</span><button class="why-btn">?</button></div>
+      <div class="row"><span class="row-l">service plan → <a class="lk">premium</a></span>
+        <span class="row-n mono">Δ +6pp</span><span class="lift lift-dn"><span class="g">▼</span>×0.81</span><button class="why-btn">?</button></div>
+      <div class="row"><span class="row-l">support tier → <a class="lk">dedicated</a></span>
+        <span class="row-n mono">Δ +4pp</span><span class="lift lift-dn"><span class="g">▼</span>×0.88</span><button class="why-btn">?</button></div>
+      <div class="row"><span class="row-l">cut the ME distributor budget</span>
+        <span class="row-n mono">Δ ±0pp</span><span class="lift lift-fl">×1.01</span><button class="why-btn">?</button></div>
+      <div class="quote">The naive lever is <em>in</em> the list, ranked last and honestly flat. Showing
+        the wrong answer losing on its merits is worth more than leaving it out.</div>
+    </div>
+  </div>
+
+  <!-- calibration: filtering is unrestricted because the engine tempers -->
+  <div class="calib">
+    <h2>Filter as deep as you like — it tempers instead of lying</h2>
+    <p>The same query as the context narrows. Nothing is blocked, nothing is greyed out.</p>
+    <div class="cal-grid">
+      <div class="cal">
+        <div class="cal-n mono">n = 1 842 · hot × 3-shift</div>
+        <div class="cal-p bad">47%</div>
+        <div class="cal-bar"><i style="width:97%"></i></div>
+        <div class="cal-t">support-tempering <b>0.97</b></div>
+        <div class="verdict v-ok">well supported</div>
+      </div>
+      <div class="cal">
+        <div class="cal-n mono">n = 63 · + altitude &gt; 2000 m</div>
+        <div class="cal-p bad">38%</div>
+        <div class="cal-bar"><i style="width:71%"></i></div>
+        <div class="cal-t">support-tempering <b>0.71</b></div>
+        <div class="verdict v-warn">thinning — pulled toward base</div>
+      </div>
+      <div class="cal">
+        <div class="cal-n mono">n = 4 · + one customer, one month</div>
+        <div class="cal-p flat">24%</div>
+        <div class="cal-bar"><i style="width:32%"></i></div>
+        <div class="cal-t">support-tempering <b>0.32</b></div>
+        <div class="verdict v-thin">≈ base rate (21%)</div>
+      </div>
+    </div>
+    <div class="note">
+      Four rows do not yield a confident 90%. Support-tempering — on by default — shrinks the answer back
+      toward the base rate, and the <code class="mono">calibration / support-tempering(auto)</code> factor in
+      <code class="mono">$why</code> reports exactly how much it shrank. <b>Measured in-repo, not asserted:</b>
+      on redundant weak features a plain naive Bayes collapses to <b>~0.60 accuracy while Aito holds
+      0.920 at identical calibration</b> (<code class="mono">books/test/cases/ReexpVsAitoInferenceTest</code>).
+      So there is no minimum-<code class="mono">n</code> rule and no refusal to answer: every slice is
+      explorable because every slice is answered honestly.
+    </div>
+  </div>
+
+  <!-- the generated map -->
+  <div class="map">
+    <div class="map-h">
+      <div>
+        <h2>Top of the generated map — every field × every outcome</h2>
+        <p>Not a curated six. An enumerated sweep, ranked by how far the lift moves once confounds are held fixed.</p>
+      </div>
+      <span class="op-tag mono">1 040 cells · 14 s · sql/05_map.sql</span>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr>
+          <th>Signal</th><th>Outcome</th><th class="num">Marginal</th><th class="num">Conditioned</th>
+          <th class="num">Gap</th><th>Reading</th>
+        </tr></thead>
+        <tbody>
+          <tr class="spurious"><td><a class="lk">channel = distributor-ME</a></td><td>no reorder</td>
+            <td class="num mono">×1.91</td><td class="num mono">×1.06</td><td class="num mono">−0.85</td>
+            <td><span class="tag t-spur">confounded</span></td></tr>
+          <tr><td><a class="lk">cooling = passive × climate = hot</a></td><td>no reorder</td>
+            <td class="num mono">×1.28</td><td class="num mono">×2.04</td><td class="num mono">+0.76</td>
+            <td><span class="tag t-hid">hidden until conditioned</span></td></tr>
+          <tr><td><a class="lk">grade = consumer × 3-shift</a></td><td>wear fault</td>
+            <td class="num mono">×1.22</td><td class="num mono">×1.88</td><td class="num mono">+0.66</td>
+            <td><span class="tag t-hid">hidden until conditioned</span></td></tr>
+          <tr class="spurious"><td><a class="lk">region = Gulf</a></td><td>no reorder</td>
+            <td class="num mono">×1.77</td><td class="num mono">×1.04</td><td class="num mono">−0.73</td>
+            <td><span class="tag t-spur">confounded</span></td></tr>
+          <tr><td><a class="lk">first response &gt; 24 h</a></td><td>detractor</td>
+            <td class="num mono">×1.43</td><td class="num mono">×1.41</td><td class="num mono">−0.02</td>
+            <td><span class="tag t-real">holds up</span></td></tr>
+          <tr class="spurious"><td><a class="lk">angle = price-led</a></td><td>no reorder</td>
+            <td class="num mono">×1.52</td><td class="num mono">×1.09</td><td class="num mono">−0.43</td>
+            <td><span class="tag t-spur">confounded</span></td></tr>
+          <tr><td><a class="lk">token “ambient” in ticket</a></td><td>no reorder</td>
+            <td class="num mono">×1.34</td><td class="num mono">×1.81</td><td class="num mono">+0.47</td>
+            <td><span class="tag t-hid">text, 3 hops</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="padding:13px 16px;font-size:11.5px;color:var(--text3);line-height:1.6;border-top:1px dashed var(--border)">
+      <b style="color:var(--text2)">This is the artifact that sells:</b> four of the seven signals a team
+      would steer by are confounded, and two real mechanisms are invisible until you condition. The demo's
+      story is just the top row of a table that was generated, not chosen — which is also what makes it a
+      discovery rather than a claim we went and fetched.<br><br>
+      <b style="color:var(--text2)">Honest limit:</b> conditioning on observed confounds is not causal
+      identification. This screens candidates and flags which survive controlling for what was measured —
+      it replaces an analyst's first two weeks, not their judgement.
+    </div>
+  </div>
+
+  <div class="sqlbar">
+    <button class="sqlbtn" id="sqlbtn">▸ the SQL behind this screen</button>
+<pre id="sql"><span class="c">-- the breadcrumb IS the where clause; every panel is one statement</span>
+
+<span class="c">-- panel 1 · what causes it</span>
+<span class="k">SELECT</span> * <span class="k">FROM</span> relate(<span class="s">'installs'</span>,
+  fields <span class="k">=&gt;</span> <span class="s">'session.campaign.channel, session.campaign.message_angle, customer.industry, commissioning'</span>,
+  to <span class="k">=&gt;</span> <span class="s">'product.cooling = ''passive'' AND site.climate = ''hot'' AND site.shift_pattern = ''3-shift'''</span>, k <span class="k">=&gt;</span> 8);
+
+<span class="c">-- panel 2 · what it causes (one per downstream outcome, walking up to 4 hops)</span>
+<span class="k">SELECT</span> * <span class="k">FROM</span> relate(<span class="s">'reorders'</span>, fields <span class="k">=&gt;</span> <span class="s">'install.product.cooling'</span>,
+  to <span class="k">=&gt;</span> <span class="s">'reordered = false AND install.site.climate = ''hot'''</span>);
+
+<span class="c">-- panel 3 · the words  (needs analysed text: td-20260816165937059483)</span>
+<span class="k">SELECT</span> * <span class="k">FROM</span> relate(<span class="s">'tickets'</span>, fields <span class="k">=&gt;</span> <span class="s">'body'</span>,
+  to <span class="k">=&gt;</span> <span class="s">'install.product.cooling = ''passive'' AND install.site.climate = ''hot'''</span>, k <span class="k">=&gt;</span> 12);
+
+<span class="c">-- panel 4 · what to do</span>
+<span class="k">SELECT</span> * <span class="k">FROM</span> recommend(<span class="s">'installs'</span>, <span class="s">'product'</span>,
+  goal  <span class="k">=&gt;</span> <span class="s">'reorders.reordered = true'</span>,
+  given <span class="k">=&gt;</span> <span class="s">'site.climate = ''hot'' AND site.shift_pattern = ''3-shift'''</span>, k <span class="k">=&gt;</span> 5);
+
+<span class="c">-- the header number, with the arithmetic  (needs why =&gt;: td-20260816220020308261)</span>
+<span class="k">SELECT</span> predict(reordered, why <span class="k">=&gt;</span> <span class="k">true</span>) <span class="k">FROM</span> reorders
+ <span class="k">WHERE</span> install.product.cooling = <span class="s">'passive'</span>
+   <span class="k">AND</span> install.site.climate = <span class="s">'hot'</span> <span class="k">LIMIT</span> 1;</pre>
+  </div>
+
+  <div class="foot">
+    <b>Design notes.</b> One component, four panels, parameterised by <code>(object, filter context)</code> —
+    every link opens another instance of the same screen, which is why "endlessly navigable" costs almost
+    no code. The trail and the context chips are the same thing the SQL is: an accumulating
+    <code>WHERE</code>.<br>
+    No minimum-<code>n</code>, no greyed-out cells, no refusals — the engine tempers, so unrestricted
+    filtering is a <b>feature to demonstrate</b>, not a risk to guard against.<br>
+    Lift never relies on colour alone (▲/▼ glyph plus the number) since red↔green separate at only
+    ΔE 2.7 under deuteranopia. Teal <code>#12B5AD</code> is used for rules and fills only; teal text is
+    the darkened <code>#0b6f6a</code> at 6.01:1.<br>
+    Two panels depend on filed tickets: the text panel needs analysed-text DDL
+    (<code>td-20260816165937059483</code>), the header arithmetic needs <code>why =&gt; true</code>
+    (<code>td-20260816220020308261</code>).<br>
+    <b>Numbers are illustrative placeholders</b> pending the generator; latency and cell count await
+    probes 10 and 12. The shape is the proposal, not the values.
+  </div>
+</div>
+
+<script>
+var b = document.getElementById('sqlbtn'), p = document.getElementById('sql');
+b.addEventListener('click', function () {
+  var open = p.classList.toggle('open');
+  b.textContent = (open ? '▾ the SQL behind this screen' : '▸ the SQL behind this screen');
+});
+</script>
+</body>
+</html>

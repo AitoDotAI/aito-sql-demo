@@ -1,0 +1,626 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>aito-sql-demo — 360° front door (design mockup)</title>
+<style>
+:root{
+  /* Straight from frontend/app/globals.css so this drops into the app unchanged. */
+  --bg:#f8f6f0; --surface:#ffffff; --surface2:#f4f0e6; --surface3:#ede8d8;
+  --text:#12100a; --text2:#3a3418; --text3:#8a8060;
+  --gold:#6b4f0e; --gold-mid:#d4a030; --gold-light:#fdf0c8;
+  --red:#7a1818; --red-bg:#fde8e8;
+  --green:#185228; --green-bg:#e8f5ea;
+  --border:#dedad0; --border2:#eae6d8;
+  /* Lever accent. #12B5AD is the Aito teal but only hits 2.55:1 on white, so it
+     is used for fills/rules only; text uses the darkened step at 6.01:1. */
+  --teal:#12B5AD; --teal-ink:#0b6f6a; --teal-bg:#e6f5f4;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'IBM Plex Sans',ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;
+  background:var(--bg); color:var(--text); line-height:1.5;
+  padding:24px 22px 60px; -webkit-font-smoothing:antialiased;
+}
+.mono{font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace}
+.wrap{max-width:1280px;margin:0 auto}
+
+/* ---------- page head ---------- */
+.head{display:flex;align-items:flex-start;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:6px}
+h1{font-size:21px;font-weight:600;letter-spacing:-.2px}
+.sub{font-size:12.5px;color:var(--text3);margin-top:3px}
+.op-tag{font-size:11px;color:var(--gold);background:var(--gold-light);border:1px solid #e8d8a0;
+  border-radius:5px;padding:4px 9px;white-space:nowrap}
+
+/* everything on this page is a way into the explorer */
+.lk{color:var(--text);border-bottom:1px dotted var(--gold-mid);cursor:pointer;text-decoration:none}
+.lk:hover{color:var(--gold);border-bottom-style:solid;background:var(--gold-light)}
+
+/* ---------- context bar (root state of the explorer's filter) ---------- */
+.filters{background:var(--surface);border:1px solid var(--border2);border-radius:9px;
+  padding:12px 14px;margin:16px 0 12px}
+.frow{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.flbl{font-size:9.5px;letter-spacing:.6px;color:var(--text3)}
+.chip{display:inline-flex;align-items:center;gap:6px;border-radius:5px;padding:3px 8px;font-size:11.5px}
+.chip-add{background:var(--surface2);border:1px dashed var(--border);color:var(--text3);cursor:pointer}
+.chip-add:hover{border-color:var(--gold-mid);color:var(--gold);background:var(--gold-light)}
+.support{font-size:11px;color:var(--text3);white-space:nowrap}
+.support b{color:var(--green)}
+.frow .hint{font-size:11.5px;color:var(--text2);margin-top:9px;padding-top:9px;
+  border-top:1px dashed var(--border);width:100%}
+.frow .hint b{color:var(--gold)}
+
+/* ---------- the chain ---------- */
+.chain{background:var(--surface);border:1px solid var(--border2);border-radius:10px;
+  padding:14px 18px;margin-bottom:16px;overflow-x:auto}
+.chain-inner{display:flex;align-items:stretch;gap:0;min-width:940px}
+.stage{flex:1;padding:0 10px;border-left:1px solid var(--border2);position:relative}
+.stage:first-child{border-left:none;padding-left:0}
+.stage-n{font-size:9.5px;color:var(--text3);letter-spacing:.5px}
+.stage-name{font-size:12px;font-weight:600;margin-top:2px}
+.stage-tbl{font-size:10.5px;color:var(--teal-ink);margin-top:3px;word-break:break-all}
+.chain-note{font-size:11.5px;color:var(--text3);margin-top:12px;padding-top:11px;border-top:1px dashed var(--border)}
+.chain-note b{color:var(--text2);font-weight:600}
+
+/* ---------- grid + card ---------- */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media (max-width:1080px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:720px){.grid{grid-template-columns:1fr}.chain{display:none}}
+.card{background:var(--surface);border:1px solid var(--border2);border-radius:10px;
+  padding:16px 18px 14px;display:flex;flex-direction:column;position:relative}
+.card.climax{border-color:var(--gold-mid);box-shadow:0 0 0 3px rgba(212,160,48,.14)}
+.card-top{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.card-title{font-size:13.5px;font-weight:600}
+.card-unit{font-size:10.5px;color:var(--text3);margin-top:1px}
+.rank{font-size:9px;color:var(--text3);background:var(--surface2);
+  border:1px solid var(--border2);border-radius:4px;padding:1px 6px;white-space:nowrap;flex-shrink:0}
+
+/* hero number */
+.hero{display:flex;align-items:center;gap:7px;margin:9px 0 8px}
+.hero-val{font-size:34px;font-weight:600;line-height:1;letter-spacing:-1px}
+.bad{color:var(--red)} .good{color:var(--green)} .flat{color:var(--text3)}
+
+/* meter — single hue, magnitude only, 4px rounded end on the baseline */
+.meter{height:7px;background:var(--surface3);border-radius:4px;overflow:hidden}
+.meter i{display:block;height:100%;border-radius:4px}
+.meter i.bad{background:var(--red)} .meter i.good{background:var(--green)}
+
+.sect{margin-top:13px;padding-top:11px;border-top:1px dashed var(--border)}
+.sect-h{display:flex;align-items:center;gap:7px;margin-bottom:7px}
+.sect-t{font-size:9.5px;font-weight:600;color:var(--text3);letter-spacing:.7px}
+.fn{font-size:10px;padding:1.5px 6px;border-radius:4px;white-space:nowrap}
+.fn-relate{color:var(--gold);background:var(--gold-light);border:1px solid #e8d8a0}
+.fn-rec{color:var(--teal-ink);background:var(--teal-bg);border:1px solid #b8e2df}
+
+/* a factor row: label … n … [glyph value] [?] */
+.row{display:flex;align-items:center;gap:7px;padding:3.5px 0;font-size:12.5px}
+.row-l{flex:1;min-width:0;color:var(--text2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row-l code{font-size:11.5px;color:var(--text)}
+.row-n{font-size:10px;color:var(--text3);white-space:nowrap}
+/* Status is NEVER color alone: every lift carries a direction glyph + the number. */
+.lift{font-size:11.5px;padding:2px 7px;border-radius:4px;white-space:nowrap;display:inline-flex;gap:4px;align-items:center}
+.lift-up{color:var(--red);background:var(--red-bg);border:1px solid #f0b8b8}
+.lift-dn{color:var(--green);background:var(--green-bg);border:1px solid #a8d8b0}
+.lift-fl{color:var(--text3);background:var(--surface2);border:1px solid var(--border)}
+.g{font-size:9px;line-height:1}
+
+.why-btn{width:17px;height:17px;border-radius:50%;background:var(--gold-mid);color:#fff;border:none;
+  font-size:9.5px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;
+  justify-content:center;flex-shrink:0;font-family:inherit}
+.why-btn:hover{background:#e8b830}
+.why-btn:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+.prize{margin-top:auto;padding-top:11px;font-size:12px;color:var(--text2)}
+.prize b{color:var(--teal-ink);font-weight:600}
+.prize .eur{color:var(--gold);font-weight:600}
+
+/* card footer: the SQL disclosure + the way into the explorer */
+.cardbar{margin-top:10px;padding-top:9px;border-top:1px solid var(--border2);
+  display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.sqlbtn{font-size:10.5px;color:var(--text2);background:var(--surface2);
+  border:1px solid var(--border);border-radius:5px;cursor:pointer;
+  padding:4px 10px;font-family:'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.3px}
+.sqlbtn:hover{color:var(--gold);border-color:var(--gold-mid);background:var(--gold-light)}
+.sqlbtn:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.explore{margin-left:auto;font-size:11px;color:var(--teal-ink);cursor:pointer;white-space:nowrap}
+.explore:hover{text-decoration:underline}
+pre{display:none;margin-top:8px;background:#12100a;color:#e8e4d4;border-radius:6px;
+  padding:11px 12px;font-size:10.5px;line-height:1.65;overflow-x:auto;width:100%;
+  font-family:'IBM Plex Mono',ui-monospace,monospace}
+pre.open{display:block}
+pre .k{color:#d4a030} pre .s{color:#8fd694} pre .c{color:#8a8060}
+
+/* ---------- why popup ---------- */
+/* Opens leftward: the climax card sits in the right column, so a popup anchored
+   inside it would cover the very rows it explains. */
+.why-pop{position:absolute;z-index:50;width:292px;background:var(--surface);
+  border:1px solid var(--gold-mid);border-radius:10px;padding:13px 15px;
+  box-shadow:0 8px 24px rgba(0,0,0,.15);display:none}
+.why-pop.open{display:block}
+.why-pop::after{content:'';position:absolute;top:22px;left:100%;
+  border:7px solid transparent;border-left-color:var(--gold-mid)}
+@media (max-width:1080px){.why-pop{left:12px !important;right:12px;width:auto}
+  .why-pop::after{display:none}}
+.why-t{font-size:12.5px;font-weight:600;color:var(--gold)}
+.why-s{font-size:10px;color:var(--text3);margin-bottom:9px}
+.why-f{display:flex;align-items:center;gap:8px;background:var(--surface2);border-radius:4px;
+  padding:5px 8px;margin-bottom:4px;font-size:11.5px;color:var(--text2)}
+.why-f .fld{font-size:10.5px;color:var(--gold);min-width:104px}
+.why-f .v{margin-left:auto;font-size:11px}
+.why-eq{font-size:10.5px;color:var(--text3);margin-top:7px;padding-top:7px;border-top:1px dashed var(--border)}
+
+/* ---------- refutation panel ---------- */
+.panel{background:var(--surface);border:1px solid var(--border2);border-radius:10px;margin-top:20px;overflow:hidden}
+.panel-h{padding:13px 20px;border-bottom:1px solid var(--border2);display:flex;
+  align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.panel-h h2{font-size:14px;font-weight:600}
+.panel-h p{font-size:11.5px;color:var(--text3);margin-top:2px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+@media (max-width:860px){.steps{grid-template-columns:1fr}}
+.step{padding:16px 20px;border-left:1px solid var(--border2)}
+.step:first-child{border-left:none}
+.step-n{font-size:9.5px;letter-spacing:.6px;color:var(--text3)}
+.step-q{font-size:12.5px;font-weight:600;margin:3px 0 9px}
+.step-a{font-size:12px;color:var(--text2);line-height:1.6}
+.verdict{display:inline-block;font-size:10px;padding:2px 7px;border-radius:4px;margin-top:9px}
+.v-wrong{color:var(--red);background:var(--red-bg);border:1px solid #f0b8b8}
+.v-right{color:var(--green);background:var(--green-bg);border:1px solid #a8d8b0}
+
+/* ---------- map teaser ---------- */
+.map{margin-top:20px;background:var(--surface);border:1px solid var(--border2);border-radius:10px;overflow:hidden}
+.map-h{padding:13px 20px;border-bottom:1px solid var(--border2);display:flex;justify-content:space-between;
+  align-items:center;gap:14px;flex-wrap:wrap}
+.map-h h2{font-size:14px;font-weight:600}
+.map-h p{font-size:11.5px;color:var(--text3);margin-top:2px}
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{text-align:left;font-size:9.5px;letter-spacing:.5px;color:var(--text3);font-weight:600;
+  padding:8px 20px;background:var(--surface2);border-bottom:1px solid var(--border2);white-space:nowrap}
+td{padding:9px 20px;border-bottom:1px solid var(--border2);vertical-align:top}
+th.num,td.num{text-align:right;white-space:nowrap}
+tr.spurious td{background:#fffaf5}
+.tag{font-size:9.5px;padding:1px 6px;border-radius:4px;white-space:nowrap}
+.t-spur{color:var(--red);background:var(--red-bg);border:1px solid #f0b8b8}
+.t-real{color:var(--green);background:var(--green-bg);border:1px solid #a8d8b0}
+.t-hid{color:var(--gold);background:var(--gold-light);border:1px solid #e8d8a0}
+.map-foot{padding:13px 20px;font-size:11.5px;color:var(--text3);line-height:1.6;border-top:1px dashed var(--border)}
+.map-foot b{color:var(--text2)}
+
+/* ---------- honesty strip ---------- */
+.honesty{margin-top:20px;background:var(--surface);border:1px solid var(--border2);border-radius:10px;padding:16px 20px}
+.honesty h2{font-size:14px;font-weight:600}
+.honesty > p{font-size:11.5px;color:var(--text3);margin-top:2px;margin-bottom:12px}
+.honesty table th,.honesty table td{padding-left:10px;padding-right:10px}
+.caveat{font-size:11.5px;color:var(--text3);margin-top:12px;padding-top:11px;border-top:1px dashed var(--border);line-height:1.6}
+.caveat b{color:var(--text2)}
+
+.foot{margin-top:24px;font-size:11.5px;color:var(--text3);line-height:1.7}
+.foot b{color:var(--text2)}
+.foot code{font-size:11px;color:var(--gold)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="head">
+    <div>
+      <h1>Every KPI in the business, and the lever that moves each</h1>
+      <div class="sub">Industrial equipment supplier · 12 400 installs · 9-month reorder window ·
+        <b>synthetic data with a planted causal structure</b></div>
+    </div>
+    <div class="op-tag mono">one schema · one connection · psql</div>
+  </div>
+
+  <!-- ============ context: the root state of the explorer's filter ============ -->
+  <div class="filters">
+    <div class="frow">
+      <span class="flbl mono">CONTEXT</span>
+      <span class="chip chip-add">+ add filter</span>
+      <span style="flex:1"></span>
+      <span class="support">no filters · all 12 400 installs · support-tempering <b>0.99</b></span>
+      <div class="hint">Add a filter and <b>every number on this page recomputes</b> — the context is
+        just a <code class="mono">WHERE</code> clause, and nothing here is pre-aggregated. Click any
+        signal, lever or token to open it in the explorer and ask what causes <em>it</em>.</div>
+    </div>
+  </div>
+
+  <!-- ============ the chain ============ -->
+  <div class="chain">
+    <div class="chain-inner">
+      <div class="stage"><div class="stage-n mono">01</div><div class="stage-name">Ads</div><div class="stage-tbl mono">campaigns</div></div>
+      <div class="stage"><div class="stage-n mono">02</div><div class="stage-name">Website</div><div class="stage-tbl mono">sessions · events</div></div>
+      <div class="stage"><div class="stage-n mono">03</div><div class="stage-name">Conversion</div><div class="stage-tbl mono">orders</div></div>
+      <div class="stage"><div class="stage-n mono">04</div><div class="stage-name">Install</div><div class="stage-tbl mono">installs · sites</div></div>
+      <div class="stage"><div class="stage-n mono">05</div><div class="stage-name">Support</div><div class="stage-tbl mono">tickets</div></div>
+      <div class="stage"><div class="stage-n mono">06</div><div class="stage-name">Feedback</div><div class="stage-tbl mono">feedback</div></div>
+      <div class="stage"><div class="stage-n mono">07</div><div class="stage-name">Churn</div><div class="stage-tbl mono">reorders</div></div>
+    </div>
+    <div class="chain-note">
+      In a normal stack this is <b>five integrations and a data engineer</b> — a marketing tool, web
+      analytics, a CRM, a helpdesk and billing. Here it is <b>one schema</b>, and prediction walks the
+      links by name: <code class="mono" style="color:var(--teal-ink)">reorders.install.session.campaign.channel</code>
+      is four hops in one query. <b>Once it is in one schema the causes are one query away</b> — getting
+      it there is still an ETL problem, and not one this demo claims to solve.
+    </div>
+  </div>
+
+  <!-- ============ the six cards ============ -->
+  <div class="grid">
+
+    <!-- 1 -->
+    <div class="card">
+      <div class="card-top"><div class="card-title">Lead rate</div><span class="rank mono">map #17</span></div>
+      <div class="card-unit">visits → spec download</div>
+      <div class="hero"><span class="hero-val bad">12%</span>
+        <button class="why-btn" aria-label="Why 12%?">?</button></div>
+      <div class="meter"><i class="bad" style="width:12%"></i></div>
+
+      <div class="sect">
+        <div class="sect-h"><span class="sect-t">ROOT CAUSES</span><span class="fn fn-relate mono">relate()</span></div>
+        <div class="row"><span class="row-l"><a class="lk">device = <code class="mono">mobile</code></a></span>
+          <span class="row-n mono">n=3 104</span><span class="lift lift-dn"><span class="g">▼</span>×0.71</span><button class="why-btn" aria-label="Why?">?</button></div>
+        <div class="row"><span class="row-l"><a class="lk">angle = <code class="mono">price-led</code></a></span>
+          <span class="row-n mono">n=2 288</span><span class="lift lift-dn"><span class="g">▼</span>×0.79</span><button class="why-btn" aria-label="Why?">?</button></div>
+        <div class="row"><span class="row-l"><a class="lk">page = <code class="mono">/specs</code></a></span>
+          <span class="row-n mono">n=1 470</span><span class="lift lift-up"><span class="g">▲</span>×1.28</span><button class="why-btn" aria-label="Why?">?</button></div>
+      </div>
+
+      <div class="sect">
+        <div class="sect-h"><span class="sect-t">RECOMMENDED LEVERS</span><span class="fn fn-rec mono">recommend()</span></div>
+        <div class="row"><span class="row-l">angle → <a class="lk"><code class="mono">uptime-led</code></a></span>
+          <span class="row-n mono">Δ +2pp</span><span class="lift lift-up"><span class="g">▲</span>×1.22</span><button class="why-btn" aria-label="Why?">?</button></div>
+        <div class="row"><span class="row-l">angle → <a class="lk"><code class="mono">TCO-led</code></a></span>
+          <span class="row-n mono">Δ +1pp</span><span class="lift lift-up"><span class="g">▲</span>×1.09</span><button class="why-btn" aria-label="Why?">?</button></div>
+      </div>
+
+      <div class="prize">↳ pull the top lever → <b>14%</b> · 2pp better</div>
+      <div class="cardbar"><button class="sqlbtn" data-sql="s1">▸ SQL</button>
+        <span class="explore">open in explorer →</span>
+<pre id="s1"><span class="c">-- KPI</span>
+<span class="k">SELECT</span> converted, <span class="k">count</span>(*) <span class="k">FROM</span> sessions <span class="k">GROUP BY</span> converted;
+
+<span class="c">-- levers</span>
+<span class="k">SELECT</span> * <span class="k">FROM</span> recommend(<span class="s">'sessions'</span>, <span class="s">'campaign.message_angle'</span>,
+  goal <span class="k">=&gt;</span> <span class="s">'converted = true'</span>, k <span class="k">=&gt;</span> 5);</pre></div>
+    </div>
+
+    <!-- 2 -->
+    <div class="card">
+      <div class="card-top"><div class="card-title">Win rate</div><span class="rank mono">map #9</span></div>
+      <div class="card-unit">quotes → orders</div>
+      <div class="hero"><span class="hero-val bad">23%</span>
+        <button class="why-btn" aria-label="Why 23%?">?</button></div>
+      <div class="meter"><i class="bad" style="width:23%"></i></div>
+
+      <div class="sect">
+        <div class="sect-h"><span class="sect-t">ROOT CAUSES</span><span class="fn fn-relate mono">relate()</span></div>
+        <div class="row"><span class="row-l"><a class="lk">channel = <code class="mono">trade-fair</code></a></span>
+          <span class="row-n mono">n=894</span><span class="lift lift-up"><span class="g">▲</span>×1.34</span><button class="why-btn" aria-label="Why?">?</button></div>
+        <div class="row"><span class="row-l"><a class="lk">industry = <code class="mono">mining</code></a></span>
+          <span class="row-n mono">n=612</span><span class="lift lift-up"><span class="g">▲</span>×1.18</span><button class="why-btn" aria-label="Why?">?</button></div>
+        <div class="row"><span class="row-l"><a class="lk">channel = <code class="mono">paid-social</code></a></span>
+          <span class="row-n mono">n=1 733</span><span class="lift lift-dn"><span class="g">▼</span>×0.68</span><button class="why-btn" aria-label="Why?">?</button></div>
+      </div>
+
+      <div class="sect">
+        <div class="sect-h"><span class="sect-t">RECOMMENDED LEVERS</span><span class="fn fn-rec mono">recommend()</span></div>
+        <div class="row"><span class="row-l">quote SKU → <a class="lk"><code class="mono">industrial</code></a></span>
+          <span class="row-n mono">Δ +3pp</span><span class="lift lift-up"><span class="g">▲</span>×1.15</span><button class="why-btn" aria-label="Why?">?</button></div>
+        <div class="row"><span class="row-l">quote SKU → <a class="lk"><code class="mono">pro</code></a></span>
+          <span class="row-n mono">Δ ±0pp</span><span class="lift lift-fl">×1.02</span><button class="why-btn" aria-label="Why?">?</button></div>
+      </div>
+
+      <div class="prize">↳ pull the top lever → <b>26%</b> · 3pp better</div>
+      <div class="cardbar"><button class="sqlbtn" data-sql="s2">▸ SQL</button>
+        <span class="explore">open in explorer →</span>
+<pre id="s2"><span class="c">-- root causes, four hops from the outcome</span>
+<span class="k">SELECT</span> * <span class="k">FROM</span> relate(<span class="s">'orders'</span>,
+  fields <span class="k">=&gt;</span> <span class="s">'session.campaign.channel, customer.industry'</span>,
+  to <span class="k">=&gt;</span> <span class="s">'won = true'</span>, k <span class="k">=&gt;</span> 8);</pre></div>
+    </div>
+
+    <!-- 3 -->
+    <div class="card">
+      <div class="card-top"><div class="card-title">Fault rate</div><span class="rank mono">map #3</span></div>
+      <div class="card-unit">faults in first 90 d</div>
+      <div class="hero"><span class="hero-val bad">31%</span>
+        <button class="why-btn" aria-label="Why 31%?">?</button></div>
+      <div class="meter"><i class="bad" style="width:31%"></i></div>
+
+      <div class="sect">
+        <div class="sect-h"><span class="sect-t">ROOT CAUSES</span><span class="fn fn-relate mono">relate()</span></div>
+        <div class="row"><span class="row-l"><a class="lk">cooling=<code class="mono">passive</code> × climate=<code class="mono">hot</code></a></span>
+          <span class="row-n mono">n=1 842</span><span class="lift lift-up"><span class="g">▲</span>×2.41</span><button class="why-btn" aria-label="Why?">?</button></div>
+        <div class="row"><span class="row-l"><a class="lk">grade=<code class="mono">consumer</code> × <code class="mono">3-shift</code></a></span>
+          <span class="row-n mono">n=1 106</span><span class="lift lift-up"><span class="g">▲</span>×1.88</span><button class="why-btn" aria-label="Why?">?</button></div>
+        <div class="row"><span class="row-l"><a class="lk">dust = <code class="mono">high</code></a></span>
+          <span class="row-n mono">n=2 015</span><span class="lift lift-up"><span class="g">▲</span>×1.17</span><button class="why-btn" aria-label="Why?">?</button></div>
+      </div>
+
+      <div class="sect">
+        <div class="sect-h"><span class="sect-t">RECOMMENDED LEVERS</span><span class="fn fn-rec mono">recommend()</span></div>
+        <div class="row"><span class="row-l">SKU → <a class="lk"><code class="mono">HX-900 (active)</code></a></span>
+          <span class="row-n mono">Δ +12pp</span><span class="lift lift-up"><span class="g">▲</span>×1.61</span><button class="why-btn" aria-label="Why?">?</button></div>
+        <div class="row"><span class="row-l">commissioning → <a class="lk"><code class="mono">on-site</code></a></span>
+          <span class="row-n mono">Δ +3pp</span><span class="lift lift-up"><span class="g">▲</span>×1.13</span><button class="why-btn" aria-label="Why?">?</button></div>
+      </div>
+
+      <div class="prize">↳ pull the top lever → <b>19%</b> · 12pp better</div>
+      <div class="cardbar"><button class="sqlbtn" data-sql="s3">▸ SQL</button>
+        <span class="explore">open in explorer →</span>
+<pre id="s3"><span class="c">-- the interaction: one field, two conditions</span>
+<span class="k">SELECT</span> * <span class="k">FROM</span> relate(<span class="s">'installs'</span>, fields <span class="k">=&gt;</span> <span class="s">'product.cooling'</span>,
+  to <span class="k">=&gt;</span> <span class="s">'faulted = true AND site.climate = ''hot'''</span>);</pre></div>
+    </div>
+
+    <!-- 4 -->
+    <div class="card">
+      <div class="card-top"><div class="card-title">Resolved &lt; 24 h</div><span class="rank mono">map #22</span></div>
+      <div class="card-unit">first-response SLA</div>
+      <div class="hero"><span class="hero-val bad">54%</span>
+        <button class="why-btn" aria-label="Why 54%?">?</button></div>
+      <div class="meter"><i class="bad" style="width:54%"></i></div>
+
+      <div class="sect">
+        <div class="sect-h"><span class="sect-t">ROOT CAUSES</span><span class="fn fn-relate mono">relate()</span></div>
+        <div class="row"><span class="row-l"><a class="lk">tier = <code class="mono">pooled</code></a></span>
+          <span class="row-n mono">n=2 907</span><span class="lift lift-up"><span class="g">▲</span>×1.44</span><button class="why-btn" aria-label="Why?">?</button></div>
+        <div class="row"><span class="row-l"><a class="lk">category = <code class="mono">overheat</code></a></span>
+          <span class="row-n mono">n=1 388</span><span class="lift lift-up"><span class="g">▲</span>×1.31</span><button class="why-btn" aria-label="Why?">?</button></div>
+        <div class="row"><span class="row-l"><a class="lk">plan = <code class="mono">premium</code></a></span>
+          <span class="row-n mono">n=744</span><span class="lift lift-dn"><span class="g">▼</span>×0.62</span><button class="why-btn" aria-label="Why?">?</button></div>
+      </div>
+
+      <div class="sect">
+        <div class="sect-h"><span class="sect-t">RECOMMENDED LEVERS</span><span class="fn fn-rec mono">recommend()</span></div>
+        <div class="row"><span class="row-l">tier → <a class="lk"><code class="mono">dedicated</code></a></span>
+          <span class="row-n mono">Δ +12pp</span><span class="lift lift-up"><span class="g">▲</span>×1.28</span><button class="why-btn" aria-label="Why?">?</button></div>
+        <div class="row"><span class="row-l">plan → <a class="lk"><code class="mono">premium</code></a></span>
+          <span class="row-n mono">Δ +8pp</span><span class="lift lift-up"><span class="g">▲</span>×1.19</span><button class="why-btn" aria-label="Why?">?</button></div>
+      </div>
+
+      <div class="prize">↳ pull the top lever → <b>66%</b> · 12pp better</div>
+      <div class="cardbar"><button class="sqlbtn" data-sql="s4">▸ SQL</button>
+        <span class="explore">open in explorer →</span>
+<pre id="s4"><span class="c">-- free-text beat: the cause, from the ticket's own words</span>
+<span class="k">SELECT</span> predict(category) <span class="k">FROM</span> tickets
+ <span class="k">WHERE</span> body <span class="k">@@</span> <span class="s">'shuts down midday ambient 44C'</span> <span class="k">LIMIT</span> 1;</pre></div>
+    </div>
+
+    <!-- 5 -->
+    <div class="card">
+      <div class="card-top"><div class="card-title">Detractors</div><span class="rank mono">map #11</span></div>
+      <div class="card-unit">feedback ≤ 2 of 5</div>
+      <div class="hero"><span class="hero-val bad">41%</span>
+        <button class="why-btn" aria-label="Why 41%?">?</button></div>
+      <div class="meter"><i class="bad" style="width:41%"></i></div>
+
+      <div class="sect">
+        <div class="sect-h"><span class="sect-t">ROOT CAUSES</span><span class="fn fn-relate mono">relate()</span></div>
+        <div class="row"><span class="row-l"><a class="lk">resolved = <code class="mono">no</code></a></span>
+          <span class="row-n mono">n=1 604</span><span class="lift lift-up"><span class="g">▲</span>×1.94</span><button class="why-btn" aria-label="Why?">?</button></div>
+        <div class="row"><span class="row-l"><a class="lk">category = <code class="mono">overheat</code></a></span>
+          <span class="row-n mono">n=1 388</span><span class="lift lift-up"><span class="g">▲</span>×1.62</span><button class="why-btn" aria-label="Why?">?</button></div>
+        <div class="row"><span class="row-l"><a class="lk">response &gt; <code class="mono">24 h</code></a></span>
+          <span class="row-n mono">n=2 210</span><span class="lift lift-up"><span class="g">▲</span>×1.43</span><button class="why-btn" aria-label="Why?">?</button></div>
+      </div>
+
+      <div class="sect">
+        <div class="sect-h"><span class="sect-t">RECOMMENDED LEVERS</span><span class="fn fn-rec mono">recommend()</span></div>
+        <div class="row"><span class="row-l">SKU swap → <a class="lk"><code class="mono">active</code></a></span>
+          <span class="row-n mono">Δ +12pp</span><span class="lift lift-up"><span class="g">▲</span>×1.34</span><button class="why-btn" aria-label="Why?">?</button></div>
+        <div class="row"><span class="row-l">tier → <a class="lk"><code class="mono">dedicated</code></a></span>
+          <span class="row-n mono">Δ +7pp</span><span class="lift lift-up"><span class="g">▲</span>×1.21</span><button class="why-btn" aria-label="Why?">?</button></div>
+      </div>
+
+      <div class="prize">↳ pull the top lever → <b>29%</b> · 12pp better</div>
+      <div class="cardbar"><button class="sqlbtn" data-sql="s5">▸ SQL</button>
+        <span class="explore">open in explorer →</span>
+<pre id="s5"><span class="c">-- is the prediction any good? held-out folds, in SQL</span>
+<span class="k">SELECT</span> * <span class="k">FROM</span> evaluate(<span class="s">'feedback'</span>, <span class="s">'detractor'</span>, folds <span class="k">=&gt;</span> 5);
+<span class="c">-- accuracy 0.79 | base_accuracy 0.59 | n 4210</span></pre></div>
+    </div>
+
+    <!-- 6 — the climax -->
+    <div class="card climax">
+      <div class="card-top"><div class="card-title">Churn</div><span class="rank mono">map #1</span></div>
+      <div class="card-unit">no reorder in 9 months</div>
+      <div class="hero"><span class="hero-val bad">34%</span>
+        <button class="why-btn" id="whyChurn" aria-label="Why 34%?">?</button></div>
+      <div class="meter"><i class="bad" style="width:34%"></i></div>
+
+      <!-- the $why popup, shown open to demonstrate A1 -->
+      <div class="why-pop open" id="whyPop" style="top:52px;left:-310px">
+        <div class="why-t">Why 34%?</div>
+        <div class="why-s mono">predict(reordered, why =&gt; true) · the engine's own arithmetic</div>
+        <div class="why-f"><span class="fld mono">base rate</span><span>churn, all installs</span><span class="v mono">0.21</span></div>
+        <div class="why-f"><span class="fld mono">cooling=passive</span><span>lift</span><span class="v mono">×1.31</span></div>
+        <div class="why-f"><span class="fld mono">climate=hot</span><span>lift</span><span class="v mono">×1.24</span></div>
+        <div class="why-f"><span class="fld mono">↳ as a pair</span><span>group lift</span><span class="v mono">×2.04</span></div>
+        <div class="why-f"><span class="fld mono">support-tempering</span><span>calibration</span><span class="v mono">×0.94</span></div>
+        <div class="why-eq mono">0.21 × 2.04 × 0.94 ≈ 0.34 — every factor the engine multiplied</div>
+      </div>
+
+      <div class="sect">
+        <div class="sect-h"><span class="sect-t">ROOT CAUSES</span><span class="fn fn-relate mono">relate()</span></div>
+        <div class="row"><span class="row-l"><a class="lk">channel = <code class="mono">distributor-ME</code></a></span>
+          <span class="row-n mono">n=1 940</span><span class="lift lift-up"><span class="g">▲</span>×1.91</span><button class="why-btn" aria-label="Why?">?</button></div>
+        <div class="row"><span class="row-l"><a class="lk">cooling=<code class="mono">passive</code> × climate=<code class="mono">hot</code></a></span>
+          <span class="row-n mono">n=1 842</span><span class="lift lift-up"><span class="g">▲</span>×2.04</span><button class="why-btn" aria-label="Why?">?</button></div>
+        <div class="row"><span class="row-l"><a class="lk">plan = <code class="mono">premium</code></a></span>
+          <span class="row-n mono">n=744</span><span class="lift lift-dn"><span class="g">▼</span>×0.74</span><button class="why-btn" aria-label="Why?">?</button></div>
+      </div>
+
+      <div class="sect">
+        <div class="sect-h"><span class="sect-t">RECOMMENDED LEVERS</span><span class="fn fn-rec mono">recommend()</span></div>
+        <div class="row"><span class="row-l">hot sites → <a class="lk"><code class="mono">active SKU</code></a></span>
+          <span class="row-n mono">Δ +13pp</span><span class="lift lift-up"><span class="g">▲</span>×1.47</span><button class="why-btn" aria-label="Why?">?</button></div>
+        <div class="row"><span class="row-l">hot sites → <a class="lk"><code class="mono">liquid SKU</code></a></span>
+          <span class="row-n mono">Δ +11pp</span><span class="lift lift-up"><span class="g">▲</span>×1.39</span><button class="why-btn" aria-label="Why?">?</button></div>
+        <div class="row"><span class="row-l">cut ME budget</span>
+          <span class="row-n mono">Δ ±0pp</span><span class="lift lift-fl">×1.01</span><button class="why-btn" aria-label="Why?">?</button></div>
+      </div>
+
+      <div class="prize">↳ pull the top lever → <b>21%</b> · 13pp better ·
+        <span class="eur">€ 1.8 M retained</span></div>
+      <div class="cardbar"><button class="sqlbtn" data-sql="s6">▸ SQL</button>
+        <span class="explore">open in explorer →</span>
+<pre id="s6"><span class="c">-- the prize, in euros not percentage points</span>
+<span class="k">SELECT</span> estimate(value) <span class="k">FROM</span> orders
+ <span class="k">WHERE</span> site.climate = <span class="s">'hot'</span> <span class="k">AND</span> product.cooling = <span class="s">'active'</span>;</pre></div>
+    </div>
+  </div>
+
+  <!-- ============ the refutation ============ -->
+  <div class="panel">
+    <div class="panel-h">
+      <div>
+        <h2>The climax: the same database refutes its own first answer</h2>
+        <p>Three queries in one session — or three clicks in the explorer, which is the same thing.
+          The naive answer is not a strawman; it is what a dashboard would conclude.</p>
+      </div>
+      <span class="op-tag mono">beat 3 of 4</span>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-n mono">01 · THE MARGINAL</div>
+        <div class="step-q">Which channel produces churners?</div>
+        <div class="step-a"><code class="mono">distributor-ME</code> churns at <b>×1.91</b> — far above every
+          other channel. Every dashboard in the company shows this, and it is <em>true</em>.</div>
+        <div class="verdict v-wrong">→ "cut the ME budget"</div>
+      </div>
+      <div class="step">
+        <div class="step-n mono">02 · CONDITIONED</div>
+        <div class="step-q">Add <code class="mono">climate = hot</code> to the context.</div>
+        <div class="step-a">The channel's lift collapses to <b>×1.06</b> while
+          <code class="mono">cooling = passive</code> holds at <b>×2.04</b>. The channel was never the
+          cause; it just sells into hot regions. <b>The viewer does this themselves — one chip.</b></div>
+        <div class="verdict v-right">→ "sell the active SKU there"</div>
+      </div>
+      <div class="step">
+        <div class="step-n mono">03 · GROUND TRUTH</div>
+        <div class="step-q">We wrote the generator.</div>
+        <div class="step-a">We planted passive×hot at <b>2.10×</b> and gave the channel <b>no</b> direct
+          effect. The database recovered <b>2.04×</b> from a column four hops away, with no feature
+          engineering and no model.</div>
+        <div class="verdict v-right">→ correction confirmed</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ these six cards are rows of a generated map ============ -->
+  <div class="map">
+    <div class="map-h">
+      <div>
+        <h2>These six cards are not a curated six</h2>
+        <p>They are the top rows of an enumerated sweep over every (field × outcome) pair — 1 040 cells,
+          14 s, <code class="mono">sql/05_map.sql</code>. Ranked by how far the lift moves once confounds are held fixed.</p>
+      </div>
+      <span class="op-tag mono">see the full map →</span>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr>
+          <th>Signal</th><th>Outcome</th><th class="num">Marginal</th><th class="num">Conditioned</th>
+          <th class="num">Gap</th><th>Reading</th>
+        </tr></thead>
+        <tbody>
+          <tr class="spurious"><td><a class="lk">channel = distributor-ME</a></td><td>no reorder</td>
+            <td class="num mono">×1.91</td><td class="num mono">×1.06</td><td class="num mono">−0.85</td>
+            <td><span class="tag t-spur">confounded</span></td></tr>
+          <tr><td><a class="lk">cooling = passive × climate = hot</a></td><td>no reorder</td>
+            <td class="num mono">×1.28</td><td class="num mono">×2.04</td><td class="num mono">+0.76</td>
+            <td><span class="tag t-hid">hidden until conditioned</span></td></tr>
+          <tr class="spurious"><td><a class="lk">region = Gulf</a></td><td>no reorder</td>
+            <td class="num mono">×1.77</td><td class="num mono">×1.04</td><td class="num mono">−0.73</td>
+            <td><span class="tag t-spur">confounded</span></td></tr>
+          <tr><td><a class="lk">token “ambient” in ticket</a></td><td>no reorder</td>
+            <td class="num mono">×1.34</td><td class="num mono">×1.81</td><td class="num mono">+0.47</td>
+            <td><span class="tag t-hid">text, 3 hops</span></td></tr>
+          <tr><td><a class="lk">first response &gt; 24 h</a></td><td>detractor</td>
+            <td class="num mono">×1.43</td><td class="num mono">×1.41</td><td class="num mono">−0.02</td>
+            <td><span class="tag t-real">holds up</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="map-foot">
+      <b>Why this matters more than the cards:</b> three of these five signals a team would steer by are
+      confounded, and two real mechanisms are invisible until you condition. Because the map is
+      <b>generated rather than chosen</b>, passive×hot is a discovery — not a finding we went and
+      fetched because we already knew where to look.
+    </div>
+  </div>
+
+  <!-- ============ honesty ============ -->
+  <div class="honesty">
+    <h2>Planted vs recovered</h2>
+    <p>Printed in the demo, not buried in a README.</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr>
+          <th>Mechanism</th><th>What we planted</th>
+          <th class="num">Planted</th><th class="num">Marginal</th><th class="num">Conditioned</th>
+        </tr></thead>
+        <tbody>
+          <tr><td class="mono">M1</td><td>passive cooling × hot climate → churn</td>
+            <td class="num mono">2.10×</td><td class="num mono">1.28×</td><td class="num mono"><b>2.04×</b></td></tr>
+          <tr><td class="mono">M2</td><td>consumer grade × 3-shift → wear failure</td>
+            <td class="num mono">1.90×</td><td class="num mono">1.22×</td><td class="num mono"><b>1.88×</b></td></tr>
+          <tr><td class="mono">M3</td><td><em>nothing</em> — ME channel is innocent</td>
+            <td class="num mono">1.00×</td><td class="num mono">1.91×</td><td class="num mono"><b>1.06×</b></td></tr>
+          <tr><td class="mono">M4</td><td>slow first response → worse feedback</td>
+            <td class="num mono">1.45×</td><td class="num mono">1.43×</td><td class="num mono"><b>1.41×</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="caveat">
+      <b>Read M1 and M3 together.</b> M1 is nearly invisible marginally (1.28×) and only appears once
+      conditioned; M3 is the reverse — loud marginally, gone once conditioned. That pair is the entire
+      argument for looking across the whole chain instead of one dashboard at a time.<br><br>
+      <b>On causation.</b> <code class="mono">relate()</code> returns lift — association, not causation. The only
+      reason cause can be discussed here is that <b>we wrote the generator and know the ground truth</b>.
+      Conditioning on observed confounds is not causal identification: this screens candidates and flags
+      which survive controlling for what was measured. The data is synthetic and its causal structure is
+      planted by construction; no claim of causal inference on real-world data is made anywhere.
+    </div>
+  </div>
+
+  <div class="foot">
+    <b>This is the front door.</b> Every signal, lever and token on this page opens in
+    <code>mockup-explorer.html</code>, where the same four questions are asked about <em>it</em>. The
+    cards are the map's top rows, not a hand-picked six — that distinction is what turns the demo's
+    story from a claim into a discovery.<br>
+    Tokens, type and the <code>why</code> popup come from <code>frontend/app/globals.css</code>, so this
+    drops into the app unchanged. Each card carries a <code>▸ SQL</code> disclosure showing the exact
+    statement behind it: the dashboard is a <b>viewer for the SQL file</b>, not an app that happens to
+    use SQL.<br>
+    Lift values never rely on colour alone (each carries a ▲/▼ glyph and its number), because red↔green
+    separate at only ΔE 2.7 for deuteranopia. The Aito teal <code>#12B5AD</code> is used for rules and
+    fills only — as text it reaches just 2.55:1, so lever text uses <code>#0b6f6a</code> at 6.01:1.
+    Light-only, deliberately: the surrounding app is light-only.<br>
+    <b>Numbers are illustrative placeholders</b> pending the generator — the shape is the proposal, not
+    the values.
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('.sqlbtn').forEach(function (b) {
+  b.addEventListener('click', function () {
+    var pre = document.getElementById(b.dataset.sql);
+    var open = pre.classList.toggle('open');
+    b.textContent = (open ? '▾ SQL' : '▸ SQL');
+  });
+});
+
+// The $why popup: one is shown open on the churn card as a static demonstration.
+var pop = document.getElementById('whyPop');
+document.getElementById('whyChurn').addEventListener('click', function () {
+  pop.classList.toggle('open');
+});
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'Escape') pop.classList.remove('open');
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,1210 @@
+feedback_id,install,score,body,ts
+F000001,I00002,5,"reliable so far, operators like the controls",2026-09-03
+F000002,I00004,5,"solid machine, support answered quickly when we asked",2025-12-06
+F000003,I00005,5,"reliable so far, operators like the controls",2025-09-26
+F000004,I00008,4,"runs well, uptime has been excellent since commissioning",2026-04-11
+F000005,I00010,5,"no complaints, the line has kept pace all quarter",2026-03-29
+F000006,I00012,2,"keeps overheating in summer, not what we were promised on uptime",2026-03-03
+F000007,I00016,5,"solid machine, support answered quickly when we asked",2026-01-15
+F000008,I00017,3,"keeps overheating in summer, not what we were promised on uptime",2025-06-21
+F000009,I00019,3,"keeps overheating in summer, not what we were promised on uptime",2025-08-05
+F000010,I00020,5,"reliable so far, operators like the controls",2026-05-28
+F000011,I00025,5,"solid machine, support answered quickly when we asked",2025-11-06
+F000012,I00027,4,"reliable so far, operators like the controls",2025-05-06
+F000013,I00029,3,"too much downtime in hot weather, we lost a shift to it",2024-11-23
+F000014,I00030,5,"runs well, uptime has been excellent since commissioning",2024-07-24
+F000015,I00031,5,"reliable so far, operators like the controls",2026-06-29
+F000016,I00033,5,"no complaints, the line has kept pace all quarter",2025-01-08
+F000017,I00034,2,wear parts go faster than expected at our duty cycle,2025-07-03
+F000018,I00036,5,"reliable so far, operators like the controls",2025-11-13
+F000019,I00039,1,support took days to come back to us while the line was stopped,2025-02-28
+F000020,I00040,2,support took days to come back to us while the line was stopped,2025-04-09
+F000021,I00041,4,"solid machine, support answered quickly when we asked",2024-10-05
+F000022,I00044,2,wear parts go faster than expected at our duty cycle,2025-11-18
+F000023,I00051,5,"runs well, uptime has been excellent since commissioning",2024-10-02
+F000024,I00052,5,"no complaints, the line has kept pace all quarter",2025-03-23
+F000025,I00053,2,"too much downtime in hot weather, we lost a shift to it",2025-04-12
+F000026,I00054,4,"solid machine, support answered quickly when we asked",2026-05-05
+F000027,I00057,2,support took days to come back to us while the line was stopped,2026-02-22
+F000028,I00058,4,"solid machine, support answered quickly when we asked",2025-05-28
+F000029,I00060,5,"no complaints, the line has kept pace all quarter",2026-03-19
+F000030,I00063,4,"solid machine, support answered quickly when we asked",2026-06-10
+F000031,I00065,4,"runs well, uptime has been excellent since commissioning",2025-03-10
+F000032,I00067,2,"too much downtime in hot weather, we lost a shift to it",2024-10-30
+F000033,I00068,5,"no complaints, the line has kept pace all quarter",2025-07-12
+F000034,I00073,3,"keeps overheating in summer, not what we were promised on uptime",2025-12-09
+F000035,I00076,2,wear parts go faster than expected at our duty cycle,2024-11-07
+F000036,I00077,5,"solid machine, support answered quickly when we asked",2024-10-25
+F000037,I00079,4,"no complaints, the line has kept pace all quarter",2025-08-08
+F000038,I00084,4,"solid machine, support answered quickly when we asked",2026-02-10
+F000039,I00093,5,"solid machine, support answered quickly when we asked",2026-07-27
+F000040,I00094,5,"reliable so far, operators like the controls",2025-06-09
+F000041,I00095,3,"too much downtime in hot weather, we lost a shift to it",2025-06-10
+F000042,I00097,4,"reliable so far, operators like the controls",2025-03-04
+F000043,I00098,4,"no complaints, the line has kept pace all quarter",2025-07-07
+F000044,I00100,4,"no complaints, the line has kept pace all quarter",2026-03-01
+F000045,I00103,4,"solid machine, support answered quickly when we asked",2026-07-02
+F000046,I00104,5,"reliable so far, operators like the controls",2026-04-06
+F000047,I00109,2,wear parts go faster than expected at our duty cycle,2025-07-27
+F000048,I00110,5,"reliable so far, operators like the controls",2025-03-15
+F000049,I00112,5,"solid machine, support answered quickly when we asked",2025-11-27
+F000050,I00113,5,"runs well, uptime has been excellent since commissioning",2024-10-20
+F000051,I00114,5,"solid machine, support answered quickly when we asked",2026-04-22
+F000052,I00115,4,"reliable so far, operators like the controls",2024-07-08
+F000053,I00117,4,"reliable so far, operators like the controls",2025-08-13
+F000054,I00120,2,support took days to come back to us while the line was stopped,2025-12-25
+F000055,I00121,1,"too much downtime in hot weather, we lost a shift to it",2025-07-05
+F000056,I00123,5,"no complaints, the line has kept pace all quarter",2025-09-13
+F000057,I00126,3,support took days to come back to us while the line was stopped,2024-11-22
+F000058,I00127,2,support took days to come back to us while the line was stopped,2025-08-08
+F000059,I00129,4,"no complaints, the line has kept pace all quarter",2026-01-03
+F000060,I00134,4,"reliable so far, operators like the controls",2025-09-17
+F000061,I00135,3,"too much downtime in hot weather, we lost a shift to it",2026-03-09
+F000062,I00140,5,"no complaints, the line has kept pace all quarter",2025-10-05
+F000063,I00142,4,"runs well, uptime has been excellent since commissioning",2025-06-26
+F000064,I00145,5,"runs well, uptime has been excellent since commissioning",2025-11-05
+F000065,I00146,2,wear parts go faster than expected at our duty cycle,2026-04-27
+F000066,I00149,4,"runs well, uptime has been excellent since commissioning",2025-04-29
+F000067,I00154,1,wear parts go faster than expected at our duty cycle,2024-11-09
+F000068,I00155,1,support took days to come back to us while the line was stopped,2025-08-27
+F000069,I00162,4,"runs well, uptime has been excellent since commissioning",2025-07-31
+F000070,I00163,5,"runs well, uptime has been excellent since commissioning",2025-01-17
+F000071,I00164,4,"no complaints, the line has kept pace all quarter",2025-02-09
+F000072,I00168,5,"solid machine, support answered quickly when we asked",2026-04-09
+F000073,I00170,2,"keeps overheating in summer, not what we were promised on uptime",2025-04-15
+F000074,I00174,4,"reliable so far, operators like the controls",2025-08-20
+F000075,I00176,2,"too much downtime in hot weather, we lost a shift to it",2025-01-04
+F000076,I00178,5,"no complaints, the line has kept pace all quarter",2025-11-29
+F000077,I00189,5,"solid machine, support answered quickly when we asked",2026-11-16
+F000078,I00190,4,"solid machine, support answered quickly when we asked",2025-10-07
+F000079,I00191,5,"solid machine, support answered quickly when we asked",2026-04-04
+F000080,I00194,5,"no complaints, the line has kept pace all quarter",2025-07-21
+F000081,I00198,4,"reliable so far, operators like the controls",2025-09-01
+F000082,I00199,4,"reliable so far, operators like the controls",2025-01-25
+F000083,I00200,5,"no complaints, the line has kept pace all quarter",2025-11-08
+F000084,I00202,4,"no complaints, the line has kept pace all quarter",2025-03-11
+F000085,I00203,3,"keeps overheating in summer, not what we were promised on uptime",2025-03-02
+F000086,I00205,4,"solid machine, support answered quickly when we asked",2025-10-15
+F000087,I00206,5,"solid machine, support answered quickly when we asked",2026-02-19
+F000088,I00207,1,"too much downtime in hot weather, we lost a shift to it",2024-11-17
+F000089,I00209,4,"no complaints, the line has kept pace all quarter",2025-03-07
+F000090,I00213,2,"too much downtime in hot weather, we lost a shift to it",2024-12-01
+F000091,I00218,5,"reliable so far, operators like the controls",2025-12-12
+F000092,I00220,2,wear parts go faster than expected at our duty cycle,2026-05-29
+F000093,I00221,4,"reliable so far, operators like the controls",2025-05-15
+F000094,I00224,4,"no complaints, the line has kept pace all quarter",2026-10-22
+F000095,I00225,4,"reliable so far, operators like the controls",2026-06-12
+F000096,I00226,5,"runs well, uptime has been excellent since commissioning",2026-01-18
+F000097,I00230,4,"reliable so far, operators like the controls",2025-10-06
+F000098,I00237,4,"runs well, uptime has been excellent since commissioning",2025-05-04
+F000099,I00238,5,"reliable so far, operators like the controls",2024-12-02
+F000100,I00241,1,"too much downtime in hot weather, we lost a shift to it",2025-10-28
+F000101,I00243,5,"solid machine, support answered quickly when we asked",2025-09-20
+F000102,I00244,2,wear parts go faster than expected at our duty cycle,2025-10-10
+F000103,I00246,5,"solid machine, support answered quickly when we asked",2025-07-08
+F000104,I00247,5,"solid machine, support answered quickly when we asked",2026-01-25
+F000105,I00252,5,"no complaints, the line has kept pace all quarter",2025-05-24
+F000106,I00257,5,"solid machine, support answered quickly when we asked",2024-12-26
+F000107,I00258,3,"too much downtime in hot weather, we lost a shift to it",2025-09-04
+F000108,I00259,5,"runs well, uptime has been excellent since commissioning",2025-10-27
+F000109,I00262,5,"solid machine, support answered quickly when we asked",2025-02-20
+F000110,I00263,4,"reliable so far, operators like the controls",2025-05-08
+F000111,I00265,5,"solid machine, support answered quickly when we asked",2027-01-18
+F000112,I00268,4,"no complaints, the line has kept pace all quarter",2025-07-02
+F000113,I00272,2,"too much downtime in hot weather, we lost a shift to it",2025-11-12
+F000114,I00273,2,"keeps overheating in summer, not what we were promised on uptime",2025-02-02
+F000115,I00274,5,"runs well, uptime has been excellent since commissioning",2025-07-12
+F000116,I00276,2,support took days to come back to us while the line was stopped,2025-03-13
+F000117,I00281,5,"runs well, uptime has been excellent since commissioning",2025-05-16
+F000118,I00285,3,"keeps overheating in summer, not what we were promised on uptime",2025-08-16
+F000119,I00286,2,"keeps overheating in summer, not what we were promised on uptime",2025-04-11
+F000120,I00294,4,"no complaints, the line has kept pace all quarter",2026-06-19
+F000121,I00295,5,"solid machine, support answered quickly when we asked",2025-07-25
+F000122,I00297,5,"no complaints, the line has kept pace all quarter",2026-06-08
+F000123,I00298,5,"no complaints, the line has kept pace all quarter",2025-09-05
+F000124,I00300,1,"keeps overheating in summer, not what we were promised on uptime",2026-01-22
+F000125,I00303,4,"no complaints, the line has kept pace all quarter",2026-02-01
+F000126,I00306,4,"solid machine, support answered quickly when we asked",2026-10-04
+F000127,I00312,4,"runs well, uptime has been excellent since commissioning",2025-11-01
+F000128,I00316,4,"no complaints, the line has kept pace all quarter",2025-01-13
+F000129,I00317,3,"too much downtime in hot weather, we lost a shift to it",2025-07-27
+F000130,I00318,2,"too much downtime in hot weather, we lost a shift to it",2026-02-21
+F000131,I00319,4,"reliable so far, operators like the controls",2026-09-25
+F000132,I00320,5,"solid machine, support answered quickly when we asked",2025-10-22
+F000133,I00323,5,"solid machine, support answered quickly when we asked",2025-02-01
+F000134,I00325,5,"solid machine, support answered quickly when we asked",2024-07-27
+F000135,I00326,5,"no complaints, the line has kept pace all quarter",2025-02-07
+F000136,I00327,5,"reliable so far, operators like the controls",2025-04-09
+F000137,I00329,5,"solid machine, support answered quickly when we asked",2025-07-05
+F000138,I00330,4,"runs well, uptime has been excellent since commissioning",2026-06-05
+F000139,I00333,2,"too much downtime in hot weather, we lost a shift to it",2026-03-23
+F000140,I00335,5,"no complaints, the line has kept pace all quarter",2025-08-03
+F000141,I00337,4,"runs well, uptime has been excellent since commissioning",2025-06-19
+F000142,I00338,2,support took days to come back to us while the line was stopped,2025-03-24
+F000143,I00342,4,"solid machine, support answered quickly when we asked",2026-08-01
+F000144,I00343,5,"no complaints, the line has kept pace all quarter",2024-08-28
+F000145,I00351,5,"solid machine, support answered quickly when we asked",2026-01-03
+F000146,I00353,5,"solid machine, support answered quickly when we asked",2025-12-23
+F000147,I00364,4,"no complaints, the line has kept pace all quarter",2026-05-25
+F000148,I00365,1,"keeps overheating in summer, not what we were promised on uptime",2025-11-11
+F000149,I00367,1,wear parts go faster than expected at our duty cycle,2025-04-04
+F000150,I00371,2,support took days to come back to us while the line was stopped,2026-01-21
+F000151,I00372,4,"runs well, uptime has been excellent since commissioning",2025-04-30
+F000152,I00375,4,"reliable so far, operators like the controls",2025-03-09
+F000153,I00376,5,"solid machine, support answered quickly when we asked",2025-04-22
+F000154,I00380,4,"reliable so far, operators like the controls",2025-07-09
+F000155,I00383,5,"reliable so far, operators like the controls",2025-06-03
+F000156,I00386,5,"runs well, uptime has been excellent since commissioning",2026-01-04
+F000157,I00397,1,"too much downtime in hot weather, we lost a shift to it",2025-12-20
+F000158,I00399,5,"runs well, uptime has been excellent since commissioning",2024-12-15
+F000159,I00401,2,"keeps overheating in summer, not what we were promised on uptime",2025-12-15
+F000160,I00404,5,"reliable so far, operators like the controls",2026-04-22
+F000161,I00406,4,"solid machine, support answered quickly when we asked",2026-09-06
+F000162,I00407,4,"reliable so far, operators like the controls",2025-08-15
+F000163,I00408,5,"no complaints, the line has kept pace all quarter",2024-07-15
+F000164,I00409,5,"runs well, uptime has been excellent since commissioning",2024-08-07
+F000165,I00411,2,support took days to come back to us while the line was stopped,2026-06-12
+F000166,I00412,4,"runs well, uptime has been excellent since commissioning",2025-02-13
+F000167,I00414,2,"too much downtime in hot weather, we lost a shift to it",2025-10-27
+F000168,I00419,5,"runs well, uptime has been excellent since commissioning",2025-01-22
+F000169,I00422,5,"reliable so far, operators like the controls",2025-10-18
+F000170,I00425,5,"runs well, uptime has been excellent since commissioning",2025-04-05
+F000171,I00428,5,"solid machine, support answered quickly when we asked",2025-09-18
+F000172,I00429,4,"reliable so far, operators like the controls",2024-10-17
+F000173,I00430,3,"keeps overheating in summer, not what we were promised on uptime",2025-07-15
+F000174,I00432,4,"runs well, uptime has been excellent since commissioning",2025-06-08
+F000175,I00433,5,"solid machine, support answered quickly when we asked",2025-11-22
+F000176,I00442,3,support took days to come back to us while the line was stopped,2024-11-05
+F000177,I00449,5,"no complaints, the line has kept pace all quarter",2025-04-27
+F000178,I00450,4,"reliable so far, operators like the controls",2025-06-16
+F000179,I00454,4,"solid machine, support answered quickly when we asked",2025-07-16
+F000180,I00456,4,"reliable so far, operators like the controls",2025-09-29
+F000181,I00460,5,"solid machine, support answered quickly when we asked",2026-06-30
+F000182,I00464,2,"too much downtime in hot weather, we lost a shift to it",2025-07-09
+F000183,I00473,3,"keeps overheating in summer, not what we were promised on uptime",2025-10-15
+F000184,I00474,5,"solid machine, support answered quickly when we asked",2026-06-02
+F000185,I00480,2,wear parts go faster than expected at our duty cycle,2024-11-19
+F000186,I00481,2,wear parts go faster than expected at our duty cycle,2025-07-18
+F000187,I00483,4,"no complaints, the line has kept pace all quarter",2024-08-08
+F000188,I00486,5,"runs well, uptime has been excellent since commissioning",2026-08-02
+F000189,I00487,4,"no complaints, the line has kept pace all quarter",2024-08-01
+F000190,I00490,5,"solid machine, support answered quickly when we asked",2025-03-27
+F000191,I00492,3,wear parts go faster than expected at our duty cycle,2025-11-17
+F000192,I00499,4,"no complaints, the line has kept pace all quarter",2024-12-26
+F000193,I00502,3,support took days to come back to us while the line was stopped,2025-07-18
+F000194,I00503,1,"keeps overheating in summer, not what we were promised on uptime",2026-03-11
+F000195,I00504,1,wear parts go faster than expected at our duty cycle,2025-09-16
+F000196,I00506,5,"reliable so far, operators like the controls",2024-12-26
+F000197,I00510,4,"runs well, uptime has been excellent since commissioning",2025-10-03
+F000198,I00511,4,"runs well, uptime has been excellent since commissioning",2026-03-04
+F000199,I00512,3,"too much downtime in hot weather, we lost a shift to it",2025-06-19
+F000200,I00521,4,"no complaints, the line has kept pace all quarter",2026-03-07
+F000201,I00522,4,"runs well, uptime has been excellent since commissioning",2025-12-03
+F000202,I00523,4,"runs well, uptime has been excellent since commissioning",2025-06-17
+F000203,I00524,5,"reliable so far, operators like the controls",2026-10-21
+F000204,I00525,1,support took days to come back to us while the line was stopped,2026-01-08
+F000205,I00530,1,support took days to come back to us while the line was stopped,2026-03-27
+F000206,I00531,1,"too much downtime in hot weather, we lost a shift to it",2025-10-21
+F000207,I00532,1,support took days to come back to us while the line was stopped,2025-10-25
+F000208,I00533,4,"reliable so far, operators like the controls",2024-07-11
+F000209,I00535,5,"no complaints, the line has kept pace all quarter",2026-04-17
+F000210,I00539,4,"reliable so far, operators like the controls",2026-06-13
+F000211,I00542,5,"reliable so far, operators like the controls",2025-09-07
+F000212,I00545,4,"no complaints, the line has kept pace all quarter",2025-04-15
+F000213,I00546,5,"solid machine, support answered quickly when we asked",2025-06-06
+F000214,I00550,1,wear parts go faster than expected at our duty cycle,2025-04-18
+F000215,I00553,3,support took days to come back to us while the line was stopped,2025-07-29
+F000216,I00554,1,wear parts go faster than expected at our duty cycle,2025-07-15
+F000217,I00555,2,support took days to come back to us while the line was stopped,2025-06-08
+F000218,I00556,4,"solid machine, support answered quickly when we asked",2025-05-01
+F000219,I00560,3,support took days to come back to us while the line was stopped,2025-08-08
+F000220,I00561,2,support took days to come back to us while the line was stopped,2025-01-13
+F000221,I00563,4,"solid machine, support answered quickly when we asked",2025-04-27
+F000222,I00564,4,"runs well, uptime has been excellent since commissioning",2025-12-01
+F000223,I00565,1,"keeps overheating in summer, not what we were promised on uptime",2025-05-23
+F000224,I00566,1,support took days to come back to us while the line was stopped,2026-07-16
+F000225,I00567,2,wear parts go faster than expected at our duty cycle,2025-06-29
+F000226,I00569,4,"solid machine, support answered quickly when we asked",2025-10-21
+F000227,I00572,4,"reliable so far, operators like the controls",2025-07-24
+F000228,I00574,5,"no complaints, the line has kept pace all quarter",2024-12-31
+F000229,I00580,5,"solid machine, support answered quickly when we asked",2025-07-30
+F000230,I00582,1,"too much downtime in hot weather, we lost a shift to it",2026-09-22
+F000231,I00583,5,"no complaints, the line has kept pace all quarter",2026-03-18
+F000232,I00586,5,"no complaints, the line has kept pace all quarter",2025-09-07
+F000233,I00588,4,"solid machine, support answered quickly when we asked",2025-07-28
+F000234,I00589,5,"runs well, uptime has been excellent since commissioning",2025-07-07
+F000235,I00590,5,"runs well, uptime has been excellent since commissioning",2026-01-31
+F000236,I00591,2,"too much downtime in hot weather, we lost a shift to it",2025-03-08
+F000237,I00592,5,"solid machine, support answered quickly when we asked",2025-02-28
+F000238,I00593,4,"reliable so far, operators like the controls",2026-02-04
+F000239,I00594,4,"no complaints, the line has kept pace all quarter",2026-08-15
+F000240,I00598,5,"no complaints, the line has kept pace all quarter",2026-01-09
+F000241,I00599,2,wear parts go faster than expected at our duty cycle,2024-11-18
+F000242,I00600,5,"reliable so far, operators like the controls",2025-02-11
+F000243,I00601,3,"too much downtime in hot weather, we lost a shift to it",2026-08-24
+F000244,I00602,5,"reliable so far, operators like the controls",2024-10-13
+F000245,I00603,3,"too much downtime in hot weather, we lost a shift to it",2025-06-22
+F000246,I00604,3,wear parts go faster than expected at our duty cycle,2025-12-26
+F000247,I00607,3,"keeps overheating in summer, not what we were promised on uptime",2025-11-13
+F000248,I00610,5,"reliable so far, operators like the controls",2025-07-22
+F000249,I00613,2,"keeps overheating in summer, not what we were promised on uptime",2025-04-25
+F000250,I00617,2,"keeps overheating in summer, not what we were promised on uptime",2024-12-31
+F000251,I00618,5,"reliable so far, operators like the controls",2025-02-13
+F000252,I00619,1,support took days to come back to us while the line was stopped,2026-01-05
+F000253,I00620,5,"runs well, uptime has been excellent since commissioning",2024-12-06
+F000254,I00624,4,"reliable so far, operators like the controls",2025-01-28
+F000255,I00630,4,"no complaints, the line has kept pace all quarter",2025-08-06
+F000256,I00634,3,"keeps overheating in summer, not what we were promised on uptime",2025-10-21
+F000257,I00636,5,"solid machine, support answered quickly when we asked",2025-01-06
+F000258,I00637,3,wear parts go faster than expected at our duty cycle,2026-04-04
+F000259,I00639,4,"reliable so far, operators like the controls",2025-10-24
+F000260,I00640,1,wear parts go faster than expected at our duty cycle,2026-02-06
+F000261,I00643,5,"runs well, uptime has been excellent since commissioning",2025-10-06
+F000262,I00644,5,"solid machine, support answered quickly when we asked",2025-02-19
+F000263,I00645,4,"reliable so far, operators like the controls",2025-09-04
+F000264,I00647,4,"reliable so far, operators like the controls",2025-09-02
+F000265,I00649,5,"reliable so far, operators like the controls",2026-02-14
+F000266,I00650,5,"solid machine, support answered quickly when we asked",2025-07-20
+F000267,I00651,2,"too much downtime in hot weather, we lost a shift to it",2026-02-02
+F000268,I00652,4,"reliable so far, operators like the controls",2025-12-17
+F000269,I00654,4,"reliable so far, operators like the controls",2025-01-03
+F000270,I00656,5,"no complaints, the line has kept pace all quarter",2025-08-28
+F000271,I00657,4,"solid machine, support answered quickly when we asked",2025-05-07
+F000272,I00661,5,"no complaints, the line has kept pace all quarter",2025-04-04
+F000273,I00662,4,"runs well, uptime has been excellent since commissioning",2025-10-05
+F000274,I00663,1,"too much downtime in hot weather, we lost a shift to it",2024-10-15
+F000275,I00665,4,"no complaints, the line has kept pace all quarter",2025-07-06
+F000276,I00667,2,support took days to come back to us while the line was stopped,2025-12-14
+F000277,I00670,3,"keeps overheating in summer, not what we were promised on uptime",2025-03-18
+F000278,I00674,4,"runs well, uptime has been excellent since commissioning",2025-06-07
+F000279,I00678,4,"reliable so far, operators like the controls",2026-01-04
+F000280,I00679,5,"reliable so far, operators like the controls",2025-01-20
+F000281,I00681,4,"runs well, uptime has been excellent since commissioning",2025-09-09
+F000282,I00683,2,support took days to come back to us while the line was stopped,2025-07-16
+F000283,I00684,5,"runs well, uptime has been excellent since commissioning",2024-11-21
+F000284,I00685,5,"reliable so far, operators like the controls",2025-07-27
+F000285,I00686,5,"runs well, uptime has been excellent since commissioning",2025-09-21
+F000286,I00687,1,"keeps overheating in summer, not what we were promised on uptime",2025-11-23
+F000287,I00688,5,"solid machine, support answered quickly when we asked",2025-10-03
+F000288,I00690,2,wear parts go faster than expected at our duty cycle,2025-11-30
+F000289,I00693,5,"no complaints, the line has kept pace all quarter",2026-05-24
+F000290,I00695,5,"no complaints, the line has kept pace all quarter",2024-09-11
+F000291,I00698,5,"solid machine, support answered quickly when we asked",2026-01-20
+F000292,I00699,4,"solid machine, support answered quickly when we asked",2025-08-19
+F000293,I00702,4,"no complaints, the line has kept pace all quarter",2025-05-04
+F000294,I00703,2,support took days to come back to us while the line was stopped,2025-09-08
+F000295,I00705,5,"runs well, uptime has been excellent since commissioning",2025-07-17
+F000296,I00706,3,"too much downtime in hot weather, we lost a shift to it",2026-11-20
+F000297,I00708,5,"runs well, uptime has been excellent since commissioning",2026-02-21
+F000298,I00710,4,"runs well, uptime has been excellent since commissioning",2024-11-22
+F000299,I00712,1,"too much downtime in hot weather, we lost a shift to it",2025-05-16
+F000300,I00713,3,"keeps overheating in summer, not what we were promised on uptime",2025-07-04
+F000301,I00717,5,"solid machine, support answered quickly when we asked",2025-02-14
+F000302,I00718,5,"solid machine, support answered quickly when we asked",2026-10-21
+F000303,I00721,4,"no complaints, the line has kept pace all quarter",2025-03-31
+F000304,I00722,2,"too much downtime in hot weather, we lost a shift to it",2025-07-27
+F000305,I00725,2,"too much downtime in hot weather, we lost a shift to it",2025-11-18
+F000306,I00727,5,"runs well, uptime has been excellent since commissioning",2025-03-11
+F000307,I00728,4,"runs well, uptime has been excellent since commissioning",2025-06-04
+F000308,I00731,1,wear parts go faster than expected at our duty cycle,2025-06-17
+F000309,I00732,4,"reliable so far, operators like the controls",2025-06-15
+F000310,I00733,5,"solid machine, support answered quickly when we asked",2025-07-03
+F000311,I00737,5,"runs well, uptime has been excellent since commissioning",2026-05-26
+F000312,I00739,4,"runs well, uptime has been excellent since commissioning",2026-01-22
+F000313,I00740,5,"no complaints, the line has kept pace all quarter",2026-06-16
+F000314,I00742,5,"solid machine, support answered quickly when we asked",2025-08-15
+F000315,I00744,1,support took days to come back to us while the line was stopped,2025-06-26
+F000316,I00745,4,"solid machine, support answered quickly when we asked",2025-03-24
+F000317,I00751,5,"solid machine, support answered quickly when we asked",2025-05-15
+F000318,I00752,2,support took days to come back to us while the line was stopped,2026-01-26
+F000319,I00756,4,"runs well, uptime has been excellent since commissioning",2025-06-20
+F000320,I00757,5,"no complaints, the line has kept pace all quarter",2025-05-29
+F000321,I00758,2,wear parts go faster than expected at our duty cycle,2025-12-27
+F000322,I00759,4,"runs well, uptime has been excellent since commissioning",2025-01-14
+F000323,I00760,1,"too much downtime in hot weather, we lost a shift to it",2026-09-23
+F000324,I00762,4,"solid machine, support answered quickly when we asked",2025-11-23
+F000325,I00765,4,"solid machine, support answered quickly when we asked",2025-10-28
+F000326,I00768,2,wear parts go faster than expected at our duty cycle,2025-07-14
+F000327,I00771,3,"keeps overheating in summer, not what we were promised on uptime",2025-08-17
+F000328,I00775,5,"solid machine, support answered quickly when we asked",2025-09-13
+F000329,I00776,4,"solid machine, support answered quickly when we asked",2025-09-03
+F000330,I00779,2,"keeps overheating in summer, not what we were promised on uptime",2025-08-25
+F000331,I00783,5,"reliable so far, operators like the controls",2025-12-14
+F000332,I00784,4,"runs well, uptime has been excellent since commissioning",2025-05-22
+F000333,I00786,1,"too much downtime in hot weather, we lost a shift to it",2025-06-19
+F000334,I00787,4,"solid machine, support answered quickly when we asked",2025-03-28
+F000335,I00788,4,"no complaints, the line has kept pace all quarter",2025-03-12
+F000336,I00791,2,"keeps overheating in summer, not what we were promised on uptime",2026-04-30
+F000337,I00793,2,"too much downtime in hot weather, we lost a shift to it",2025-03-02
+F000338,I00796,4,"reliable so far, operators like the controls",2026-02-24
+F000339,I00798,2,wear parts go faster than expected at our duty cycle,2026-01-15
+F000340,I00803,4,"runs well, uptime has been excellent since commissioning",2025-10-17
+F000341,I00804,2,"keeps overheating in summer, not what we were promised on uptime",2025-01-06
+F000342,I00805,1,"too much downtime in hot weather, we lost a shift to it",2025-08-11
+F000343,I00806,4,"runs well, uptime has been excellent since commissioning",2025-08-25
+F000344,I00809,5,"reliable so far, operators like the controls",2024-09-16
+F000345,I00811,4,"reliable so far, operators like the controls",2025-10-26
+F000346,I00819,3,"keeps overheating in summer, not what we were promised on uptime",2024-11-06
+F000347,I00822,2,"keeps overheating in summer, not what we were promised on uptime",2026-12-26
+F000348,I00824,5,"no complaints, the line has kept pace all quarter",2025-08-14
+F000349,I00825,1,wear parts go faster than expected at our duty cycle,2024-08-25
+F000350,I00826,2,"keeps overheating in summer, not what we were promised on uptime",2026-04-29
+F000351,I00827,4,"reliable so far, operators like the controls",2025-09-06
+F000352,I00831,3,"too much downtime in hot weather, we lost a shift to it",2025-10-08
+F000353,I00835,4,"runs well, uptime has been excellent since commissioning",2026-03-18
+F000354,I00840,5,"reliable so far, operators like the controls",2025-11-18
+F000355,I00842,2,"keeps overheating in summer, not what we were promised on uptime",2025-01-28
+F000356,I00844,3,wear parts go faster than expected at our duty cycle,2025-01-12
+F000357,I00854,4,"runs well, uptime has been excellent since commissioning",2025-11-21
+F000358,I00855,5,"runs well, uptime has been excellent since commissioning",2026-03-17
+F000359,I00856,5,"reliable so far, operators like the controls",2025-08-28
+F000360,I00857,5,"no complaints, the line has kept pace all quarter",2025-10-20
+F000361,I00858,5,"solid machine, support answered quickly when we asked",2025-08-08
+F000362,I00859,3,wear parts go faster than expected at our duty cycle,2025-07-11
+F000363,I00861,1,wear parts go faster than expected at our duty cycle,2025-11-25
+F000364,I00862,5,"solid machine, support answered quickly when we asked",2025-04-06
+F000365,I00874,1,wear parts go faster than expected at our duty cycle,2026-05-16
+F000366,I00877,4,"solid machine, support answered quickly when we asked",2026-02-13
+F000367,I00879,4,"runs well, uptime has been excellent since commissioning",2025-10-12
+F000368,I00881,4,"reliable so far, operators like the controls",2024-10-06
+F000369,I00885,3,"keeps overheating in summer, not what we were promised on uptime",2025-07-29
+F000370,I00889,2,"keeps overheating in summer, not what we were promised on uptime",2024-10-13
+F000371,I00891,4,"no complaints, the line has kept pace all quarter",2025-10-23
+F000372,I00893,5,"reliable so far, operators like the controls",2024-11-17
+F000373,I00899,1,support took days to come back to us while the line was stopped,2025-05-01
+F000374,I00901,4,"no complaints, the line has kept pace all quarter",2026-06-12
+F000375,I00902,5,"reliable so far, operators like the controls",2024-11-15
+F000376,I00903,4,"runs well, uptime has been excellent since commissioning",2026-01-03
+F000377,I00904,5,"reliable so far, operators like the controls",2025-12-25
+F000378,I00907,4,"no complaints, the line has kept pace all quarter",2026-02-11
+F000379,I00909,4,"no complaints, the line has kept pace all quarter",2025-08-30
+F000380,I00910,2,wear parts go faster than expected at our duty cycle,2026-06-17
+F000381,I00913,2,wear parts go faster than expected at our duty cycle,2025-07-31
+F000382,I00917,4,"reliable so far, operators like the controls",2026-01-15
+F000383,I00921,3,support took days to come back to us while the line was stopped,2025-09-05
+F000384,I00922,4,"reliable so far, operators like the controls",2026-08-31
+F000385,I00924,3,"too much downtime in hot weather, we lost a shift to it",2025-07-29
+F000386,I00926,5,"reliable so far, operators like the controls",2024-10-08
+F000387,I00930,5,"runs well, uptime has been excellent since commissioning",2026-07-23
+F000388,I00934,5,"solid machine, support answered quickly when we asked",2026-06-09
+F000389,I00939,2,support took days to come back to us while the line was stopped,2025-06-11
+F000390,I00940,3,support took days to come back to us while the line was stopped,2026-04-01
+F000391,I00942,4,"reliable so far, operators like the controls",2025-08-20
+F000392,I00943,5,"no complaints, the line has kept pace all quarter",2024-10-27
+F000393,I00945,5,"reliable so far, operators like the controls",2026-01-30
+F000394,I00946,4,"no complaints, the line has kept pace all quarter",2025-10-12
+F000395,I00949,2,"keeps overheating in summer, not what we were promised on uptime",2026-03-17
+F000396,I00952,5,"solid machine, support answered quickly when we asked",2026-05-28
+F000397,I00956,1,support took days to come back to us while the line was stopped,2025-07-10
+F000398,I00958,5,"solid machine, support answered quickly when we asked",2024-10-28
+F000399,I00960,4,"no complaints, the line has kept pace all quarter",2026-01-12
+F000400,I00961,5,"runs well, uptime has been excellent since commissioning",2025-01-28
+F000401,I00964,5,"reliable so far, operators like the controls",2025-05-12
+F000402,I00966,5,"no complaints, the line has kept pace all quarter",2025-08-15
+F000403,I00967,5,"no complaints, the line has kept pace all quarter",2026-01-07
+F000404,I00970,5,"solid machine, support answered quickly when we asked",2025-12-02
+F000405,I00972,4,"solid machine, support answered quickly when we asked",2025-07-16
+F000406,I00973,2,support took days to come back to us while the line was stopped,2025-08-01
+F000407,I00974,2,"too much downtime in hot weather, we lost a shift to it",2024-12-08
+F000408,I00975,2,"too much downtime in hot weather, we lost a shift to it",2026-03-10
+F000409,I00976,5,"runs well, uptime has been excellent since commissioning",2025-03-03
+F000410,I00978,5,"reliable so far, operators like the controls",2025-05-12
+F000411,I00980,5,"no complaints, the line has kept pace all quarter",2025-07-25
+F000412,I00981,5,"no complaints, the line has kept pace all quarter",2025-11-01
+F000413,I00982,5,"runs well, uptime has been excellent since commissioning",2024-12-06
+F000414,I00988,4,"no complaints, the line has kept pace all quarter",2025-09-23
+F000415,I00995,5,"runs well, uptime has been excellent since commissioning",2026-07-03
+F000416,I00997,2,support took days to come back to us while the line was stopped,2025-04-03
+F000417,I00998,1,support took days to come back to us while the line was stopped,2025-02-06
+F000418,I00999,2,"too much downtime in hot weather, we lost a shift to it",2026-01-30
+F000419,I01000,1,wear parts go faster than expected at our duty cycle,2026-05-26
+F000420,I01001,4,"runs well, uptime has been excellent since commissioning",2024-12-06
+F000421,I01005,5,"no complaints, the line has kept pace all quarter",2026-05-06
+F000422,I01006,2,wear parts go faster than expected at our duty cycle,2025-06-13
+F000423,I01007,5,"solid machine, support answered quickly when we asked",2025-10-25
+F000424,I01009,1,support took days to come back to us while the line was stopped,2025-11-24
+F000425,I01010,4,"reliable so far, operators like the controls",2024-11-17
+F000426,I01012,5,"no complaints, the line has kept pace all quarter",2026-09-09
+F000427,I01014,5,"no complaints, the line has kept pace all quarter",2025-12-04
+F000428,I01016,5,"runs well, uptime has been excellent since commissioning",2025-08-04
+F000429,I01021,2,support took days to come back to us while the line was stopped,2026-04-24
+F000430,I01026,3,"too much downtime in hot weather, we lost a shift to it",2026-03-10
+F000431,I01033,2,wear parts go faster than expected at our duty cycle,2025-01-19
+F000432,I01034,4,"reliable so far, operators like the controls",2026-08-28
+F000433,I01035,3,"keeps overheating in summer, not what we were promised on uptime",2026-05-28
+F000434,I01036,5,"no complaints, the line has kept pace all quarter",2025-08-26
+F000435,I01037,5,"no complaints, the line has kept pace all quarter",2025-11-27
+F000436,I01040,2,"keeps overheating in summer, not what we were promised on uptime",2025-10-23
+F000437,I01043,5,"reliable so far, operators like the controls",2026-01-01
+F000438,I01045,5,"reliable so far, operators like the controls",2025-11-10
+F000439,I01047,5,"solid machine, support answered quickly when we asked",2026-01-10
+F000440,I01050,5,"no complaints, the line has kept pace all quarter",2026-01-11
+F000441,I01051,5,"solid machine, support answered quickly when we asked",2026-12-12
+F000442,I01054,5,"runs well, uptime has been excellent since commissioning",2025-12-01
+F000443,I01059,1,support took days to come back to us while the line was stopped,2025-05-08
+F000444,I01062,5,"runs well, uptime has been excellent since commissioning",2025-07-14
+F000445,I01063,2,wear parts go faster than expected at our duty cycle,2025-01-01
+F000446,I01068,4,"no complaints, the line has kept pace all quarter",2026-04-10
+F000447,I01070,4,"runs well, uptime has been excellent since commissioning",2025-06-18
+F000448,I01073,1,wear parts go faster than expected at our duty cycle,2026-05-27
+F000449,I01078,3,wear parts go faster than expected at our duty cycle,2025-07-16
+F000450,I01082,5,"runs well, uptime has been excellent since commissioning",2025-07-22
+F000451,I01083,2,"keeps overheating in summer, not what we were promised on uptime",2026-04-12
+F000452,I01087,4,"no complaints, the line has kept pace all quarter",2026-01-30
+F000453,I01092,4,"no complaints, the line has kept pace all quarter",2025-04-06
+F000454,I01094,2,support took days to come back to us while the line was stopped,2025-02-01
+F000455,I01097,1,support took days to come back to us while the line was stopped,2026-01-26
+F000456,I01103,1,"keeps overheating in summer, not what we were promised on uptime",2024-10-21
+F000457,I01106,3,"keeps overheating in summer, not what we were promised on uptime",2025-01-27
+F000458,I01108,5,"no complaints, the line has kept pace all quarter",2026-03-30
+F000459,I01121,2,support took days to come back to us while the line was stopped,2025-01-13
+F000460,I01124,1,"too much downtime in hot weather, we lost a shift to it",2025-08-30
+F000461,I01125,2,wear parts go faster than expected at our duty cycle,2025-08-13
+F000462,I01126,4,"no complaints, the line has kept pace all quarter",2026-08-08
+F000463,I01132,3,support took days to come back to us while the line was stopped,2025-05-27
+F000464,I01135,3,support took days to come back to us while the line was stopped,2025-03-23
+F000465,I01138,1,"keeps overheating in summer, not what we were promised on uptime",2025-06-09
+F000466,I01141,4,"no complaints, the line has kept pace all quarter",2025-09-17
+F000467,I01142,4,"no complaints, the line has kept pace all quarter",2025-11-02
+F000468,I01144,4,"reliable so far, operators like the controls",2024-09-06
+F000469,I01145,5,"solid machine, support answered quickly when we asked",2025-06-28
+F000470,I01147,2,"too much downtime in hot weather, we lost a shift to it",2025-03-24
+F000471,I01152,5,"runs well, uptime has been excellent since commissioning",2025-01-17
+F000472,I01155,5,"runs well, uptime has been excellent since commissioning",2025-01-25
+F000473,I01156,5,"no complaints, the line has kept pace all quarter",2025-01-07
+F000474,I01160,1,"keeps overheating in summer, not what we were promised on uptime",2026-06-25
+F000475,I01162,3,"keeps overheating in summer, not what we were promised on uptime",2025-12-29
+F000476,I01163,1,support took days to come back to us while the line was stopped,2024-10-27
+F000477,I01167,4,"reliable so far, operators like the controls",2024-09-14
+F000478,I01168,4,"no complaints, the line has kept pace all quarter",2025-11-02
+F000479,I01169,5,"no complaints, the line has kept pace all quarter",2025-07-28
+F000480,I01173,1,wear parts go faster than expected at our duty cycle,2025-02-17
+F000481,I01175,5,"runs well, uptime has been excellent since commissioning",2025-06-02
+F000482,I01179,4,"runs well, uptime has been excellent since commissioning",2025-07-31
+F000483,I01180,4,"solid machine, support answered quickly when we asked",2025-09-23
+F000484,I01182,5,"reliable so far, operators like the controls",2026-05-30
+F000485,I01183,4,"solid machine, support answered quickly when we asked",2024-08-16
+F000486,I01186,4,"no complaints, the line has kept pace all quarter",2026-07-19
+F000487,I01187,4,"no complaints, the line has kept pace all quarter",2026-06-27
+F000488,I01189,1,"keeps overheating in summer, not what we were promised on uptime",2025-04-19
+F000489,I01190,1,"too much downtime in hot weather, we lost a shift to it",2025-09-14
+F000490,I01193,5,"reliable so far, operators like the controls",2026-05-06
+F000491,I01194,4,"solid machine, support answered quickly when we asked",2026-02-05
+F000492,I01200,5,"runs well, uptime has been excellent since commissioning",2026-03-29
+F000493,I01204,5,"runs well, uptime has been excellent since commissioning",2025-11-23
+F000494,I01208,5,"reliable so far, operators like the controls",2025-03-30
+F000495,I01209,4,"no complaints, the line has kept pace all quarter",2025-08-27
+F000496,I01210,4,"reliable so far, operators like the controls",2025-01-16
+F000497,I01211,4,"no complaints, the line has kept pace all quarter",2025-12-03
+F000498,I01212,5,"no complaints, the line has kept pace all quarter",2026-01-05
+F000499,I01213,4,"runs well, uptime has been excellent since commissioning",2026-02-20
+F000500,I01214,2,support took days to come back to us while the line was stopped,2026-06-23
+F000501,I01215,4,"no complaints, the line has kept pace all quarter",2024-11-30
+F000502,I01217,2,"keeps overheating in summer, not what we were promised on uptime",2026-04-04
+F000503,I01218,4,"runs well, uptime has been excellent since commissioning",2025-03-10
+F000504,I01219,2,"too much downtime in hot weather, we lost a shift to it",2025-09-16
+F000505,I01220,4,"runs well, uptime has been excellent since commissioning",2026-04-13
+F000506,I01221,1,"keeps overheating in summer, not what we were promised on uptime",2024-12-15
+F000507,I01228,4,"reliable so far, operators like the controls",2025-09-18
+F000508,I01229,5,"runs well, uptime has been excellent since commissioning",2025-11-15
+F000509,I01232,3,wear parts go faster than expected at our duty cycle,2026-01-06
+F000510,I01236,5,"runs well, uptime has been excellent since commissioning",2025-08-25
+F000511,I01239,4,"runs well, uptime has been excellent since commissioning",2025-07-27
+F000512,I01241,5,"reliable so far, operators like the controls",2024-09-17
+F000513,I01243,2,"too much downtime in hot weather, we lost a shift to it",2025-10-12
+F000514,I01244,5,"solid machine, support answered quickly when we asked",2025-11-24
+F000515,I01246,4,"solid machine, support answered quickly when we asked",2025-04-22
+F000516,I01247,5,"solid machine, support answered quickly when we asked",2025-07-10
+F000517,I01248,3,support took days to come back to us while the line was stopped,2026-02-20
+F000518,I01249,5,"no complaints, the line has kept pace all quarter",2024-12-02
+F000519,I01251,5,"runs well, uptime has been excellent since commissioning",2025-06-10
+F000520,I01253,4,"solid machine, support answered quickly when we asked",2025-05-22
+F000521,I01255,5,"reliable so far, operators like the controls",2025-10-28
+F000522,I01258,1,"too much downtime in hot weather, we lost a shift to it",2025-07-23
+F000523,I01261,4,"no complaints, the line has kept pace all quarter",2024-12-10
+F000524,I01263,5,"runs well, uptime has been excellent since commissioning",2024-08-20
+F000525,I01265,5,"reliable so far, operators like the controls",2025-09-05
+F000526,I01270,2,support took days to come back to us while the line was stopped,2025-12-31
+F000527,I01278,5,"reliable so far, operators like the controls",2025-08-31
+F000528,I01280,4,"no complaints, the line has kept pace all quarter",2026-03-14
+F000529,I01281,5,"solid machine, support answered quickly when we asked",2026-04-27
+F000530,I01285,5,"runs well, uptime has been excellent since commissioning",2025-07-28
+F000531,I01287,5,"no complaints, the line has kept pace all quarter",2025-02-23
+F000532,I01288,1,support took days to come back to us while the line was stopped,2026-03-14
+F000533,I01293,5,"reliable so far, operators like the controls",2026-05-07
+F000534,I01294,2,support took days to come back to us while the line was stopped,2025-09-22
+F000535,I01295,4,"runs well, uptime has been excellent since commissioning",2026-10-17
+F000536,I01298,4,"runs well, uptime has been excellent since commissioning",2025-09-04
+F000537,I01301,5,"reliable so far, operators like the controls",2025-09-13
+F000538,I01304,4,"reliable so far, operators like the controls",2026-04-23
+F000539,I01305,4,"reliable so far, operators like the controls",2025-11-23
+F000540,I01307,4,"no complaints, the line has kept pace all quarter",2026-05-01
+F000541,I01311,5,"runs well, uptime has been excellent since commissioning",2025-12-03
+F000542,I01312,4,"no complaints, the line has kept pace all quarter",2026-07-19
+F000543,I01314,1,support took days to come back to us while the line was stopped,2024-11-12
+F000544,I01315,5,"runs well, uptime has been excellent since commissioning",2025-09-16
+F000545,I01318,1,"keeps overheating in summer, not what we were promised on uptime",2025-10-18
+F000546,I01319,5,"reliable so far, operators like the controls",2025-09-13
+F000547,I01321,5,"solid machine, support answered quickly when we asked",2024-06-09
+F000548,I01323,2,"keeps overheating in summer, not what we were promised on uptime",2025-06-15
+F000549,I01324,2,support took days to come back to us while the line was stopped,2025-10-30
+F000550,I01325,5,"solid machine, support answered quickly when we asked",2025-12-02
+F000551,I01328,5,"solid machine, support answered quickly when we asked",2024-11-12
+F000552,I01331,3,"too much downtime in hot weather, we lost a shift to it",2026-01-07
+F000553,I01333,4,"runs well, uptime has been excellent since commissioning",2024-11-13
+F000554,I01335,3,"keeps overheating in summer, not what we were promised on uptime",2026-03-29
+F000555,I01336,3,"too much downtime in hot weather, we lost a shift to it",2025-08-31
+F000556,I01340,3,"too much downtime in hot weather, we lost a shift to it",2025-05-28
+F000557,I01341,2,"too much downtime in hot weather, we lost a shift to it",2025-11-02
+F000558,I01344,3,support took days to come back to us while the line was stopped,2024-11-17
+F000559,I01349,5,"reliable so far, operators like the controls",2025-03-02
+F000560,I01352,5,"no complaints, the line has kept pace all quarter",2025-12-27
+F000561,I01354,5,"solid machine, support answered quickly when we asked",2026-08-19
+F000562,I01355,2,wear parts go faster than expected at our duty cycle,2025-08-11
+F000563,I01357,3,"keeps overheating in summer, not what we were promised on uptime",2025-11-09
+F000564,I01362,3,"keeps overheating in summer, not what we were promised on uptime",2026-03-11
+F000565,I01366,2,support took days to come back to us while the line was stopped,2026-02-09
+F000566,I01367,5,"reliable so far, operators like the controls",2024-11-09
+F000567,I01368,5,"solid machine, support answered quickly when we asked",2025-08-27
+F000568,I01371,5,"runs well, uptime has been excellent since commissioning",2025-08-07
+F000569,I01373,3,wear parts go faster than expected at our duty cycle,2026-02-17
+F000570,I01376,5,"solid machine, support answered quickly when we asked",2026-11-02
+F000571,I01381,5,"solid machine, support answered quickly when we asked",2026-09-16
+F000572,I01382,3,"keeps overheating in summer, not what we were promised on uptime",2025-04-04
+F000573,I01384,5,"runs well, uptime has been excellent since commissioning",2025-12-29
+F000574,I01386,4,"runs well, uptime has been excellent since commissioning",2026-07-31
+F000575,I01388,4,"runs well, uptime has been excellent since commissioning",2025-12-17
+F000576,I01390,5,"no complaints, the line has kept pace all quarter",2024-09-01
+F000577,I01396,5,"solid machine, support answered quickly when we asked",2026-01-02
+F000578,I01400,1,"too much downtime in hot weather, we lost a shift to it",2025-02-28
+F000579,I01402,4,"solid machine, support answered quickly when we asked",2024-07-20
+F000580,I01404,4,"reliable so far, operators like the controls",2025-07-31
+F000581,I01406,1,"too much downtime in hot weather, we lost a shift to it",2025-05-03
+F000582,I01407,4,"reliable so far, operators like the controls",2025-04-27
+F000583,I01408,5,"runs well, uptime has been excellent since commissioning",2025-07-27
+F000584,I01410,5,"runs well, uptime has been excellent since commissioning",2026-03-14
+F000585,I01411,4,"solid machine, support answered quickly when we asked",2024-11-14
+F000586,I01414,4,"reliable so far, operators like the controls",2025-06-19
+F000587,I01415,4,"reliable so far, operators like the controls",2025-08-28
+F000588,I01417,5,"solid machine, support answered quickly when we asked",2025-07-31
+F000589,I01426,4,"no complaints, the line has kept pace all quarter",2025-01-02
+F000590,I01429,1,support took days to come back to us while the line was stopped,2025-11-26
+F000591,I01431,3,support took days to come back to us while the line was stopped,2025-02-09
+F000592,I01437,5,"runs well, uptime has been excellent since commissioning",2025-12-15
+F000593,I01438,2,support took days to come back to us while the line was stopped,2025-07-30
+F000594,I01443,4,"reliable so far, operators like the controls",2025-01-26
+F000595,I01444,4,"runs well, uptime has been excellent since commissioning",2026-03-15
+F000596,I01445,2,"too much downtime in hot weather, we lost a shift to it",2025-01-22
+F000597,I01447,3,"keeps overheating in summer, not what we were promised on uptime",2025-03-18
+F000598,I01451,2,support took days to come back to us while the line was stopped,2024-09-28
+F000599,I01456,5,"no complaints, the line has kept pace all quarter",2025-01-13
+F000600,I01458,1,"keeps overheating in summer, not what we were promised on uptime",2024-09-18
+F000601,I01459,4,"solid machine, support answered quickly when we asked",2025-04-15
+F000602,I01460,4,"solid machine, support answered quickly when we asked",2025-09-24
+F000603,I01463,2,"too much downtime in hot weather, we lost a shift to it",2025-12-12
+F000604,I01467,5,"reliable so far, operators like the controls",2026-11-15
+F000605,I01469,4,"no complaints, the line has kept pace all quarter",2025-07-04
+F000606,I01470,4,"solid machine, support answered quickly when we asked",2025-08-23
+F000607,I01472,2,"keeps overheating in summer, not what we were promised on uptime",2026-04-07
+F000608,I01473,2,"keeps overheating in summer, not what we were promised on uptime",2025-03-14
+F000609,I01475,5,"reliable so far, operators like the controls",2026-07-23
+F000610,I01478,1,wear parts go faster than expected at our duty cycle,2025-01-18
+F000611,I01480,4,"reliable so far, operators like the controls",2025-06-26
+F000612,I01484,5,"solid machine, support answered quickly when we asked",2025-04-23
+F000613,I01485,1,"too much downtime in hot weather, we lost a shift to it",2026-08-14
+F000614,I01486,2,"keeps overheating in summer, not what we were promised on uptime",2025-09-21
+F000615,I01488,4,"solid machine, support answered quickly when we asked",2025-07-08
+F000616,I01491,4,"runs well, uptime has been excellent since commissioning",2025-07-14
+F000617,I01492,3,"too much downtime in hot weather, we lost a shift to it",2026-01-01
+F000618,I01494,4,"runs well, uptime has been excellent since commissioning",2026-06-13
+F000619,I01497,5,"reliable so far, operators like the controls",2026-02-06
+F000620,I01501,5,"reliable so far, operators like the controls",2026-06-26
+F000621,I01502,5,"reliable so far, operators like the controls",2024-12-08
+F000622,I01505,4,"runs well, uptime has been excellent since commissioning",2026-01-20
+F000623,I01507,5,"runs well, uptime has been excellent since commissioning",2026-01-28
+F000624,I01515,4,"no complaints, the line has kept pace all quarter",2025-08-27
+F000625,I01516,4,"solid machine, support answered quickly when we asked",2026-04-19
+F000626,I01517,1,support took days to come back to us while the line was stopped,2025-09-06
+F000627,I01519,5,"runs well, uptime has been excellent since commissioning",2025-02-15
+F000628,I01520,5,"no complaints, the line has kept pace all quarter",2026-02-07
+F000629,I01521,5,"no complaints, the line has kept pace all quarter",2026-03-18
+F000630,I01522,4,"solid machine, support answered quickly when we asked",2025-07-30
+F000631,I01523,2,"keeps overheating in summer, not what we were promised on uptime",2024-11-25
+F000632,I01524,2,"too much downtime in hot weather, we lost a shift to it",2025-01-15
+F000633,I01526,5,"runs well, uptime has been excellent since commissioning",2025-08-23
+F000634,I01529,5,"reliable so far, operators like the controls",2026-06-22
+F000635,I01530,5,"no complaints, the line has kept pace all quarter",2025-09-29
+F000636,I01531,5,"runs well, uptime has been excellent since commissioning",2025-11-08
+F000637,I01532,4,"runs well, uptime has been excellent since commissioning",2026-01-14
+F000638,I01536,4,"solid machine, support answered quickly when we asked",2026-02-24
+F000639,I01538,4,"no complaints, the line has kept pace all quarter",2026-04-09
+F000640,I01539,2,support took days to come back to us while the line was stopped,2025-05-24
+F000641,I01544,3,"keeps overheating in summer, not what we were promised on uptime",2026-01-19
+F000642,I01545,3,"too much downtime in hot weather, we lost a shift to it",2024-07-09
+F000643,I01550,4,"no complaints, the line has kept pace all quarter",2025-08-20
+F000644,I01554,4,"runs well, uptime has been excellent since commissioning",2025-07-31
+F000645,I01556,5,"runs well, uptime has been excellent since commissioning",2025-02-26
+F000646,I01557,5,"runs well, uptime has been excellent since commissioning",2025-06-26
+F000647,I01559,3,wear parts go faster than expected at our duty cycle,2025-04-21
+F000648,I01560,5,"reliable so far, operators like the controls",2024-10-22
+F000649,I01563,5,"reliable so far, operators like the controls",2026-05-17
+F000650,I01568,5,"runs well, uptime has been excellent since commissioning",2025-09-28
+F000651,I01572,4,"no complaints, the line has kept pace all quarter",2025-05-01
+F000652,I01573,4,"solid machine, support answered quickly when we asked",2026-06-26
+F000653,I01574,2,wear parts go faster than expected at our duty cycle,2026-09-07
+F000654,I01576,5,"runs well, uptime has been excellent since commissioning",2026-01-19
+F000655,I01577,4,"runs well, uptime has been excellent since commissioning",2025-06-19
+F000656,I01580,2,wear parts go faster than expected at our duty cycle,2025-04-12
+F000657,I01581,4,"reliable so far, operators like the controls",2025-10-25
+F000658,I01583,4,"no complaints, the line has kept pace all quarter",2026-05-25
+F000659,I01585,5,"no complaints, the line has kept pace all quarter",2025-01-11
+F000660,I01586,2,"too much downtime in hot weather, we lost a shift to it",2024-11-18
+F000661,I01589,4,"runs well, uptime has been excellent since commissioning",2025-07-31
+F000662,I01591,3,"too much downtime in hot weather, we lost a shift to it",2024-10-28
+F000663,I01592,5,"no complaints, the line has kept pace all quarter",2025-10-31
+F000664,I01593,4,"solid machine, support answered quickly when we asked",2025-02-26
+F000665,I01599,5,"reliable so far, operators like the controls",2025-05-20
+F000666,I01600,4,"reliable so far, operators like the controls",2026-02-13
+F000667,I01609,5,"no complaints, the line has kept pace all quarter",2025-02-19
+F000668,I01610,1,"too much downtime in hot weather, we lost a shift to it",2024-10-06
+F000669,I01613,4,"runs well, uptime has been excellent since commissioning",2025-04-28
+F000670,I01619,5,"runs well, uptime has been excellent since commissioning",2026-02-10
+F000671,I01621,5,"solid machine, support answered quickly when we asked",2026-09-15
+F000672,I01626,4,"solid machine, support answered quickly when we asked",2025-09-20
+F000673,I01628,4,"reliable so far, operators like the controls",2026-03-26
+F000674,I01630,5,"no complaints, the line has kept pace all quarter",2025-01-09
+F000675,I01632,4,"no complaints, the line has kept pace all quarter",2026-08-04
+F000676,I01633,1,support took days to come back to us while the line was stopped,2025-06-27
+F000677,I01635,4,"reliable so far, operators like the controls",2026-06-18
+F000678,I01636,2,"too much downtime in hot weather, we lost a shift to it",2025-07-10
+F000679,I01641,3,"too much downtime in hot weather, we lost a shift to it",2025-06-20
+F000680,I01642,2,"keeps overheating in summer, not what we were promised on uptime",2026-08-02
+F000681,I01645,4,"solid machine, support answered quickly when we asked",2025-12-19
+F000682,I01647,2,support took days to come back to us while the line was stopped,2025-09-14
+F000683,I01648,4,"no complaints, the line has kept pace all quarter",2025-06-27
+F000684,I01653,5,"reliable so far, operators like the controls",2025-04-08
+F000685,I01654,4,"runs well, uptime has been excellent since commissioning",2025-12-08
+F000686,I01655,2,"keeps overheating in summer, not what we were promised on uptime",2026-11-18
+F000687,I01659,3,"keeps overheating in summer, not what we were promised on uptime",2025-09-13
+F000688,I01661,4,"no complaints, the line has kept pace all quarter",2026-04-10
+F000689,I01662,4,"solid machine, support answered quickly when we asked",2025-01-27
+F000690,I01663,4,"no complaints, the line has kept pace all quarter",2026-08-12
+F000691,I01664,5,"reliable so far, operators like the controls",2025-06-02
+F000692,I01665,4,"solid machine, support answered quickly when we asked",2026-02-08
+F000693,I01667,1,support took days to come back to us while the line was stopped,2026-05-08
+F000694,I01668,5,"runs well, uptime has been excellent since commissioning",2024-12-31
+F000695,I01669,4,"no complaints, the line has kept pace all quarter",2025-09-10
+F000696,I01670,5,"no complaints, the line has kept pace all quarter",2025-11-29
+F000697,I01671,1,support took days to come back to us while the line was stopped,2025-02-07
+F000698,I01680,5,"solid machine, support answered quickly when we asked",2026-01-01
+F000699,I01682,5,"runs well, uptime has been excellent since commissioning",2026-04-20
+F000700,I01685,2,"too much downtime in hot weather, we lost a shift to it",2026-05-02
+F000701,I01686,4,"runs well, uptime has been excellent since commissioning",2025-01-11
+F000702,I01687,5,"runs well, uptime has been excellent since commissioning",2026-02-19
+F000703,I01689,5,"no complaints, the line has kept pace all quarter",2025-02-16
+F000704,I01690,4,"runs well, uptime has been excellent since commissioning",2026-03-29
+F000705,I01691,5,"solid machine, support answered quickly when we asked",2025-08-05
+F000706,I01695,5,"no complaints, the line has kept pace all quarter",2026-05-09
+F000707,I01697,4,"reliable so far, operators like the controls",2026-09-16
+F000708,I01698,2,support took days to come back to us while the line was stopped,2025-08-06
+F000709,I01708,2,support took days to come back to us while the line was stopped,2026-08-24
+F000710,I01715,2,"too much downtime in hot weather, we lost a shift to it",2025-08-08
+F000711,I01717,4,"runs well, uptime has been excellent since commissioning",2025-06-13
+F000712,I01718,4,"no complaints, the line has kept pace all quarter",2024-10-12
+F000713,I01720,4,"solid machine, support answered quickly when we asked",2025-10-01
+F000714,I01721,4,"no complaints, the line has kept pace all quarter",2025-09-23
+F000715,I01725,5,"reliable so far, operators like the controls",2026-06-05
+F000716,I01733,5,"reliable so far, operators like the controls",2025-01-24
+F000717,I01736,4,"reliable so far, operators like the controls",2025-07-08
+F000718,I01740,5,"reliable so far, operators like the controls",2026-06-09
+F000719,I01741,2,wear parts go faster than expected at our duty cycle,2025-02-06
+F000720,I01746,4,"no complaints, the line has kept pace all quarter",2025-12-11
+F000721,I01749,4,"reliable so far, operators like the controls",2026-07-19
+F000722,I01751,4,"solid machine, support answered quickly when we asked",2025-12-23
+F000723,I01753,2,wear parts go faster than expected at our duty cycle,2025-12-08
+F000724,I01756,5,"reliable so far, operators like the controls",2026-02-14
+F000725,I01758,5,"solid machine, support answered quickly when we asked",2026-02-11
+F000726,I01763,2,wear parts go faster than expected at our duty cycle,2025-12-29
+F000727,I01764,5,"solid machine, support answered quickly when we asked",2025-05-30
+F000728,I01765,4,"reliable so far, operators like the controls",2026-04-19
+F000729,I01768,4,"reliable so far, operators like the controls",2024-06-21
+F000730,I01769,5,"runs well, uptime has been excellent since commissioning",2025-08-07
+F000731,I01770,1,"keeps overheating in summer, not what we were promised on uptime",2026-05-15
+F000732,I01773,3,"keeps overheating in summer, not what we were promised on uptime",2025-06-20
+F000733,I01775,5,"runs well, uptime has been excellent since commissioning",2025-07-14
+F000734,I01778,4,"solid machine, support answered quickly when we asked",2024-10-21
+F000735,I01781,2,"too much downtime in hot weather, we lost a shift to it",2025-11-14
+F000736,I01782,5,"reliable so far, operators like the controls",2025-09-25
+F000737,I01786,5,"solid machine, support answered quickly when we asked",2025-10-07
+F000738,I01790,2,"keeps overheating in summer, not what we were promised on uptime",2025-09-29
+F000739,I01799,4,"no complaints, the line has kept pace all quarter",2025-07-03
+F000740,I01800,5,"runs well, uptime has been excellent since commissioning",2026-05-14
+F000741,I01801,5,"solid machine, support answered quickly when we asked",2025-05-01
+F000742,I01806,1,support took days to come back to us while the line was stopped,2024-07-24
+F000743,I01807,5,"runs well, uptime has been excellent since commissioning",2025-06-23
+F000744,I01813,4,"runs well, uptime has been excellent since commissioning",2025-05-21
+F000745,I01814,3,support took days to come back to us while the line was stopped,2026-01-27
+F000746,I01816,2,wear parts go faster than expected at our duty cycle,2025-07-24
+F000747,I01820,5,"reliable so far, operators like the controls",2024-12-28
+F000748,I01824,5,"reliable so far, operators like the controls",2026-03-23
+F000749,I01826,5,"solid machine, support answered quickly when we asked",2025-08-25
+F000750,I01827,4,"runs well, uptime has been excellent since commissioning",2025-05-21
+F000751,I01829,5,"solid machine, support answered quickly when we asked",2026-04-17
+F000752,I01836,4,"solid machine, support answered quickly when we asked",2026-04-17
+F000753,I01840,5,"solid machine, support answered quickly when we asked",2024-12-25
+F000754,I01845,5,"solid machine, support answered quickly when we asked",2026-04-13
+F000755,I01849,2,wear parts go faster than expected at our duty cycle,2025-01-08
+F000756,I01850,3,wear parts go faster than expected at our duty cycle,2025-08-21
+F000757,I01851,3,"too much downtime in hot weather, we lost a shift to it",2025-10-20
+F000758,I01857,1,"too much downtime in hot weather, we lost a shift to it",2026-07-13
+F000759,I01858,4,"solid machine, support answered quickly when we asked",2025-01-12
+F000760,I01859,5,"solid machine, support answered quickly when we asked",2025-04-05
+F000761,I01865,5,"solid machine, support answered quickly when we asked",2025-09-14
+F000762,I01868,2,"keeps overheating in summer, not what we were promised on uptime",2025-07-05
+F000763,I01869,4,"reliable so far, operators like the controls",2025-11-13
+F000764,I01875,4,"no complaints, the line has kept pace all quarter",2025-05-29
+F000765,I01878,5,"solid machine, support answered quickly when we asked",2025-07-16
+F000766,I01880,5,"runs well, uptime has been excellent since commissioning",2025-01-09
+F000767,I01885,3,"too much downtime in hot weather, we lost a shift to it",2025-12-05
+F000768,I01888,4,"solid machine, support answered quickly when we asked",2025-06-04
+F000769,I01892,1,"keeps overheating in summer, not what we were promised on uptime",2026-01-26
+F000770,I01894,5,"no complaints, the line has kept pace all quarter",2026-07-04
+F000771,I01897,5,"runs well, uptime has been excellent since commissioning",2026-04-18
+F000772,I01898,4,"no complaints, the line has kept pace all quarter",2026-03-01
+F000773,I01899,3,"too much downtime in hot weather, we lost a shift to it",2026-04-30
+F000774,I01903,2,wear parts go faster than expected at our duty cycle,2025-03-11
+F000775,I01905,2,"keeps overheating in summer, not what we were promised on uptime",2024-08-27
+F000776,I01908,3,"keeps overheating in summer, not what we were promised on uptime",2025-01-02
+F000777,I01910,5,"no complaints, the line has kept pace all quarter",2026-07-06
+F000778,I01912,5,"runs well, uptime has been excellent since commissioning",2025-03-16
+F000779,I01913,4,"solid machine, support answered quickly when we asked",2025-06-24
+F000780,I01914,3,"too much downtime in hot weather, we lost a shift to it",2024-11-01
+F000781,I01922,5,"solid machine, support answered quickly when we asked",2026-06-19
+F000782,I01924,2,"keeps overheating in summer, not what we were promised on uptime",2025-09-12
+F000783,I01926,5,"no complaints, the line has kept pace all quarter",2026-05-19
+F000784,I01927,4,"reliable so far, operators like the controls",2025-07-20
+F000785,I01929,4,"runs well, uptime has been excellent since commissioning",2025-01-18
+F000786,I01932,5,"solid machine, support answered quickly when we asked",2025-04-17
+F000787,I01933,4,"no complaints, the line has kept pace all quarter",2025-10-05
+F000788,I01938,4,"runs well, uptime has been excellent since commissioning",2025-06-28
+F000789,I01941,5,"solid machine, support answered quickly when we asked",2026-02-09
+F000790,I01942,4,"solid machine, support answered quickly when we asked",2026-09-14
+F000791,I01943,5,"no complaints, the line has kept pace all quarter",2025-10-08
+F000792,I01946,5,"no complaints, the line has kept pace all quarter",2026-07-05
+F000793,I01951,5,"reliable so far, operators like the controls",2024-10-30
+F000794,I01952,5,"runs well, uptime has been excellent since commissioning",2026-02-26
+F000795,I01953,5,"solid machine, support answered quickly when we asked",2026-02-27
+F000796,I01959,5,"solid machine, support answered quickly when we asked",2026-05-28
+F000797,I01960,5,"no complaints, the line has kept pace all quarter",2025-03-23
+F000798,I01964,1,"too much downtime in hot weather, we lost a shift to it",2025-05-16
+F000799,I01966,1,wear parts go faster than expected at our duty cycle,2025-09-03
+F000800,I01971,4,"reliable so far, operators like the controls",2025-07-07
+F000801,I01975,4,"no complaints, the line has kept pace all quarter",2026-04-13
+F000802,I01977,5,"solid machine, support answered quickly when we asked",2026-04-10
+F000803,I01979,4,"runs well, uptime has been excellent since commissioning",2026-01-08
+F000804,I01980,4,"solid machine, support answered quickly when we asked",2025-07-28
+F000805,I01981,2,"keeps overheating in summer, not what we were promised on uptime",2025-10-13
+F000806,I01986,1,wear parts go faster than expected at our duty cycle,2026-01-11
+F000807,I01992,4,"reliable so far, operators like the controls",2024-07-30
+F000808,I01993,4,"reliable so far, operators like the controls",2024-10-21
+F000809,I01995,5,"solid machine, support answered quickly when we asked",2026-01-06
+F000810,I01996,2,support took days to come back to us while the line was stopped,2024-10-12
+F000811,I01997,1,wear parts go faster than expected at our duty cycle,2025-10-07
+F000812,I02002,5,"runs well, uptime has been excellent since commissioning",2025-11-23
+F000813,I02003,3,"too much downtime in hot weather, we lost a shift to it",2025-06-19
+F000814,I02004,5,"no complaints, the line has kept pace all quarter",2024-10-16
+F000815,I02006,4,"no complaints, the line has kept pace all quarter",2025-01-21
+F000816,I02007,5,"reliable so far, operators like the controls",2025-06-15
+F000817,I02009,2,"too much downtime in hot weather, we lost a shift to it",2026-09-10
+F000818,I02012,5,"reliable so far, operators like the controls",2024-09-02
+F000819,I02013,5,"solid machine, support answered quickly when we asked",2026-02-01
+F000820,I02017,5,"solid machine, support answered quickly when we asked",2025-06-04
+F000821,I02019,3,"keeps overheating in summer, not what we were promised on uptime",2026-07-05
+F000822,I02020,1,"too much downtime in hot weather, we lost a shift to it",2025-12-21
+F000823,I02025,4,"runs well, uptime has been excellent since commissioning",2025-04-10
+F000824,I02028,3,"too much downtime in hot weather, we lost a shift to it",2026-08-18
+F000825,I02029,5,"reliable so far, operators like the controls",2025-09-19
+F000826,I02032,1,support took days to come back to us while the line was stopped,2025-05-13
+F000827,I02037,5,"solid machine, support answered quickly when we asked",2026-02-03
+F000828,I02040,2,"keeps overheating in summer, not what we were promised on uptime",2025-08-13
+F000829,I02042,5,"solid machine, support answered quickly when we asked",2025-07-10
+F000830,I02043,2,support took days to come back to us while the line was stopped,2025-11-23
+F000831,I02044,2,support took days to come back to us while the line was stopped,2026-01-13
+F000832,I02045,4,"runs well, uptime has been excellent since commissioning",2026-05-08
+F000833,I02048,5,"solid machine, support answered quickly when we asked",2026-09-22
+F000834,I02049,4,"no complaints, the line has kept pace all quarter",2025-02-09
+F000835,I02053,4,"runs well, uptime has been excellent since commissioning",2024-11-15
+F000836,I02056,3,"keeps overheating in summer, not what we were promised on uptime",2025-09-14
+F000837,I02057,5,"solid machine, support answered quickly when we asked",2025-04-06
+F000838,I02062,5,"solid machine, support answered quickly when we asked",2024-10-06
+F000839,I02064,5,"no complaints, the line has kept pace all quarter",2025-06-06
+F000840,I02065,5,"reliable so far, operators like the controls",2025-07-07
+F000841,I02073,5,"runs well, uptime has been excellent since commissioning",2026-04-17
+F000842,I02074,1,wear parts go faster than expected at our duty cycle,2025-09-13
+F000843,I02078,5,"no complaints, the line has kept pace all quarter",2024-09-22
+F000844,I02079,1,"keeps overheating in summer, not what we were promised on uptime",2025-01-02
+F000845,I02082,4,"reliable so far, operators like the controls",2025-02-03
+F000846,I02083,5,"reliable so far, operators like the controls",2024-12-30
+F000847,I02085,4,"solid machine, support answered quickly when we asked",2026-02-03
+F000848,I02091,5,"reliable so far, operators like the controls",2025-02-28
+F000849,I02093,4,"solid machine, support answered quickly when we asked",2025-06-28
+F000850,I02094,4,"no complaints, the line has kept pace all quarter",2025-08-08
+F000851,I02097,5,"solid machine, support answered quickly when we asked",2026-02-17
+F000852,I02098,4,"runs well, uptime has been excellent since commissioning",2025-04-08
+F000853,I02101,5,"solid machine, support answered quickly when we asked",2026-02-01
+F000854,I02102,5,"no complaints, the line has kept pace all quarter",2025-06-17
+F000855,I02104,1,"keeps overheating in summer, not what we were promised on uptime",2026-05-26
+F000856,I02105,2,"keeps overheating in summer, not what we were promised on uptime",2026-04-13
+F000857,I02108,5,"no complaints, the line has kept pace all quarter",2025-07-31
+F000858,I02109,5,"solid machine, support answered quickly when we asked",2026-09-23
+F000859,I02113,5,"solid machine, support answered quickly when we asked",2025-01-29
+F000860,I02114,5,"solid machine, support answered quickly when we asked",2025-07-16
+F000861,I02122,2,"too much downtime in hot weather, we lost a shift to it",2025-08-03
+F000862,I02123,2,support took days to come back to us while the line was stopped,2025-07-29
+F000863,I02128,1,"too much downtime in hot weather, we lost a shift to it",2025-08-19
+F000864,I02132,4,"no complaints, the line has kept pace all quarter",2026-01-20
+F000865,I02134,4,"no complaints, the line has kept pace all quarter",2025-05-30
+F000866,I02135,5,"no complaints, the line has kept pace all quarter",2026-07-17
+F000867,I02137,1,wear parts go faster than expected at our duty cycle,2026-03-11
+F000868,I02140,5,"runs well, uptime has been excellent since commissioning",2025-07-15
+F000869,I02143,3,support took days to come back to us while the line was stopped,2026-04-17
+F000870,I02145,5,"solid machine, support answered quickly when we asked",2025-02-22
+F000871,I02146,5,"solid machine, support answered quickly when we asked",2025-06-26
+F000872,I02151,5,"reliable so far, operators like the controls",2025-03-11
+F000873,I02154,5,"solid machine, support answered quickly when we asked",2025-12-05
+F000874,I02155,1,support took days to come back to us while the line was stopped,2025-12-21
+F000875,I02157,5,"solid machine, support answered quickly when we asked",2025-03-30
+F000876,I02158,2,wear parts go faster than expected at our duty cycle,2025-12-25
+F000877,I02165,2,"too much downtime in hot weather, we lost a shift to it",2026-06-05
+F000878,I02168,4,"runs well, uptime has been excellent since commissioning",2026-06-07
+F000879,I02171,5,"no complaints, the line has kept pace all quarter",2024-12-30
+F000880,I02175,1,support took days to come back to us while the line was stopped,2025-01-25
+F000881,I02176,5,"no complaints, the line has kept pace all quarter",2024-07-05
+F000882,I02181,1,"too much downtime in hot weather, we lost a shift to it",2026-02-05
+F000883,I02182,4,"no complaints, the line has kept pace all quarter",2024-06-30
+F000884,I02183,2,wear parts go faster than expected at our duty cycle,2025-12-21
+F000885,I02185,2,wear parts go faster than expected at our duty cycle,2025-01-28
+F000886,I02189,2,support took days to come back to us while the line was stopped,2026-07-26
+F000887,I02190,5,"runs well, uptime has been excellent since commissioning",2025-01-01
+F000888,I02191,5,"reliable so far, operators like the controls",2025-04-25
+F000889,I02193,5,"solid machine, support answered quickly when we asked",2025-07-13
+F000890,I02197,5,"runs well, uptime has been excellent since commissioning",2025-04-26
+F000891,I02201,5,"reliable so far, operators like the controls",2025-05-06
+F000892,I02210,5,"reliable so far, operators like the controls",2025-09-27
+F000893,I02212,2,support took days to come back to us while the line was stopped,2025-07-05
+F000894,I02214,5,"runs well, uptime has been excellent since commissioning",2026-07-05
+F000895,I02215,5,"solid machine, support answered quickly when we asked",2024-09-04
+F000896,I02217,5,"no complaints, the line has kept pace all quarter",2025-05-20
+F000897,I02219,2,wear parts go faster than expected at our duty cycle,2025-03-21
+F000898,I02221,4,"no complaints, the line has kept pace all quarter",2024-12-18
+F000899,I02224,5,"runs well, uptime has been excellent since commissioning",2025-10-20
+F000900,I02226,5,"solid machine, support answered quickly when we asked",2025-07-22
+F000901,I02228,1,"too much downtime in hot weather, we lost a shift to it",2025-05-31
+F000902,I02229,2,wear parts go faster than expected at our duty cycle,2026-07-25
+F000903,I02230,2,"keeps overheating in summer, not what we were promised on uptime",2025-03-24
+F000904,I02236,2,"keeps overheating in summer, not what we were promised on uptime",2025-06-21
+F000905,I02237,5,"runs well, uptime has been excellent since commissioning",2025-08-16
+F000906,I02238,5,"runs well, uptime has been excellent since commissioning",2025-05-19
+F000907,I02240,3,wear parts go faster than expected at our duty cycle,2025-11-09
+F000908,I02241,4,"runs well, uptime has been excellent since commissioning",2025-06-17
+F000909,I02242,5,"runs well, uptime has been excellent since commissioning",2025-06-01
+F000910,I02245,5,"no complaints, the line has kept pace all quarter",2026-01-28
+F000911,I02246,5,"reliable so far, operators like the controls",2026-06-04
+F000912,I02248,1,"keeps overheating in summer, not what we were promised on uptime",2025-09-30
+F000913,I02249,3,support took days to come back to us while the line was stopped,2026-01-29
+F000914,I02250,1,wear parts go faster than expected at our duty cycle,2025-03-09
+F000915,I02253,4,"no complaints, the line has kept pace all quarter",2026-01-15
+F000916,I02254,3,"keeps overheating in summer, not what we were promised on uptime",2026-01-17
+F000917,I02256,5,"reliable so far, operators like the controls",2025-08-02
+F000918,I02262,3,"too much downtime in hot weather, we lost a shift to it",2025-11-17
+F000919,I02263,5,"runs well, uptime has been excellent since commissioning",2025-06-21
+F000920,I02270,5,"runs well, uptime has been excellent since commissioning",2024-07-13
+F000921,I02274,5,"reliable so far, operators like the controls",2024-12-23
+F000922,I02280,5,"reliable so far, operators like the controls",2024-12-02
+F000923,I02282,5,"reliable so far, operators like the controls",2024-12-18
+F000924,I02285,5,"solid machine, support answered quickly when we asked",2026-03-17
+F000925,I02286,5,"no complaints, the line has kept pace all quarter",2025-09-10
+F000926,I02287,5,"solid machine, support answered quickly when we asked",2024-08-22
+F000927,I02289,5,"solid machine, support answered quickly when we asked",2026-09-19
+F000928,I02292,5,"reliable so far, operators like the controls",2025-01-15
+F000929,I02293,4,"runs well, uptime has been excellent since commissioning",2025-02-27
+F000930,I02298,2,"keeps overheating in summer, not what we were promised on uptime",2025-04-03
+F000931,I02299,4,"no complaints, the line has kept pace all quarter",2026-07-05
+F000932,I02301,5,"reliable so far, operators like the controls",2024-12-21
+F000933,I02302,1,"keeps overheating in summer, not what we were promised on uptime",2025-10-13
+F000934,I02303,3,support took days to come back to us while the line was stopped,2025-07-05
+F000935,I02305,5,"solid machine, support answered quickly when we asked",2024-12-08
+F000936,I02307,4,"reliable so far, operators like the controls",2024-12-16
+F000937,I02308,4,"solid machine, support answered quickly when we asked",2025-08-20
+F000938,I02310,4,"reliable so far, operators like the controls",2025-04-28
+F000939,I02311,5,"no complaints, the line has kept pace all quarter",2024-10-20
+F000940,I02316,4,"reliable so far, operators like the controls",2025-07-26
+F000941,I02324,5,"runs well, uptime has been excellent since commissioning",2025-12-05
+F000942,I02326,5,"no complaints, the line has kept pace all quarter",2025-01-11
+F000943,I02327,4,"reliable so far, operators like the controls",2025-12-04
+F000944,I02330,4,"runs well, uptime has been excellent since commissioning",2026-01-15
+F000945,I02331,4,"runs well, uptime has been excellent since commissioning",2025-06-01
+F000946,I02334,5,"no complaints, the line has kept pace all quarter",2025-05-03
+F000947,I02336,4,"runs well, uptime has been excellent since commissioning",2024-10-20
+F000948,I02341,3,support took days to come back to us while the line was stopped,2024-05-20
+F000949,I02345,1,"keeps overheating in summer, not what we were promised on uptime",2025-05-05
+F000950,I02346,5,"no complaints, the line has kept pace all quarter",2025-12-04
+F000951,I02353,1,"too much downtime in hot weather, we lost a shift to it",2025-01-17
+F000952,I02361,5,"solid machine, support answered quickly when we asked",2025-07-12
+F000953,I02365,4,"reliable so far, operators like the controls",2025-08-15
+F000954,I02366,1,wear parts go faster than expected at our duty cycle,2026-03-20
+F000955,I02368,1,support took days to come back to us while the line was stopped,2025-05-25
+F000956,I02369,5,"solid machine, support answered quickly when we asked",2026-03-28
+F000957,I02370,1,"too much downtime in hot weather, we lost a shift to it",2026-01-31
+F000958,I02371,5,"runs well, uptime has been excellent since commissioning",2024-08-27
+F000959,I02372,5,"no complaints, the line has kept pace all quarter",2025-05-27
+F000960,I02375,1,wear parts go faster than expected at our duty cycle,2025-07-15
+F000961,I02377,5,"no complaints, the line has kept pace all quarter",2025-05-19
+F000962,I02380,3,"too much downtime in hot weather, we lost a shift to it",2026-04-22
+F000963,I02383,4,"no complaints, the line has kept pace all quarter",2025-09-12
+F000964,I02384,2,"keeps overheating in summer, not what we were promised on uptime",2025-08-14
+F000965,I02385,1,"keeps overheating in summer, not what we were promised on uptime",2025-09-25
+F000966,I02386,5,"solid machine, support answered quickly when we asked",2026-03-25
+F000967,I02388,5,"no complaints, the line has kept pace all quarter",2025-09-03
+F000968,I02389,4,"runs well, uptime has been excellent since commissioning",2026-07-20
+F000969,I02390,5,"no complaints, the line has kept pace all quarter",2026-08-04
+F000970,I02396,3,wear parts go faster than expected at our duty cycle,2025-07-26
+F000971,I02400,4,"reliable so far, operators like the controls",2025-10-17
+F000972,I02401,2,"too much downtime in hot weather, we lost a shift to it",2024-09-02
+F000973,I02406,1,"keeps overheating in summer, not what we were promised on uptime",2025-03-20
+F000974,I02408,4,"runs well, uptime has been excellent since commissioning",2026-01-26
+F000975,I02410,3,"too much downtime in hot weather, we lost a shift to it",2025-01-01
+F000976,I02411,4,"reliable so far, operators like the controls",2025-09-23
+F000977,I02412,4,"solid machine, support answered quickly when we asked",2025-07-20
+F000978,I02414,5,"no complaints, the line has kept pace all quarter",2025-04-28
+F000979,I02417,2,wear parts go faster than expected at our duty cycle,2025-12-10
+F000980,I02420,5,"reliable so far, operators like the controls",2025-03-26
+F000981,I02426,3,"too much downtime in hot weather, we lost a shift to it",2025-08-15
+F000982,I02427,1,"too much downtime in hot weather, we lost a shift to it",2024-11-20
+F000983,I02428,5,"solid machine, support answered quickly when we asked",2025-04-14
+F000984,I02430,4,"no complaints, the line has kept pace all quarter",2025-12-20
+F000985,I02432,5,"solid machine, support answered quickly when we asked",2024-12-01
+F000986,I02434,4,"runs well, uptime has been excellent since commissioning",2025-01-14
+F000987,I02436,4,"no complaints, the line has kept pace all quarter",2025-09-23
+F000988,I02437,4,"runs well, uptime has been excellent since commissioning",2026-01-10
+F000989,I02439,2,"too much downtime in hot weather, we lost a shift to it",2026-01-16
+F000990,I02444,2,wear parts go faster than expected at our duty cycle,2025-11-16
+F000991,I02445,4,"runs well, uptime has been excellent since commissioning",2025-08-29
+F000992,I02448,4,"no complaints, the line has kept pace all quarter",2024-09-22
+F000993,I02449,4,"solid machine, support answered quickly when we asked",2024-12-07
+F000994,I02453,4,"no complaints, the line has kept pace all quarter",2025-12-24
+F000995,I02461,5,"solid machine, support answered quickly when we asked",2024-11-26
+F000996,I02467,4,"reliable so far, operators like the controls",2025-08-11
+F000997,I02469,4,"solid machine, support answered quickly when we asked",2025-03-20
+F000998,I02475,4,"solid machine, support answered quickly when we asked",2025-08-23
+F000999,I02481,4,"no complaints, the line has kept pace all quarter",2024-09-21
+F001000,I02487,5,"no complaints, the line has kept pace all quarter",2025-03-02
+F001001,I02488,4,"reliable so far, operators like the controls",2025-05-09
+F001002,I02492,4,"reliable so far, operators like the controls",2025-04-26
+F001003,I02495,5,"runs well, uptime has been excellent since commissioning",2025-11-26
+F001004,I02497,1,"keeps overheating in summer, not what we were promised on uptime",2026-03-01
+F001005,I02498,5,"runs well, uptime has been excellent since commissioning",2025-09-10
+F001006,I02501,5,"solid machine, support answered quickly when we asked",2025-02-13
+F001007,I02502,4,"no complaints, the line has kept pace all quarter",2025-11-19
+F001008,I02503,5,"reliable so far, operators like the controls",2025-06-09
+F001009,I02505,5,"runs well, uptime has been excellent since commissioning",2025-07-14
+F001010,I02507,5,"reliable so far, operators like the controls",2024-08-29
+F001011,I02509,4,"reliable so far, operators like the controls",2025-12-18
+F001012,I02511,4,"no complaints, the line has kept pace all quarter",2026-02-20
+F001013,I02512,5,"reliable so far, operators like the controls",2024-07-02
+F001014,I02513,4,"runs well, uptime has been excellent since commissioning",2025-11-05
+F001015,I02514,3,"too much downtime in hot weather, we lost a shift to it",2026-10-06
+F001016,I02515,4,"solid machine, support answered quickly when we asked",2024-12-10
+F001017,I02519,4,"solid machine, support answered quickly when we asked",2025-08-13
+F001018,I02526,3,"keeps overheating in summer, not what we were promised on uptime",2026-01-02
+F001019,I02529,1,wear parts go faster than expected at our duty cycle,2025-06-01
+F001020,I02531,2,"keeps overheating in summer, not what we were promised on uptime",2025-12-23
+F001021,I02533,5,"runs well, uptime has been excellent since commissioning",2026-03-05
+F001022,I02535,5,"runs well, uptime has been excellent since commissioning",2025-09-04
+F001023,I02538,5,"no complaints, the line has kept pace all quarter",2026-02-02
+F001024,I02539,5,"solid machine, support answered quickly when we asked",2026-01-06
+F001025,I02540,5,"runs well, uptime has been excellent since commissioning",2026-08-10
+F001026,I02541,4,"runs well, uptime has been excellent since commissioning",2025-03-28
+F001027,I02542,5,"no complaints, the line has kept pace all quarter",2026-05-11
+F001028,I02543,5,"no complaints, the line has kept pace all quarter",2026-08-31
+F001029,I02544,5,"runs well, uptime has been excellent since commissioning",2025-06-21
+F001030,I02552,5,"solid machine, support answered quickly when we asked",2026-03-31
+F001031,I02556,2,"too much downtime in hot weather, we lost a shift to it",2026-05-15
+F001032,I02558,4,"no complaints, the line has kept pace all quarter",2024-12-16
+F001033,I02559,5,"reliable so far, operators like the controls",2024-10-04
+F001034,I02566,1,"keeps overheating in summer, not what we were promised on uptime",2026-11-22
+F001035,I02567,2,support took days to come back to us while the line was stopped,2025-08-05
+F001036,I02569,4,"runs well, uptime has been excellent since commissioning",2025-12-25
+F001037,I02570,4,"reliable so far, operators like the controls",2026-02-11
+F001038,I02571,4,"no complaints, the line has kept pace all quarter",2024-07-23
+F001039,I02573,5,"reliable so far, operators like the controls",2024-09-28
+F001040,I02575,4,"no complaints, the line has kept pace all quarter",2024-10-01
+F001041,I02580,1,support took days to come back to us while the line was stopped,2024-11-30
+F001042,I02583,3,"too much downtime in hot weather, we lost a shift to it",2025-07-06
+F001043,I02584,1,support took days to come back to us while the line was stopped,2025-06-11
+F001044,I02585,4,"solid machine, support answered quickly when we asked",2025-05-09
+F001045,I02586,4,"no complaints, the line has kept pace all quarter",2026-04-12
+F001046,I02590,2,support took days to come back to us while the line was stopped,2025-03-26
+F001047,I02591,2,wear parts go faster than expected at our duty cycle,2025-11-22
+F001048,I02592,4,"reliable so far, operators like the controls",2026-02-26
+F001049,I02593,5,"solid machine, support answered quickly when we asked",2025-06-15
+F001050,I02597,4,"solid machine, support answered quickly when we asked",2026-07-09
+F001051,I02598,4,"runs well, uptime has been excellent since commissioning",2025-08-18
+F001052,I02603,3,"too much downtime in hot weather, we lost a shift to it",2025-05-12
+F001053,I02605,5,"reliable so far, operators like the controls",2024-11-15
+F001054,I02607,5,"solid machine, support answered quickly when we asked",2025-06-13
+F001055,I02610,4,"runs well, uptime has been excellent since commissioning",2025-06-17
+F001056,I02613,4,"runs well, uptime has been excellent since commissioning",2025-12-01
+F001057,I02617,5,"solid machine, support answered quickly when we asked",2026-03-21
+F001058,I02619,5,"solid machine, support answered quickly when we asked",2025-09-05
+F001059,I02621,4,"runs well, uptime has been excellent since commissioning",2025-07-18
+F001060,I02623,4,"solid machine, support answered quickly when we asked",2025-12-20
+F001061,I02625,5,"solid machine, support answered quickly when we asked",2026-06-01
+F001062,I02628,3,"keeps overheating in summer, not what we were promised on uptime",2025-07-22
+F001063,I02631,4,"solid machine, support answered quickly when we asked",2025-06-05
+F001064,I02637,4,"runs well, uptime has been excellent since commissioning",2025-04-05
+F001065,I02639,2,support took days to come back to us while the line was stopped,2026-03-21
+F001066,I02641,2,"too much downtime in hot weather, we lost a shift to it",2024-07-07
+F001067,I02642,5,"reliable so far, operators like the controls",2026-05-31
+F001068,I02645,2,wear parts go faster than expected at our duty cycle,2026-07-17
+F001069,I02647,5,"solid machine, support answered quickly when we asked",2026-04-19
+F001070,I02648,2,"keeps overheating in summer, not what we were promised on uptime",2026-06-21
+F001071,I02649,4,"solid machine, support answered quickly when we asked",2026-02-14
+F001072,I02652,3,"too much downtime in hot weather, we lost a shift to it",2026-08-07
+F001073,I02653,2,"keeps overheating in summer, not what we were promised on uptime",2025-10-31
+F001074,I02655,5,"runs well, uptime has been excellent since commissioning",2025-03-14
+F001075,I02656,5,"runs well, uptime has been excellent since commissioning",2025-04-28
+F001076,I02658,5,"no complaints, the line has kept pace all quarter",2026-03-30
+F001077,I02659,3,"keeps overheating in summer, not what we were promised on uptime",2025-09-28
+F001078,I02663,5,"runs well, uptime has been excellent since commissioning",2024-09-09
+F001079,I02671,4,"reliable so far, operators like the controls",2026-06-29
+F001080,I02676,5,"runs well, uptime has been excellent since commissioning",2025-07-30
+F001081,I02678,5,"no complaints, the line has kept pace all quarter",2024-11-08
+F001082,I02682,5,"no complaints, the line has kept pace all quarter",2026-04-05
+F001083,I02683,4,"reliable so far, operators like the controls",2026-04-18
+F001084,I02685,1,support took days to come back to us while the line was stopped,2025-09-14
+F001085,I02688,5,"no complaints, the line has kept pace all quarter",2025-05-20
+F001086,I02690,5,"runs well, uptime has been excellent since commissioning",2025-06-04
+F001087,I02691,4,"reliable so far, operators like the controls",2026-03-21
+F001088,I02692,5,"runs well, uptime has been excellent since commissioning",2025-06-05
+F001089,I02693,1,wear parts go faster than expected at our duty cycle,2026-03-14
+F001090,I02698,5,"runs well, uptime has been excellent since commissioning",2026-04-17
+F001091,I02704,5,"solid machine, support answered quickly when we asked",2025-10-07
+F001092,I02707,5,"no complaints, the line has kept pace all quarter",2025-10-13
+F001093,I02708,5,"solid machine, support answered quickly when we asked",2025-11-21
+F001094,I02709,2,support took days to come back to us while the line was stopped,2025-07-10
+F001095,I02712,3,support took days to come back to us while the line was stopped,2026-10-19
+F001096,I02717,5,"reliable so far, operators like the controls",2025-07-05
+F001097,I02719,5,"solid machine, support answered quickly when we asked",2026-03-06
+F001098,I02720,5,"reliable so far, operators like the controls",2025-09-18
+F001099,I02721,2,support took days to come back to us while the line was stopped,2024-11-13
+F001100,I02722,4,"runs well, uptime has been excellent since commissioning",2024-09-19
+F001101,I02724,5,"runs well, uptime has been excellent since commissioning",2025-04-28
+F001102,I02731,4,"runs well, uptime has been excellent since commissioning",2024-06-29
+F001103,I02737,4,"reliable so far, operators like the controls",2025-04-22
+F001104,I02740,4,"runs well, uptime has been excellent since commissioning",2025-12-11
+F001105,I02749,5,"runs well, uptime has been excellent since commissioning",2026-04-28
+F001106,I02754,4,"no complaints, the line has kept pace all quarter",2026-09-15
+F001107,I02758,2,wear parts go faster than expected at our duty cycle,2025-11-18
+F001108,I02760,5,"reliable so far, operators like the controls",2025-09-03
+F001109,I02763,4,"runs well, uptime has been excellent since commissioning",2024-11-13
+F001110,I02766,3,wear parts go faster than expected at our duty cycle,2026-04-13
+F001111,I02769,5,"solid machine, support answered quickly when we asked",2025-04-15
+F001112,I02770,4,"solid machine, support answered quickly when we asked",2025-02-10
+F001113,I02772,1,"too much downtime in hot weather, we lost a shift to it",2025-11-24
+F001114,I02776,4,"reliable so far, operators like the controls",2026-01-27
+F001115,I02779,1,wear parts go faster than expected at our duty cycle,2025-11-25
+F001116,I02780,5,"no complaints, the line has kept pace all quarter",2025-07-27
+F001117,I02782,1,"keeps overheating in summer, not what we were promised on uptime",2026-09-12
+F001118,I02783,4,"solid machine, support answered quickly when we asked",2026-08-05
+F001119,I02785,5,"runs well, uptime has been excellent since commissioning",2025-10-31
+F001120,I02786,1,wear parts go faster than expected at our duty cycle,2025-12-24
+F001121,I02787,5,"solid machine, support answered quickly when we asked",2025-06-25
+F001122,I02789,5,"no complaints, the line has kept pace all quarter",2025-09-09
+F001123,I02792,3,support took days to come back to us while the line was stopped,2025-10-10
+F001124,I02794,5,"runs well, uptime has been excellent since commissioning",2025-08-01
+F001125,I02795,1,"keeps overheating in summer, not what we were promised on uptime",2026-04-25
+F001126,I02796,5,"solid machine, support answered quickly when we asked",2025-03-22
+F001127,I02797,2,"too much downtime in hot weather, we lost a shift to it",2026-05-02
+F001128,I02805,5,"runs well, uptime has been excellent since commissioning",2024-09-02
+F001129,I02806,1,"too much downtime in hot weather, we lost a shift to it",2025-06-22
+F001130,I02808,1,support took days to come back to us while the line was stopped,2026-02-06
+F001131,I02813,4,"no complaints, the line has kept pace all quarter",2025-02-21
+F001132,I02815,2,wear parts go faster than expected at our duty cycle,2025-08-05
+F001133,I02819,4,"solid machine, support answered quickly when we asked",2025-07-29
+F001134,I02821,4,"no complaints, the line has kept pace all quarter",2026-03-28
+F001135,I02822,2,support took days to come back to us while the line was stopped,2025-12-14
+F001136,I02826,5,"runs well, uptime has been excellent since commissioning",2025-11-14
+F001137,I02828,5,"reliable so far, operators like the controls",2025-02-20
+F001138,I02829,5,"reliable so far, operators like the controls",2025-04-22
+F001139,I02832,5,"reliable so far, operators like the controls",2025-08-06
+F001140,I02835,2,"too much downtime in hot weather, we lost a shift to it",2026-02-04
+F001141,I02836,5,"runs well, uptime has been excellent since commissioning",2026-02-21
+F001142,I02842,4,"reliable so far, operators like the controls",2025-01-29
+F001143,I02843,5,"solid machine, support answered quickly when we asked",2025-06-28
+F001144,I02844,3,"too much downtime in hot weather, we lost a shift to it",2025-10-09
+F001145,I02846,5,"no complaints, the line has kept pace all quarter",2025-07-27
+F001146,I02851,2,"too much downtime in hot weather, we lost a shift to it",2026-02-27
+F001147,I02852,5,"reliable so far, operators like the controls",2026-10-28
+F001148,I02853,4,"solid machine, support answered quickly when we asked",2025-02-23
+F001149,I02854,4,"solid machine, support answered quickly when we asked",2025-07-27
+F001150,I02856,4,"no complaints, the line has kept pace all quarter",2025-06-12
+F001151,I02858,5,"no complaints, the line has kept pace all quarter",2026-02-26
+F001152,I02861,3,"too much downtime in hot weather, we lost a shift to it",2025-10-30
+F001153,I02862,2,support took days to come back to us while the line was stopped,2026-04-04
+F001154,I02863,2,support took days to come back to us while the line was stopped,2025-04-03
+F001155,I02865,2,"keeps overheating in summer, not what we were promised on uptime",2025-05-09
+F001156,I02867,1,"keeps overheating in summer, not what we were promised on uptime",2025-11-05
+F001157,I02870,2,wear parts go faster than expected at our duty cycle,2025-07-23
+F001158,I02874,4,"reliable so far, operators like the controls",2026-10-13
+F001159,I02875,4,"solid machine, support answered quickly when we asked",2026-01-10
+F001160,I02876,4,"no complaints, the line has kept pace all quarter",2025-06-14
+F001161,I02877,5,"solid machine, support answered quickly when we asked",2026-02-27
+F001162,I02880,5,"runs well, uptime has been excellent since commissioning",2024-08-29
+F001163,I02883,4,"no complaints, the line has kept pace all quarter",2024-06-22
+F001164,I02884,5,"solid machine, support answered quickly when we asked",2025-10-30
+F001165,I02885,4,"reliable so far, operators like the controls",2024-08-13
+F001166,I02886,5,"runs well, uptime has been excellent since commissioning",2024-07-03
+F001167,I02887,1,support took days to come back to us while the line was stopped,2025-04-29
+F001168,I02899,5,"runs well, uptime has been excellent since commissioning",2024-12-25
+F001169,I02909,3,support took days to come back to us while the line was stopped,2024-12-04
+F001170,I02911,3,"keeps overheating in summer, not what we were promised on uptime",2024-12-23
+F001171,I02912,5,"reliable so far, operators like the controls",2024-11-30
+F001172,I02914,3,wear parts go faster than expected at our duty cycle,2026-01-05
+F001173,I02915,2,support took days to come back to us while the line was stopped,2025-02-20
+F001174,I02917,4,"solid machine, support answered quickly when we asked",2026-01-28
+F001175,I02919,4,"no complaints, the line has kept pace all quarter",2025-03-08
+F001176,I02920,5,"runs well, uptime has been excellent since commissioning",2025-09-09
+F001177,I02922,1,"keeps overheating in summer, not what we were promised on uptime",2024-09-03
+F001178,I02925,4,"no complaints, the line has kept pace all quarter",2025-05-07
+F001179,I02928,5,"no complaints, the line has kept pace all quarter",2025-05-19
+F001180,I02930,5,"solid machine, support answered quickly when we asked",2025-08-16
+F001181,I02933,5,"solid machine, support answered quickly when we asked",2026-05-07
+F001182,I02937,3,"keeps overheating in summer, not what we were promised on uptime",2025-11-17
+F001183,I02938,5,"no complaints, the line has kept pace all quarter",2025-11-16
+F001184,I02939,4,"solid machine, support answered quickly when we asked",2025-08-03
+F001185,I02941,3,wear parts go faster than expected at our duty cycle,2026-06-06
+F001186,I02942,3,support took days to come back to us while the line was stopped,2025-12-16
+F001187,I02945,5,"solid machine, support answered quickly when we asked",2025-04-22
+F001188,I02948,5,"runs well, uptime has been excellent since commissioning",2026-03-22
+F001189,I02949,1,support took days to come back to us while the line was stopped,2025-06-11
+F001190,I02950,4,"solid machine, support answered quickly when we asked",2026-02-11
+F001191,I02954,1,"keeps overheating in summer, not what we were promised on uptime",2026-07-11
+F001192,I02957,1,wear parts go faster than expected at our duty cycle,2025-02-21
+F001193,I02958,1,support took days to come back to us while the line was stopped,2025-09-19
+F001194,I02960,1,"keeps overheating in summer, not what we were promised on uptime",2025-11-24
+F001195,I02963,4,"no complaints, the line has kept pace all quarter",2025-05-02
+F001196,I02964,4,"reliable so far, operators like the controls",2026-03-05
+F001197,I02967,5,"no complaints, the line has kept pace all quarter",2026-04-01
+F001198,I02968,5,"runs well, uptime has been excellent since commissioning",2025-12-30
+F001199,I02970,2,"too much downtime in hot weather, we lost a shift to it",2025-12-07
+F001200,I02972,3,support took days to come back to us while the line was stopped,2026-02-21
+F001201,I02973,5,"runs well, uptime has been excellent since commissioning",2026-03-08
+F001202,I02975,4,"runs well, uptime has been excellent since commissioning",2026-02-09
+F001203,I02978,5,"runs well, uptime has been excellent since commissioning",2025-08-31
+F001204,I02981,4,"no complaints, the line has kept pace all quarter",2025-07-12
+F001205,I02983,5,"solid machine, support answered quickly when we asked",2025-10-10
+F001206,I02986,5,"solid machine, support answered quickly when we asked",2025-12-15
+F001207,I02992,4,"reliable so far, operators like the controls",2026-03-19
+F001208,I02993,4,"solid machine, support answered quickly when we asked",2026-08-22
+F001209,I02999,2,"keeps overheating in summer, not what we were promised on uptime",2025-12-18
