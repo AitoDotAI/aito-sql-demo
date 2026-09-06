@@ -6,4 +6,5 @@ export const ROUTES: NavRoute[] = [
   { href: "/", label: "The six cards", icon: "◧" },
   { href: "/map", label: "The map behind them", icon: "▦" },
   { href: "/explore", label: "Explorer", icon: "◈" },
+  { href: "/patterns", label: "Patterns", icon: "❖" },
 ];

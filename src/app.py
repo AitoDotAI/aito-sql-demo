@@ -301,6 +301,17 @@ async def run_sql(request: Request):
             "rows": result.rows, "ms": round(result.ms)}
 
 
+@app.get("/api/patterns")
+def get_patterns():
+    """Mined conjunctions, the rows behind each, and a generated sentence."""
+    from src import patterns as pat
+
+    try:
+        return pat.mine(sql)
+    except SqlError as e:
+        raise HTTPException(status_code=502, detail={"message": str(e), "sql": e.sql})
+
+
 @app.get("/api/explore")
 def get_explore(where: str | None = None, lever: str | None = None):
     """One slice of the data, with every value a link to a deeper slice.

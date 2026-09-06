@@ -127,3 +127,23 @@ export interface ExploreResult {
   lever_options: string[];
   sql: Record<string, string>;
 }
+
+export interface MinedPattern {
+  terms: { field: string; value: string }[];
+  n: number;
+  /** how much more common this combination is among churned installs */
+  lift: number | null;
+  where: string;
+  group: string;
+  table: string;
+  /** generated from the terms by grammatical slot, not hand-written */
+  sentence: string;
+  cases: Record<string, unknown>[];
+}
+
+export interface PatternsResult {
+  statements: number;
+  patterns: MinedPattern[];
+  case_columns: string[];
+  groups: string[];
+}
