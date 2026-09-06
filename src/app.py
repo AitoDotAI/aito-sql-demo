@@ -301,6 +301,28 @@ async def run_sql(request: Request):
             "rows": result.rows, "ms": round(result.ms)}
 
 
+@app.get("/api/explore")
+def get_explore(where: str | None = None, lever: str | None = None):
+    """One slice of the data, with every value a link to a deeper slice.
+
+    `where` is a compact facet list — `climate:hot,cooling:passive` — rather
+    than raw SQL, because these values arrive from clicks and an unknown field
+    in a WHERE currently returns a silent empty result rather than an error
+    (td-20260823204811553899). Validating the facets here is what stops a
+    stale link rendering a confident page of zeros.
+    """
+    from src import explore as ex
+
+    try:
+        facets = ex.parse_facets(where)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail={"message": str(e)})
+    try:
+        return ex.explore(sql, facets, lever)
+    except SqlError as e:
+        raise HTTPException(status_code=502, detail={"message": str(e), "sql": e.sql})
+
+
 @app.get("/api/map")
 def get_map(refresh: bool = False):
     """The exhaustive sweep — every (field x value x slice) cell, ranked.

@@ -94,3 +94,36 @@ export interface MapResult {
   by_lift: MapCell[];
   cards: { key: string; title: string; rank: number; mechanism: string }[];
 }
+
+export interface ExploreValue {
+  value: string;
+  n: number;
+  /** churn rate within this value, counted from rows */
+  rate: number;
+  /** lift against the CURRENT slice, not the whole book */
+  lift: number | null;
+}
+
+export interface ExploreDimension {
+  field: string;
+  values: ExploreValue[];
+  /** widest gap between this field's values, in points */
+  spread: number;
+  sql: string;
+}
+
+export interface ExploreResult {
+  facets: { field: string; value: string }[];
+  where: string;
+  n: number;
+  churned_n: number;
+  /** counted from the rows */
+  observed: number | null;
+  /** what predict() says — differs from `observed` when evidence is thin */
+  predicted: number | null;
+  dimensions: ExploreDimension[];
+  lever: string;
+  levers: { value: string; churn: number | null }[];
+  lever_options: string[];
+  sql: Record<string, string>;
+}
