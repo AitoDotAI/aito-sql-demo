@@ -25,6 +25,12 @@ pkgs.mkShell {
     # pg_dump/pg_isready along, which the probe scripts use.
     pkgs.postgresql_17
 
+    # DuckDB — the federation proof (`./do federate`). Not a dependency of the
+    # demo itself: it is a THIRD-PARTY engine querying Aito over the Postgres
+    # wire protocol, which is the point. Pinned here so the proof is one
+    # command rather than an install.
+    pkgs.duckdb
+
     # Dev tools
     pkgs.jq
     pkgs.curl

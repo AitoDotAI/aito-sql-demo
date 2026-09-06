@@ -46,6 +46,38 @@ is the database from the URL path (`/db/<name>/`), **not** the environment — g
 the server says `password authentication failed`, deliberately, so a reachable port cannot be
 used to enumerate databases. `shell.nix` derives it for you.
 
+## Federation — the claim that is hardest to fake
+
+The pitch is that your existing Postgres tools work unchanged, so that is a
+script you run rather than a screenshot:
+
+```bash
+./do federate      # DuckDB attaches to Aito and queries it
+```
+
+DuckDB's postgres extension speaks the wire protocol; Aito answers. Nothing in
+that path knows it is talking to a predictive database. Two things worth
+watching:
+
+- **The numbers match the dashboard exactly.** `hot + passive` comes back 45.2%
+  over n=431 — the same figure `/explore` computes and the M1 card shows. Two
+  engines, two query paths, one answer.
+- **DuckDB answers questions Aito's own SQL cannot.** Aito's `GROUP BY` takes a
+  single column and its `JOIN` is one `INNER JOIN` along a declared link. The
+  script ends with a two-column `GROUP BY … HAVING` and a three-table join, both
+  planned locally by DuckDB over rows Aito served. So federation is not only
+  "your tools still work" — it is "your tools fill the gaps in ours", which is a
+  better argument and an honest one about the subset's limits.
+
+## The four views
+
+| route | what it is |
+|---|---|
+| `/` | the six cards — root cause and lever per question, one of which fails |
+| `/map` | the exhaustive sweep the cards came out of: 827 cells, 18 statements |
+| `/explore` | every value a link; narrow endlessly and watch the engine hedge |
+| `/patterns` | conjunctions nobody proposed, their real cases, and a sentence |
+
 ## Layout
 
 | path | what |

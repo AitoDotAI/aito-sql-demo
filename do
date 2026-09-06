@@ -75,6 +75,26 @@ cmd_test_book() {
   exec uv run booktest book/ "$@"
 }
 
+cmd_federate() {
+  # Proof that a third-party engine can query Aito with no Aito-specific code.
+  # Needs nothing installed: nix-shell fetches duckdb if it is not on PATH.
+  local host db
+  host=$(echo "$AITO_API_URL" | sed -E 's#^[a-z]+://##; s#[:/].*$##')
+  db=$(echo "$AITO_API_URL" | sed -E 's#.*/db/##; s#/.*##')
+  [ -n "$AITO_API_KEY" ] || die "AITO_API_KEY not set (see .env)"
+
+  local tmp; tmp=$(mktemp)
+  sed -e "s|\${AITO_HOST}|$host|" -e "s|\${AITO_DB}|$db|" -e "s|\${AITO_KEY}|$AITO_API_KEY|" \
+      sql/06_federation.sql > "$tmp"
+  if command -v duckdb >/dev/null 2>&1; then
+    duckdb -init /dev/null < "$tmp"
+  else
+    say "duckdb not on PATH — fetching via nix-shell"
+    nix-shell -p duckdb --run "duckdb -init /dev/null < $tmp"
+  fi
+  rm -f "$tmp"
+}
+
 cmd_screenshot_teaser() {
   [ -d frontend/node_modules ] || cmd_install
   ( cd frontend && node scripts/screenshot-teaser.cjs )
@@ -105,6 +125,7 @@ case "${1:-help}" in
   backend)             shift; cmd_backend "$@" ;;
   test)                shift; cmd_test "$@" ;;
   test-book)           shift; cmd_test_book "$@" ;;
+  federate)            shift; cmd_federate "$@" ;;
   screenshot-teaser)   shift; cmd_screenshot_teaser "$@" ;;
   screenshot-pages)    shift; cmd_screenshot_pages "$@" ;;
   inspect-mobile)      shift; cmd_inspect_mobile "$@" ;;
