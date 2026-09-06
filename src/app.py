@@ -301,6 +301,51 @@ async def run_sql(request: Request):
             "rows": result.rows, "ms": round(result.ms)}
 
 
+@app.get("/api/map")
+def get_map(refresh: bool = False):
+    """The exhaustive sweep — every (field x value x slice) cell, ranked.
+
+    Served from data/map.json by default because the sweep is a batch job, not
+    a request: 18 statements and ~2.4s. `?refresh=true` recomputes it live,
+    which is worth having because the honest version of the claim is 'run it
+    yourself and see', not 'trust this file'.
+    """
+    from src import map as sweep
+
+    path = Path(__file__).resolve().parent.parent / "data" / "map.json"
+    if refresh or not path.exists():
+        try:
+            data = sweep.build_map(sql, verbose=False)
+        except SqlError as e:
+            raise HTTPException(status_code=502, detail={"message": str(e), "sql": e.sql})
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(data, indent=1), encoding="utf-8")
+    else:
+        data = json.loads(path.read_text(encoding="utf-8"))
+
+    # Mark the cells the six cards are built on, so the page can show that the
+    # cards are the top of a generated ranking rather than a curated set.
+    carded = {(c.mechanism, c.key): c for c in CARDS}
+    claims = {
+        ("cooling", "passive", "climate = hot"): "thermal",
+        ("grade", "consumer", "shift_pattern = 3-shift"): "duty",
+        ("slow_first_response", "true", None): "response",
+        ("channel", "distributor-ME", None): "channel",
+        ("commissioning", None, None): "commissioning",
+        ("service_plan", None, None): "service",
+    }
+    for cell in data.get("by_movement", []) + data.get("by_lift", []):
+        key = claims.get((cell["field"], cell["value"], cell["slice"]))
+        if key is None:
+            key = claims.get((cell["field"], cell["value"], None))
+        if key is None:
+            key = claims.get((cell["field"], None, None))
+        cell["card"] = key
+    data["cards"] = [{"key": c.key, "title": c.title, "rank": c.rank,
+                      "mechanism": c.mechanism} for c in CARDS]
+    return data
+
+
 @app.get("/api/overview")
 def overview():
     """The chain strip: the business as one row of numbers."""

@@ -77,15 +77,70 @@ def psql_file(path: Path, env: dict[str, str]) -> str:
     return r.stdout
 
 
+# Views the demo needs. DDL is wire-protocol only (the REST `_sql` endpoint is
+# read-only), so views are created here rather than by the app.
+#
+#   CARD_VIEWS   the four conditioning slices the six cards use.
+#   MAP_VIEWS    one slice per value of each conditioning dimension, for the
+#                exhaustive sweep in src/map.py. Generated rather than listed:
+#                the map's whole claim is that nobody hand-picked the cells, so
+#                hand-picking the slices would undercut it.
+CARD_VIEWS = {
+    "hot_sites": "SELECT * FROM analysis WHERE climate = 'hot'",
+    "temperate_sites": "SELECT * FROM analysis WHERE climate = 'temperate'",
+    "three_shift": "SELECT * FROM analysis WHERE shift_pattern = '3-shift'",
+    "consumer_grade": "SELECT * FROM analysis WHERE grade = 'consumer'",
+}
+
+MAP_SLICE_DIMENSIONS = ["climate", "shift_pattern", "grade", "industry"]
+MAP_MIN_SLICE_ROWS = 150
+
+
+def _view_name(field: str, value: str) -> str:
+    safe = "".join(ch if ch.isalnum() else "_" for ch in str(value)).strip("_").lower()
+    return f"map_{field}_{safe}"
+
+
+def create_views(env: dict[str, str]) -> int:
+    """Create the card views and the map's slice views. Idempotent."""
+    made = 0
+    for name, select in CARD_VIEWS.items():
+        psql(f"DROP VIEW IF EXISTS {name}", env)
+        psql(f"CREATE VIEW {name} AS {select}", env)
+        made += 1
+
+    for dim in MAP_SLICE_DIMENSIONS:
+        out = psql(f"SELECT {dim}, count(*) FROM analysis GROUP BY {dim}", env)
+        for line in out.splitlines():
+            parts = [p.strip() for p in line.split("|")]
+            if len(parts) != 2 or not parts[1].isdigit():
+                continue
+            value, count = parts[0], int(parts[1])
+            if count < MAP_MIN_SLICE_ROWS:
+                continue          # too thin to carry a card
+            name = _view_name(dim, value)
+            psql(f"DROP VIEW IF EXISTS {name}", env)
+            psql(f"CREATE VIEW {name} AS SELECT * FROM analysis "
+                 f"WHERE {dim} = '{value}'", env)
+            made += 1
+    return made
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--data", default="data", type=Path)
     ap.add_argument("--schema", default="sql/01_schema.sql", type=Path)
     ap.add_argument("--drop", action="store_true", help="drop the tables first")
+    ap.add_argument("--views", action="store_true",
+                    help="only (re)create the views, skip the load")
     args = ap.parse_args()
     env = pg_env()
 
     print(f"target: {env['PGHOST']}:{env['PGPORT']} db={env['PGDATABASE']}")
+
+    if args.views:
+        print(f"created {create_views(env)} views")
+        return
 
     if args.drop:
         # Reverse link order: drop the referrers before what they reference.
@@ -108,6 +163,7 @@ def main() -> None:
         print(f"  {table:12} {n:>7} rows")
 
     print(f"\nloaded {total} rows")
+    print(f"created {create_views(env)} views")
     print(psql("SELECT count(*) AS installs FROM installs", env).strip())
 
 

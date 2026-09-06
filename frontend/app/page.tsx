@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useState } from "react";
 import TopBar from "@/components/shell/TopBar";
+import Nav from "@/components/shell/Nav";
+import { ROUTES } from "@/lib/routes";
 import AitoPanel from "@/components/shell/AitoPanel";
 import ErrorState from "@/components/shell/ErrorState";
 import { apiFetch } from "@/lib/api";
@@ -55,6 +57,7 @@ export default function Home() {
 
   return (
     <div className="app">
+      <Nav routes={ROUTES} />
       <div className="main">
         <TopBar
           brand="predictive SQL"
