@@ -38,7 +38,7 @@ Card 5 fails on purpose. A dashboard where all six cards work is one nobody shou
 ./do install     # uv sync + npm install
 python -m src.generate --out data     # writes 13 CSVs, prints the planted mechanisms
 python -m src.load --drop             # COPY over pgwire into the Aito instance
-./do dev                              # uvicorn :8401 + next dev :3000
+./do dev                              # uvicorn :8800 + next dev :8801
 ```
 
 `.env` needs `AITO_API_URL` and `AITO_API_KEY`. On a multi-database server the pgwire `dbname`

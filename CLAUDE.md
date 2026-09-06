@@ -33,7 +33,7 @@ If you genuinely need to break one of these, update both this demo AND the platf
 
 ```bash
 ./do install    # uv sync + npm install (one-time)
-./do dev        # uvicorn on :8401 + next dev on :3000, hot-reload both
+./do dev        # uvicorn on :8800 + next dev on :8801, hot-reload both
 ./do build      # produces frontend/out/ (only needed for prod-shape smoke test)
 ./do backend    # production-shape: uvicorn only, serves static if frontend/out/ exists
 ./do test-book  # run booktest suite (snapshot tests, see CHEATSHEET.md)
@@ -65,7 +65,7 @@ If you genuinely need to break one of these, update both this demo AND the platf
 - **`uv sync --frozen` fails** → `uv.lock` is out of date; run `uv lock` and re-commit.
 - **Static export errors** → check `frontend/next.config.ts` still has `output: "export"` in production; Next.js features like Image Optimization, ISR, or server components don't work with static export.
 - **`/api/*` 404 in production but works in dev** → likely added a route AFTER the `app.mount` line; the mount shadows it. Move the route above the mount.
-- **`/api/*` works in production but 404 in dev** → the dev rewrite in `next.config.ts` proxies to `BACKEND_PORT` (default 8401); make sure your backend is on the matching port.
+- **`/api/*` works in production but 404 in dev** → the dev rewrite in `next.config.ts` proxies to `BACKEND_PORT` (default 8800); make sure your backend is on the matching port.
 - **CORS errors** → for direct-from-browser Aito calls, set CORS on the Aito instance (not in FastAPI). For same-origin calls (recommended), no CORS needed.
 
 ## Releasing a change

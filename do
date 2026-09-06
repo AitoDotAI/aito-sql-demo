@@ -17,8 +17,14 @@
 set -euo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
-BACKEND_PORT="${BACKEND_PORT:-8401}"
-FRONTEND_PORT="${FRONTEND_PORT:-3000}"
+# Dev ports. 88xx is this demo's block, and the block matters: the sibling
+# demos each own one (8200 accounting, 8400/01 erp, 8500/01 ecommerce,
+# 8600 hacker-news, 8700-02 uam), and the template's defaults of 8401/3000
+# collide with four demos and three demos respectively. Several of these run
+# side by side on one machine, so a collision is a silent wrong-backend proxy
+# rather than a bind error.
+BACKEND_PORT="${BACKEND_PORT:-8800}"
+FRONTEND_PORT="${FRONTEND_PORT:-8801}"
 
 die() { echo "✗ $*" >&2; exit 1; }
 say() { echo "→ $*"; }
