@@ -194,6 +194,15 @@ export default function CardPanel({
                     <span className="sql-ms">{detail.ms} ms for this card</span>
                   </div>
                   {runError && <pre className="sql-error">{runError}</pre>}
+                  {runResult && (runResult.warnings?.length ?? 0) > 0 && (
+                    <div className="sql-warn">
+                      {runResult.warnings!.map((w, i) => (
+                        <div key={i}>
+                          <strong>{w.code}</strong> — {w.message}
+                        </div>
+                      ))}
+                    </div>
+                  )}
                   {runResult && (
                     <div className="sql-result">
                       <div className="sql-result-head">

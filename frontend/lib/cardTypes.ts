@@ -57,11 +57,20 @@ export interface Overview {
   sql: Record<string, string>;
 }
 
+export interface SqlWarning {
+  code: string;
+  message: string;
+  severity: string;
+  field?: string;
+}
+
 export interface SqlRunResult {
   sql: string;
   columns: string[];
   rows: Record<string, unknown>[];
   ms: number;
+  /** the engine's non-fatal channel — e.g. "you filtered on an unknown column" */
+  warnings?: SqlWarning[];
 }
 
 export interface MapCell {

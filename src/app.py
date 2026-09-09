@@ -297,8 +297,12 @@ async def run_sql(request: Request):
         result = sql.query(stmt, timeout=SQL_TIMEOUT_S)
     except SqlError as e:
         raise HTTPException(status_code=400, detail={"message": str(e), "sql": e.sql})
+    # Pass warnings through. This is the channel that says "you filtered on a
+    # column that does not exist" — without it an empty grid looks like an
+    # honest no-match, which is the exact trap an editable SQL box sets.
     return {"sql": result.sql, "columns": result.columns,
-            "rows": result.rows, "ms": round(result.ms)}
+            "rows": result.rows, "ms": round(result.ms),
+            "warnings": result.warnings}
 
 
 @app.get("/api/patterns")
