@@ -55,6 +55,11 @@ class Card:
     # next to a number it does not describe.
     table: str = "analysis"
     conditioned_table: str | None = None
+    # True where the card recovers an INTERACTION — a mechanism invisible to
+    # lift alone, only visible once conditioned. The map page leads on these,
+    # and it must not guess: M4 outranks both of them and is a plain main
+    # effect, so "the top cells are the interactions" would be false.
+    interaction: bool = False
 
 
 BASELINE = "SELECT value, p FROM predict('analysis','churned')"
@@ -81,6 +86,7 @@ CARDS: list[Card] = [
              "book and ×1.08 inside temperate sites — it is the combination that bites, which is "
              "why ranking single fields by lift never finds it.",
         conditioned_table="hot_sites",
+        interaction=True,
     ),
     Card(
         key="duty",
@@ -102,6 +108,7 @@ CARDS: list[Card] = [
         note="A second interaction, and a cheaper fix than the first: the duty cycle is printed "
              "on the spec sheet, so this one is catchable at quote time.",
         conditioned_table="three_shift",
+        interaction=True,
     ),
     Card(
         key="response",

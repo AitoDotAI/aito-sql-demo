@@ -379,7 +379,8 @@ def get_map(refresh: bool = False):
             key = claims.get((cell["field"], None, None))
         cell["card"] = key
     data["cards"] = [{"key": c.key, "title": c.title, "rank": c.rank,
-                      "mechanism": c.mechanism} for c in CARDS]
+                      "mechanism": c.mechanism, "interaction": c.interaction}
+                     for c in CARDS]
     return data
 
 

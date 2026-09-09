@@ -663,3 +663,82 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tex
   padding:9px 11px;font-size:11.5px;line-height:1.55;color:var(--amber);
   display:flex;flex-direction:column;gap:5px}
 .sql-warn strong{font-family:'IBM Plex Mono',monospace;font-size:11px}
+
+/* ── the brand lockup ───────────────────────────────────────────────
+   TopBar renders .topbar-brand / .wordmark / .dot / .topbar-brand-sep /
+   .topbar-brand-demo and the stylesheet defined none of them, so it fell
+   back to default anchor styling — blue and underlined, which read as a
+   broken link. Same shape of bug as the missing .app rule. */
+.topbar-brand{display:inline-flex;align-items:baseline;gap:7px;text-decoration:none;
+  color:var(--text);line-height:1}
+.topbar-brand:hover .topbar-brand-demo{color:var(--gold)}
+.wordmark{font-weight:700;font-size:15px;letter-spacing:-.02em;color:var(--text)}
+.wordmark .dot{color:var(--aito-accent);letter-spacing:-.06em}
+.topbar-brand-sep{color:var(--border);font-size:13px}
+.topbar-brand-demo{font-size:13px;color:var(--text3);font-weight:500;transition:color .15s}
+
+/* ── the map: result first, evidence under it ───────────────────── */
+.finding{background:var(--surface);border:1px solid var(--border2);border-left:3px solid var(--gold-mid);
+  border-radius:8px;padding:16px 20px;display:flex;gap:28px;align-items:center;flex-wrap:wrap}
+.finding-lead{flex:1 1 340px;min-width:0}
+.finding-lead h3{font-size:15px;font-weight:600;margin:0 0 5px;color:var(--text)}
+.finding-lead p{font-size:12.5px;line-height:1.6;color:var(--text2);margin:0}
+.finding-cells{display:flex;gap:10px;flex-wrap:wrap}
+.finding-cell{background:var(--gold-light);border:1px solid #e8d9a8;border-radius:6px;
+  padding:8px 11px;min-width:150px}
+.finding-rank{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--gold);
+  text-transform:uppercase;letter-spacing:.05em;font-weight:600}
+.finding-cell-name{display:block;font-family:'IBM Plex Mono',monospace;font-size:11.5px;
+  color:var(--text);margin-top:3px}
+.finding-cell-slice{display:block;font-size:10.5px;color:var(--text3);margin-top:2px}
+
+/* stats row: let the numbers breathe instead of clumping left with a
+   200px gap before the button */
+.map-stats{justify-content:flex-start;gap:34px}
+.map-refresh{margin-left:auto;flex-shrink:0}
+
+/* The methodology note was two dense paragraphs above the table — as much
+   vertical space as eight rows of the thing people came to read. Collapsed
+   by default; the summary carries the one sentence that matters. */
+.method{background:var(--surface);border:1px solid var(--border2);border-radius:8px;
+  padding:0;max-width:none}
+.method summary{cursor:pointer;padding:12px 16px;font-size:12.5px;color:var(--text2);
+  list-style:none;display:flex;align-items:center;gap:8px}
+.method summary::-webkit-details-marker{display:none}
+.method summary::before{content:'▸';color:var(--text3);font-size:10px}
+.method[open] summary::before{content:'▾'}
+.method summary:hover{background:var(--surface2)}
+.method summary strong{color:var(--text)}
+.method-body{padding:0 16px 14px 16px;border-top:1px solid var(--border2)}
+.method-body p{font-size:12.5px;line-height:1.65;color:var(--text2);margin:10px 0 0}
+
+/* ── the dumbbell: lift overall -> lift inside the slice ────────────
+   The data's job is "before -> after per item", so the form is a dumbbell:
+   one hue, two shades (#d4a030 -> #6b4f0e, CVD dE 28.3 protan — measured,
+   not assumed). The light shade WARNs at 2.31:1 against the surface, and
+   that warning is not dismissable, so BOTH ends carry a visible number.
+   The connector's length is the movement — which is the thing being
+   ranked, and was previously two numbers with a 12px arrow between them. */
+.db{position:relative;height:26px;width:210px;flex-shrink:0}
+.db-axis{position:absolute;top:13px;left:0;right:0;height:1px;background:var(--border2)}
+.db-ref{position:absolute;top:5px;width:1px;height:16px;background:var(--text3);opacity:.5}
+.db-conn{position:absolute;top:12px;height:3px;border-radius:2px;background:var(--gold-light)}
+.db-dot{position:absolute;top:8px;width:9px;height:9px;border-radius:50%;margin-left:-4.5px;
+  box-shadow:0 0 0 2px var(--surface)}   /* 2px surface ring on overlap */
+.db-from{background:var(--gold-mid)}
+.db-to{background:var(--gold-dark)}
+.db-num{position:absolute;font-family:'IBM Plex Mono',monospace;font-size:10px;
+  color:var(--text3);top:-1px;white-space:nowrap}
+.db-num-to{color:var(--text);font-weight:600;top:16px}
+
+.db-legend{display:flex;align-items:center;gap:14px;font-size:11px;color:var(--text3);
+  padding:2px 0 0}
+.db-key{display:inline-flex;align-items:center;gap:5px}
+.db-swatch{width:9px;height:9px;border-radius:50%;display:inline-block}
+
+/* carded rows: a left rule, not a full-row wash. Eight of the top ten carry
+   a card, so washing the row gold made the marker meaningless — nearly
+   every row was highlighted. */
+.cell-carded{background:transparent}
+.cell-carded td:first-child{box-shadow:inset 3px 0 0 var(--gold-mid)}
+.cell-carded:hover{background:var(--surface2) !important}

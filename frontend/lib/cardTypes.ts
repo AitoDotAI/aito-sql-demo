@@ -101,7 +101,8 @@ export interface MapResult {
   outcome: string;
   by_movement: MapCell[];
   by_lift: MapCell[];
-  cards: { key: string; title: string; rank: number; mechanism: string }[];
+  cards: { key: string; title: string; rank: number; mechanism: string;
+           interaction: boolean }[];
 }
 
 export interface ExploreValue {
