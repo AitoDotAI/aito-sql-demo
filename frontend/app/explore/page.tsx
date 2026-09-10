@@ -4,7 +4,7 @@ import { Suspense, useCallback, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import TopBar from "@/components/shell/TopBar";
 import Nav from "@/components/shell/Nav";
-import { ROUTES } from "@/lib/routes";
+import { NAV_SECTIONS } from "@/lib/routes";
 import AitoPanel from "@/components/shell/AitoPanel";
 import ErrorState from "@/components/shell/ErrorState";
 import { apiFetch } from "@/lib/api";
@@ -49,6 +49,40 @@ function ValueChip({ v, onClick }: { v: ExploreValue; onClick: () => void }) {
       <span className="chip-n">n={v.n.toLocaleString()}</span>
       <span aria-hidden="true" className="chip-dir">{up ? "▲" : down ? "▼" : "▬"}</span>
     </button>
+  );
+}
+
+/** Counted vs predicted on one axis, with the distance between them drawn.
+ *
+ *  Same measure, two states — so the same form as the map's movement rather
+ *  than two numbers side by side leaving the reader to subtract. The gap IS
+ *  the page's argument: it is near zero where evidence is thick and opens as
+ *  the slice thins, which is support-tempering made watchable. */
+function GapBar({ counted, predicted }: { counted: number; predicted: number }) {
+  // Fixed 0-60% domain rather than fitting to the two values: a scale that
+  // rescales per slice would make every gap look the same size.
+  const HI = 60;
+  const pct = (v: number) => Math.max(0, Math.min(100, (v / HI) * 100));
+  const a = pct(counted);
+  const b = pct(predicted);
+  const lo = Math.min(a, b);
+  const anchor = (p: number) =>
+    p > 82 ? { right: `${100 - p}%` } : { left: `${p}%` };
+  return (
+    <div className="gapbar" role="img"
+         aria-label={`counted ${counted}%, predicted ${predicted}%`}>
+      <div className="gapbar-track" />
+      <div className="gapbar-span" style={{ left: `${lo}%`, width: `${Math.abs(b - a)}%` }} />
+      <div className="gapbar-mark gapbar-counted" style={{ left: `${a}%` }} />
+      <div className="gapbar-mark gapbar-predicted" style={{ left: `${b}%` }} />
+      <div className="gapbar-lab gapbar-lab-top" style={anchor(a)}>
+        <b>{counted}%</b><span>counted</span>
+      </div>
+      <div className="gapbar-lab gapbar-lab-bot" style={anchor(b)}>
+        <b>{predicted}%</b><span>predicted</span>
+      </div>
+      <div className="gapbar-scale"><span>0%</span><span>{HI}% churn</span></div>
+    </div>
   );
 }
 
@@ -112,7 +146,7 @@ function ExplorerInner() {
 
   return (
     <div className="app">
-      <Nav routes={ROUTES} />
+      <Nav sections={NAV_SECTIONS} />
       <div className="main">
         <TopBar
           brand="predictive SQL"
@@ -146,13 +180,10 @@ function ExplorerInner() {
               {data && (
                 <div className="ex-hero">
                   <div className="ex-nums">
-                    <div className="ex-num">
-                      <span className="ex-v">{data.observed ?? "—"}%</span>
-                      <span className="ex-l">churn, counted</span>
-                    </div>
-                    <div className="ex-num">
-                      <span className="ex-v ex-v-pred">{data.predicted ?? "—"}%</span>
-                      <span className="ex-l">churn, predicted</span>
+                    <div className="ex-gapwrap">
+                      {data.observed != null && data.predicted != null
+                        ? <GapBar counted={data.observed} predicted={data.predicted} />
+                        : <span className="muted">no rows in this slice</span>}
                     </div>
                     <div className="ex-num">
                       <span className="ex-v ex-v-n">{data.n.toLocaleString()}</span>

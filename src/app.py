@@ -248,6 +248,33 @@ def _card_payload(card: Card, full: bool) -> dict:
     return payload
 
 
+# Cached so the nav does not pay for a pattern mine on every page load. The
+# counts are properties of a static dataset, so a per-process cache is honest
+# rather than merely convenient.
+_BADGE_CACHE: dict[str, int] = {}
+
+
+@app.get("/api/nav/badges")
+def nav_badges():
+    """Counts for the sidebar. Cheap by construction: never runs a sweep or a
+    mine of its own — it reports what is already known, and omits what is not,
+    because a badge that appears only sometimes is worse than no badge."""
+    out: dict[str, int] = {"cards": len(CARDS)}
+
+    path = Path(__file__).resolve().parent.parent / "data" / "map.json"
+    if "cells" in _BADGE_CACHE:
+        out["cells"] = _BADGE_CACHE["cells"]
+    elif path.exists():
+        try:
+            out["cells"] = _BADGE_CACHE.setdefault(
+                "cells", int(json.loads(path.read_text(encoding="utf-8"))["cells"]))
+        except Exception:
+            pass
+    if "patterns" in _BADGE_CACHE:
+        out["patterns"] = _BADGE_CACHE["patterns"]
+    return out
+
+
 @app.get("/api/cards")
 def list_cards():
     """The six cards, headline numbers only — one round trip per card."""
@@ -311,7 +338,9 @@ def get_patterns():
     from src import patterns as pat
 
     try:
-        return pat.mine(sql)
+        result = pat.mine(sql)
+        _BADGE_CACHE["patterns"] = len(result["patterns"])
+        return result
     except SqlError as e:
         raise HTTPException(status_code=502, detail={"message": str(e), "sql": e.sql})
 

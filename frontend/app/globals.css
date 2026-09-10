@@ -271,6 +271,17 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tex
      a mouse and under the 44px floor for a finger. Grow them on small screens
      rather than everywhere — the desktop density is deliberate. */
   .card-toggle,.sql-toggle{min-height:44px;padding:10px 14px;width:100%;justify-content:center}
+  /* The explorer's chips ARE its navigation — every click narrows the slice —
+     so they have to be thumb-sized, not mouse-sized. Same for the breadcrumb
+     (which is how you go back) and the lever tabs. */
+  .chip{min-height:44px;padding:8px 12px}
+  .trail-crumb,.trail-clear{min-height:44px;padding:10px 10px}
+  .lever-tab{min-height:44px;padding:10px 12px}
+  .nav-item{min-height:48px}
+  /* the primary mobile control — 36px was under the floor */
+  .nav-mobile-hamburger{width:44px;height:44px}
+  .nav-foot{min-height:44px;display:flex;align-items:center}
+  .pat-explore,.cell-card{display:inline-flex;align-items:center;min-height:44px}
   .sql-actions .btn{min-height:44px;padding:10px 16px}
   .card-grid,.skeleton-grid{grid-template-columns:1fr}
   .card-body{grid-template-columns:1fr;gap:14px}
@@ -742,3 +753,39 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tex
 .cell-carded{background:transparent}
 .cell-carded td:first-child{box-shadow:inset 3px 0 0 var(--gold-mid)}
 .cell-carded:hover{background:var(--surface2) !important}
+
+/* ── nav: the parts the stylesheet had but nothing rendered ─────── */
+.nav-item{justify-content:space-between}
+.nav-item-body{display:flex;flex-direction:column;gap:2px;min-width:0}
+.nav-item-label{line-height:1.3}
+.nav-item-hint{font-size:10.5px;color:#7d7040;line-height:1.35}
+.nav-item.active .nav-item-hint{color:#b8a860}
+.nav-item:hover .nav-item-hint{color:#9b8c50}
+.nav-foot{display:block;padding:6px 6px;font-size:11px;color:#8a7c48;text-decoration:none}
+.nav-foot:hover{color:var(--nav-accent)}
+.nav-mobile-title{font-size:13px;font-weight:600;color:#f5eecc}
+
+/* ── explorer: the gap between counted and predicted is the story ──
+   Two numbers side by side made the reader do the subtraction. This is the
+   same measure in two states, so it gets the same treatment as the map's
+   movement — one scale, both values marked, the distance between them drawn.
+   Single hue, two shades; both ends labelled (the light shade is the same
+   2.31:1 mark that obliges visible labels). */
+.gapbar{position:relative;height:58px;margin:4px 0 2px}
+.gapbar-track{position:absolute;top:30px;left:0;right:0;height:6px;border-radius:3px;
+  background:var(--surface3)}
+.gapbar-span{position:absolute;top:30px;height:6px;border-radius:3px;background:var(--gold-light)}
+.gapbar-mark{position:absolute;top:24px;width:3px;height:18px;border-radius:2px}
+.gapbar-counted{background:var(--gold-mid)}
+.gapbar-predicted{background:var(--gold-dark)}
+.gapbar-lab{position:absolute;font-size:11px;white-space:nowrap;line-height:1.25}
+.gapbar-lab b{display:block;font-family:'IBM Plex Mono',monospace;font-size:16px;
+  font-weight:600;color:var(--text)}
+.gapbar-lab span{color:var(--text3);font-size:10px;text-transform:uppercase;letter-spacing:.04em}
+.gapbar-lab-top{top:-4px}
+.gapbar-lab-bot{top:44px}
+.gapbar-scale{position:absolute;top:44px;left:0;right:0;display:flex;
+  justify-content:space-between;font-family:'IBM Plex Mono',monospace;
+  font-size:10px;color:var(--text3)}   /* was --border: ~1.2:1 on white, invisible */
+.ex-nums{align-items:center;gap:32px}
+.ex-gapwrap{flex:1 1 340px;min-width:280px}
