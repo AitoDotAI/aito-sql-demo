@@ -45,12 +45,26 @@ def pg_env() -> dict[str, str]:
     host = urlparse(url).hostname or ""
     m = re.search(r"/db/([^/]+)", url)
     dbname = m.group(1) if m else os.environ.get("AITO_ENV", "aito")
+    # AITO_API_URL IS AUTHORITATIVE for host and database. It must be, and the
+    # reason is not tidiness: shell.nix exports PGHOST/PGDATABASE derived from
+    # whatever AITO_API_URL was when the shell was entered. Point AITO_API_URL
+    # at a new instance in an existing shell and an inherited PGHOST would win
+    # — so `./do provision` against a new database would issue its DROP TABLEs
+    # against the OLD one. That happened: a provision aimed at shared tried to
+    # drop tables on internal, and only a key mismatch stopped it.
+    #
+    # PGPORT and PGUSER may still be overridden; neither can redirect a write
+    # to a different database.
+    stale = os.environ.get("PGHOST")
+    if stale and stale != host:
+        print(f"note: ignoring inherited PGHOST={stale}; AITO_API_URL says {host}",
+              file=sys.stderr)
     env = dict(os.environ)
     env.update({
-        "PGHOST": os.environ.get("PGHOST", host),
+        "PGHOST": host,
         "PGPORT": os.environ.get("PGPORT", "5432"),
         "PGUSER": os.environ.get("PGUSER", "aito"),
-        "PGDATABASE": os.environ.get("PGDATABASE", dbname),
+        "PGDATABASE": dbname,
         "PGPASSWORD": key,
     })
     return env

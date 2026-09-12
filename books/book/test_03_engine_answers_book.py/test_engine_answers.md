@@ -1,6 +1,6 @@
 # What the engine says
 
-instance: `https://internal.aito.ai/db/aito-sql-demo`
+instance: `https://shared.aito.ai/db/aito-sql-demo`
 
 
 ## Baseline

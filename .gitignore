@@ -16,6 +16,7 @@ frontend/next-env.d.ts
 
 # Env
 .env
+.env.readonly
 .env.local
 .env.*.local
 
