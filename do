@@ -75,6 +75,41 @@ cmd_test_book() {
   exec uv run booktest book/ "$@"
 }
 
+cmd_provision() {
+  # Fill a fresh Aito database with the whole demo: generate, load, views,
+  # and a verification pass. Idempotent — it drops and reloads.
+  #
+  #   AITO_API_URL=https://shared.aito.ai/db/aito-sql-demo \
+  #   AITO_API_KEY=<read-write key, for the load only> ./do provision
+  #
+  # The load needs a READ-WRITE key because it does DDL and COPY. The DEPLOYED
+  # demo must be given a READ-ONLY key instead: it only ever SELECTs, and
+  # /api/sql runs arbitrary user SQL from the browser.
+  [ -n "$AITO_API_URL" ] || die "AITO_API_URL not set"
+  [ -n "$AITO_API_KEY" ] || die "AITO_API_KEY not set"
+  say "target: $AITO_API_URL"
+
+  uv run python -m src.generate --out data
+  uv run python -m src.load --drop
+  uv run python -m src.map --out data/map.json
+
+  say "verifying…"
+  uv run python - <<'EOF'
+from src.config import load_config
+from src.sql_client import SqlClient
+c = SqlClient(load_config(), timeout=120)
+rows = c.query("SELECT count(*) FROM analysis").rows
+n = int(next(iter(rows[0].values())))
+assert n == 3000, f"expected 3000 installs, got {n}"
+for v in ("hot_sites", "temperate_sites", "three_shift", "consumer_grade"):
+    c.query(f"SELECT count(*) FROM {v}")
+p = c.query("SELECT value, p FROM predict('analysis','churned')").rows
+print(f"  analysis: {n} rows · 4 card views present · baseline churn "
+      f"{round(100 * (1 - float(p[0]['p'])), 1)}%")
+EOF
+  say "provisioned. Give the DEPLOYED demo a READ-ONLY key, not this one."
+}
+
 cmd_federate() {
   # Proof that a third-party engine can query Aito with no Aito-specific code.
   # Needs nothing installed: nix-shell fetches duckdb if it is not on PATH.
@@ -125,6 +160,7 @@ case "${1:-help}" in
   backend)             shift; cmd_backend "$@" ;;
   test)                shift; cmd_test "$@" ;;
   test-book)           shift; cmd_test_book "$@" ;;
+  provision)           shift; cmd_provision "$@" ;;
   federate)            shift; cmd_federate "$@" ;;
   screenshot-teaser)   shift; cmd_screenshot_teaser "$@" ;;
   screenshot-pages)    shift; cmd_screenshot_pages "$@" ;;
