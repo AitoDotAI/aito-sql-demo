@@ -54,6 +54,38 @@ the credential enforce what the code currently only happens to.
 The endpoint also caps statements at 4,000 characters, enforces one statement
 per request, and uses a 15-second timeout.
 
+## The numbers will probably move, and that is expected
+
+`shared.aito.ai` runs **v2.8.3**. Everything in this repo was measured against
+`internal.aito.ai`, which is on **2.8.2-dev** — behind, and specifically missing
+three fixes that touch prediction:
+
+| commit | what |
+|---|---|
+| `a4d066ad6` | `LBits.or`'s dense fast path assumed a shared segmentation — the changelog says this "could return a plausible wrong answer" and is "reachable from the predict path" |
+| `5168fe5a0` | a candidate whose proposition the rep already knows keeps its real variable |
+| `262ee0a78` | value membership derived in one place — six sites that disagreed |
+
+So **every number in this demo was computed on a build missing a known
+wrong-answer fix.** Expect the cards to shift on production. That is the fixes
+landing, not a regression.
+
+`book/test_03_engine_answers_book.py` exists for exactly this moment. It
+asserts the STORY — M1's lift must rise under conditioning, M3 must be
+exonerated, the NEG card must stay flat, the working lever must beat its
+alternative — and snapshots the actual numbers so drift is a reviewable diff
+rather than a silent change.
+
+```bash
+./do test-book            # after provisioning on shared: does the story hold?
+./do test-book -a         # accept the new numbers once you have read the diff
+```
+
+If the assertions fail, the demo's narrative no longer matches the engine and
+the copy needs revisiting before launch. If only the numbers move, accept them
+and update the two figures hard-coded in prose: the M1 note in `src/cards.py`
+and the methodology paragraph on the map page.
+
 ## Verifying a deploy
 
 ```bash
