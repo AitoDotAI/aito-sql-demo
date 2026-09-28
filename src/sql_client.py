@@ -51,9 +51,37 @@ class SqlClient:
     def __init__(self, config: Config, timeout: float = 60.0) -> None:
         self._url = config.aito_url.rstrip("/")
         self._headers = {"x-api-key": config.aito_key, "content-type": "text/plain"}
-        self._client = httpx.Client(timeout=timeout)
+        # Hold connections open and few. This is mitigation for lossy DNS, which
+        # is what the demo's multi-second stalls turned out to be: resolution
+        # failures time out at glibc's default 5s, so every stall is a clean 5s
+        # or 8s multiple. A connection that stays open resolves ONCE instead of
+        # per request, so keeping the pool warm removes most of the exposure —
+        # and keeping it SMALL matters too, because each additional concurrent
+        # connection is another lookup and another chance to draw the 5s straw.
+        #
+        # Measured with DNS pre-resolved, TCP to shared.aito.ai is clean (0/20
+        # stalls, median 54ms), so there is nothing to fix on the wire itself.
+        self._client = httpx.Client(
+            timeout=timeout,
+            limits=httpx.Limits(max_connections=8, max_keepalive_connections=8,
+                                keepalive_expiry=300.0),
+        )
         self.last_ms: float = 0.0
         self.last_calls: int = 0
+
+    def warm(self) -> bool:
+        """Open the connection and resolve the host once, before a user waits.
+
+        Called at startup. Cheap, and it moves the first (most expensive)
+        lookup off the first page load. Never raises: a demo that cannot warm
+        its pool should still boot and report the failure through /api/health.
+        """
+        try:
+            self.query("SELECT count(*) FROM analysis")
+            return True
+        except Exception as e:                       # noqa: BLE001 — see docstring
+            print(f"warm-up failed (continuing): {e}")
+            return False
 
     @property
     def base_url(self) -> str:

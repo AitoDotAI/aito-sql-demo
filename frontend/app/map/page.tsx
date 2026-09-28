@@ -29,7 +29,7 @@ const PANEL_CONFIG: AitoPanelConfig = {
     "  k => 60);",
   links: [
     { label: "Aito SQL guide", url: "https://aito.ai/docs/api/sql/guide" },
-    { label: "Source on GitHub", url: "https://github.com/AitoDotAI" },
+    { label: "This demo on GitHub", url: "https://github.com/AitoDotAI/aito-sql-demo" },
   ],
 };
 
@@ -291,7 +291,7 @@ export default function MapPage() {
                     </li>
                     <li>
                       <strong>Two rows say the same thing twice.</strong>{" "}
-                      <code>grade=consumer</code> and <code>duty_cycle_pct=35</code> score
+                      <code>grade=consumer</code> and <code>duty_cycle_pct=35</code>{" "}score
                       identically inside 3-shift because they are the same fact &mdash; the generator
                       sets duty cycle from grade. The map surfaces the redundancy rather than hiding
                       it, which is what you want a map to do about your own schema.

@@ -11,7 +11,7 @@ export interface NavRoute {
   /** Optional short line under the label — what the page is for. */
   hint?: string;
   /** Which badge count to show, if any. */
-  badgeKey?: "cards" | "cells" | "patterns";
+  badgeKey?: "cards" | "cells" | "patterns" | "holdout";
 }
 
 export interface NavSection {
@@ -23,7 +23,7 @@ interface NavProps {
   sections: NavSection[];
 }
 
-type Badges = Partial<Record<"cards" | "cells" | "patterns", number>>;
+type Badges = Partial<Record<"cards" | "cells" | "patterns" | "holdout", number>>;
 
 /**
  * Left-sidebar nav, following the accounting demo's structure: a logo block,

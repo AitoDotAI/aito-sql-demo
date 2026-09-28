@@ -29,7 +29,7 @@ const PANEL_CONFIG: AitoPanelConfig = {
     "  k => 4);",
   links: [
     { label: "Aito SQL guide", url: "https://aito.ai/docs/api/sql/guide" },
-    { label: "Source on GitHub", url: "https://github.com/AitoDotAI" },
+    { label: "This demo on GitHub", url: "https://github.com/AitoDotAI/aito-sql-demo" },
   ],
 };
 
@@ -131,7 +131,7 @@ export default function PatternsPage() {
               <div className="lede">
                 <h2>Nobody proposed these combinations.</h2>
                 <p>
-                  A card answers a question you thought of. <code>patterns()</code> answers none
+                  A card answers a question you thought of. <code>patterns()</code>{" "}answers none
                   &mdash; it mines{" "}
                   <strong>conjunctions of values that co-occur more than they should</strong>, and
                   the only input is which columns to look at. Each one below is written back into a{" "}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import Link from "next/link";
 import TopBar from "@/components/shell/TopBar";
 import Nav from "@/components/shell/Nav";
 import { NAV_SECTIONS } from "@/lib/routes";
@@ -8,6 +9,7 @@ import AitoPanel from "@/components/shell/AitoPanel";
 import ErrorState from "@/components/shell/ErrorState";
 import { apiFetch } from "@/lib/api";
 import type { AitoPanelConfig } from "@/lib/types";
+import ConnectBox from "@/components/shell/ConnectBox";
 import CardPanel from "@/components/cards/CardPanel";
 import ChainStrip from "@/components/cards/ChainStrip";
 import type { CardSummary, Overview } from "@/lib/cardTypes";
@@ -15,9 +17,9 @@ import type { CardSummary, Overview } from "@/lib/cardTypes";
 const PANEL_CONFIG: AitoPanelConfig = {
   operation: "POST /api/v2/_sql",
   stats: [
-    { value: "13", label: "tables" },
+    { value: "24", label: "SQL statements" },
     { value: "0", label: "models trained" },
-    { value: "~150ms", label: "per card" },
+    { value: "~45ms", label: "per statement" },
   ],
   description:
     "Every number on this page comes from a <strong>SQL statement</strong> — no model was trained, " +
@@ -30,7 +32,7 @@ const PANEL_CONFIG: AitoPanelConfig = {
     "  k => 6);",
   links: [
     { label: "Aito SQL guide", url: "https://aito.ai/docs/api/sql/guide" },
-    { label: "Source on GitHub", url: "https://github.com/AitoDotAI" },
+    { label: "This demo on GitHub", url: "https://github.com/AitoDotAI/aito-sql-demo" },
   ],
 };
 
@@ -73,6 +75,28 @@ export default function Home() {
             <>
               <ChainStrip overview={overview} />
 
+              {/* The idiomatic form, first — an engineer looking for "what does
+                  this actually look like in SQL" should not have to find it on
+                  page three. It is also the one claim here that is checkable
+                  against withheld data, so it earns the top slot. */}
+              <aside className="lead-sql">
+                <div className="lead-sql-body">
+                  <span className="lead-sql-kicker">Predicting is one statement</span>
+                  <pre>
+{`SELECT install_id, predictions(churned)
+  FROM analysis WHERE churned IS NULL;`}
+                  </pre>
+                  <p>
+                    No model, no training step, no feature pipeline — a column that does not exist
+                    yet, asked for like any other. Those rows are real installs whose outcome was
+                    withheld from the database, so the answer can be marked.
+                  </p>
+                </div>
+                <Link className="lead-sql-cta" href="/scoring">
+                  See how well it did →
+                </Link>
+              </aside>
+
               <div className="lede">
                 <h2>Six questions, twenty-four SQL statements, no training step.</h2>
                 <p>
@@ -99,6 +123,8 @@ export default function Home() {
                   ))}
                 </div>
               )}
+
+              <ConnectBox />
 
               <section className="honesty">
                 <h3>What this page is not hiding</h3>

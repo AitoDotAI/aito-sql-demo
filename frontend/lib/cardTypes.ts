@@ -157,3 +157,39 @@ export interface PatternsResult {
   case_columns: string[];
   groups: string[];
 }
+
+/** /api/scoring — row-level predictions on the held-out cohort, and the score. */
+export interface ScoringBand {
+  lo: number; hi: number; n: number;
+  predicted: number;   // mean predicted churn probability in this band, %
+  actual: number;      // how many of them really churned, %
+}
+
+export interface ScoringSample {
+  install_id: string;
+  climate: string; cooling: string; grade: string; shift_pattern: string;
+  had_thermal_fault: string;
+  p_churn: number;     // %
+  actual: string;      // "true" | "false" — the withheld label, revealed only here
+  correct: boolean;
+}
+
+export interface Scoring {
+  n: number;
+  churned: number;
+  churn_rate: number;
+  accuracy: number;
+  /** What "always predict the majority class" would score. Printed beside
+   *  accuracy because this demo does not beat it, and hiding that would make
+   *  the accuracy figure a lie of omission. */
+  base_accuracy: number;
+  decile_n: number;
+  decile_hits: number;
+  decile_rate: number;
+  decile_lift: number | null;
+  auc: number | null;
+  bands: ScoringBand[];
+  sample: ScoringSample[];
+  sql: Record<string, string>;
+  ms: number;
+}

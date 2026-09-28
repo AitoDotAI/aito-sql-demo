@@ -118,6 +118,7 @@ class World:
     actions: list = field(default_factory=list)
     reorders: list = field(default_factory=list)
     analysis: list = field(default_factory=list)
+    holdout_truth: list = field(default_factory=list)
 
 
 # --------------------------------------------------------------------------
@@ -713,9 +714,49 @@ def gen_analysis(w: World) -> None:
         })
 
 
+# Share of installs whose label is withheld. These rows stay in `analysis`
+# with every feature intact and no outcome, so the engine can be asked about
+# them the way production asks about a machine installed this morning.
+#
+# Why this exists: the row-level form `SELECT install_id, predict(churned) FROM
+# analysis` is the idiomatic one, and on LABELLED rows it is worthless — the
+# row's own label is part of the evidence, so the prediction echoes it at
+# p=0.98 for every row regardless of features. Measured, not assumed. Withhold
+# the label and the same statement recovers the planted mechanisms instead.
+#
+# 8% is a compromise: enough rows to put a confidence interval around the
+# accuracy, few enough that the other 92% still carry the cards.
+HOLDOUT_FRACTION = 0.08
+
+
+def withhold_labels(w: World) -> None:
+    """Blank the outcome on a held-out slice; keep the truth in its own table.
+
+    Both spellings go: `reordered` is `churned`'s complement, so leaving it
+    behind would hand the engine the answer through the back door and the
+    "prediction" would score 100%.
+
+    Seeded separately from the world's rng so that which rows are held out does
+    not depend on how many random draws the generators above happened to make —
+    otherwise an unrelated tweak upstream silently reshuffles the holdout.
+    """
+    rng = random.Random(SEED + 991)
+    idx = list(range(len(w.analysis)))
+    rng.shuffle(idx)
+    for i in sorted(idx[: int(len(idx) * HOLDOUT_FRACTION)]):
+        row = w.analysis[i]
+        w.holdout_truth.append({
+            "install_id": row["install_id"],
+            "churned": row["churned"],
+            "reordered": row["reordered"],
+        })
+        row["churned"] = ""
+        row["reordered"] = ""
+
+
 TABLES = ["products", "customers", "sites", "campaigns", "sessions", "orders",
           "installs", "tickets", "feedback", "events", "actions", "reorders",
-          "analysis"]
+          "analysis", "holdout_truth"]
 
 
 def write_csvs(w: World, out: Path) -> None:
@@ -738,6 +779,7 @@ def build(seed: int = SEED, n_customers: int = 520, n_installs: int = 3000) -> W
     gen_reorders(w)
     gen_events_actions(w)
     gen_analysis(w)
+    withhold_labels(w)
     return w
 
 
