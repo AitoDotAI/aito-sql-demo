@@ -254,11 +254,19 @@ def _card_payload(card: Card, full: bool) -> dict:
 # rather than merely convenient.
 _BADGE_CACHE: dict[str, int] = {}
 
-# The mined patterns themselves, for the same reason and with more at stake:
-# mining is 19 sequential statements to Aito and measured 13-16 seconds on the
-# live instance, every single request. The dataset is static — it changes only
-# when `./do provision` reloads it — so a per-process cache is correct, not a
+# The mined patterns themselves, for the same reason: mining is 19 sequential
+# statements to Aito, and the dataset is static — it changes only when
+# `./do provision` reloads it — so a per-process cache is correct rather than a
 # shortcut. `?refresh=true` re-mines, mirroring /api/map.
+#
+# On the size of the win, because the first measurement here was misread: this
+# endpoint was timed at 13-16s per request and that was attributed to mining
+# cost. It was not. It was DNS — resolution failures time out at glibc's
+# default 5s, so 19 sequential statements meant 19 chances to draw a 5s stall.
+# Re-measured when DNS is behaving, an uncached mine is ~1.3s. So the cache
+# buys roughly 1s, not 15s. Still worth having for a page whose content cannot
+# change between provisions, and the lock below still matters, but it is polish
+# rather than a rescue.
 _PATTERNS_CACHE: dict[str, object] = {}
 _PATTERNS_LOCK = threading.Lock()
 
@@ -345,10 +353,9 @@ async def run_sql(request: Request):
 def get_patterns(refresh: bool = False):
     """Mined conjunctions, the rows behind each, and a generated sentence.
 
-    Served from an in-process cache. The mine is 19 statements and took 13-16s
-    on every request before this, which is a long time to look at a page that
-    says "mining…" — and /patterns is one of four nav items, so a good share of
-    first-time visitors were paying it.
+    Served from an in-process cache. The mine is 19 sequential statements and
+    ~1.3s — see the note by _PATTERNS_CACHE for why the figure first recorded
+    here (13-16s) was DNS stalls rather than mining cost.
 
     The lock makes it single-flight: without it, N visitors arriving on a cold
     process would each start their own 19-statement mine, which is how a slow
@@ -386,8 +393,11 @@ def _warm_patterns() -> None:
     def run() -> None:
         try:
             get_patterns()
-        except Exception:
-            pass
+        except Exception as e:                   # noqa: BLE001 — see docstring
+            # Swallowed so the app still serves, but not silently: a warm-up
+            # that cannot reach Aito otherwise looks exactly like one that
+            # worked, and the only symptom is a slow first /patterns.
+            print(f"patterns warm-up failed (continuing): {e}")
 
     threading.Thread(target=run, name="warm-patterns", daemon=True).start()
 
