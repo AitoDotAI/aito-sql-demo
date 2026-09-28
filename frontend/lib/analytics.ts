@@ -1,9 +1,16 @@
 /**
- * Amplitude + GA4 analytics for the Predictive Ledger demo.
+ * Amplitude + GA4 analytics for the SQL demo (sql.aito.ai).
  *
  * SURFACE identifies which Aito surface emitted the event so the
  * shared Amplitude workspace can slice cross-surface funnels
- * (landing → demo → console).
+ * (landing → demo → console). It is attached as the `surface`
+ * property on EVERY event, and the workspace is shared by all the
+ * demos — so a value that is not unique to this demo silently
+ * merges its traffic into another demo's numbers.
+ *
+ * This read "accounting-demo" until 2026-09-25: the value is
+ * inherited from aito-demo-server's scaffold template, which
+ * hardcodes it. If you scaffold a new demo, change this line FIRST.
  *
  * API key and GA4 measurement ID are provisioned at build time via
  * aito-demo-server's `env_secrets` (sourced from Azure Key Vault);
@@ -13,7 +20,7 @@
 
 import * as amplitude from "@amplitude/analytics-browser";
 
-const SURFACE = "accounting-demo";
+const SURFACE = "sql-demo";
 
 type Props = Record<string, unknown>;
 type Traits = Record<string, unknown>;
