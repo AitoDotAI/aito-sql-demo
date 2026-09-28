@@ -25,14 +25,24 @@ AITO_API_KEY=<read-write key>                        \
   ./do provision
 ```
 
-`provision` generates the corpus, loads 61,875 rows over pgwire, creates the 17
-views, precomputes the map, and verifies the result (3,000 installs, four card
-views, ~20% baseline churn). It is idempotent — it drops and reloads.
+`provision` generates the corpus, loads 62,115 rows over pgwire, creates the 17
+views, precomputes the map, and verifies the result (3,000 installs, of which
+240 carry no label, four card views, ~20% baseline churn). It is idempotent —
+it drops and reloads.
 
 ```bash
 # 2. add to aito-demo-server/.env.local AND Azure App Settings:
 AITO_SQL_API_URL=https://shared.aito.ai/db/aito-sql-demo
 AITO_SQL_API_KEY=<READ-ONLY key>        # not the one used above
+
+# OPTIONAL, and a deliberate decision rather than a default. Setting it puts a
+# working psql connection string — key included — on a public page, in the
+# "Connect to it yourself" box on `/`. Leave it unset and the box still ships,
+# showing host/port/database/user with `<your-read-only-key>` in place of the
+# credential. Only ever a key that cannot write: this database is rebuilt by
+# `./do provision`, but a reader with a write key could still break the demo
+# mid-meeting.
+AITO_SQL_READONLY_KEY=<the same READ-ONLY key, if it should be published>
 
 # 3. deploy
 cd ../aito-azure && ./do deploy-demos

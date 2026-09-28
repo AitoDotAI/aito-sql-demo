@@ -141,10 +141,19 @@ def explore(sql: SqlClient, facets: list[Facet], lever: str | None = None) -> di
         elif v == "false" and p is not None and predicted is None:
             predicted = 1.0 - float(p)
 
-    # Per-field breakdowns, in parallel. Sequentially this is ~2 statements x 17
-    # fields at ~130ms = 4s, which would make the explorer a report. Fanned out
-    # it lands near the slowest single pair.
-    with ThreadPoolExecutor(max_workers=10) as pool:
+    # Per-field breakdowns, in parallel. Sequentially this is 2 statements x 19
+    # fields at ~46ms = ~1.7s, which would make the explorer a report rather
+    # than something you click.
+    #
+    # FOUR workers, not ten, and the reason is DNS rather than the engine. Each
+    # extra concurrent request is another connection, and — until the pool is
+    # warm — another hostname lookup that can time out at 5s. Widening the
+    # fan-out multiplies the chance a page load draws one: at ten, a single
+    # unlucky lookup held the whole response for 5.3s while the 38 statements
+    # underneath it cost 46ms each. Four keeps the fan-out useful and fits
+    # inside the pool SqlClient holds open (max_keepalive_connections=8), so
+    # after warm-up these are reused connections that never resolve again.
+    with ThreadPoolExecutor(max_workers=4) as pool:
         results = list(pool.map(lambda f: _counts(sql, f, where), fields))
 
     dimensions = []

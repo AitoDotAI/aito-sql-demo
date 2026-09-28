@@ -28,7 +28,7 @@ const PANEL_CONFIG: AitoPanelConfig = {
     "            AND cooling = ''passive''');",
   links: [
     { label: "Aito SQL guide", url: "https://aito.ai/docs/api/sql/guide" },
-    { label: "Source on GitHub", url: "https://github.com/AitoDotAI" },
+    { label: "This demo on GitHub", url: "https://github.com/AitoDotAI/aito-sql-demo" },
   ],
 };
 

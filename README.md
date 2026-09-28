@@ -32,6 +32,25 @@ planted, so you can compare what was buried with what the engine recovered:
 
 Card 5 fails on purpose. A dashboard where all six cards work is one nobody should trust.
 
+**8% of installs have their outcome withheld.** They sit in `analysis` with every feature and
+no label, which is what makes `SELECT install_id, predictions(churned) FROM analysis WHERE
+churned IS NULL` a prediction rather than a lookup: run the same statement against a labelled
+row and the engine answers with that row's own label at p = 0.98, every time, whatever the
+features — because the label is part of the evidence it conditions on. `/scoring` joins the
+withheld truth back and reports what it finds, which is not flattering:
+
+| | |
+|---|---|
+| accuracy | **78.8%**, against an **82.1%** base rate — it loses to "nobody churns" |
+| top-decile lift | **×2.56** — the riskiest 24 installs churn at 45.8% against 17.9% overall |
+| AUC | **0.645** |
+| calibration | honest below 20%, overconfident above it (calls ~80%, delivers ~48%) |
+
+Accuracy is the wrong question for an 18% outcome and it is printed anyway, beside the base
+rate it loses to. What the engine does well is *rank*, which is what a retention team uses.
+`book/test_04_holdout_book.py` asserts all of this — including the leak, so that if a future
+engine build stops echoing labels, the test fails and this section gets rewritten.
+
 ## Run it
 
 ```bash
@@ -69,11 +88,12 @@ watching:
   "your tools still work" — it is "your tools fill the gaps in ours", which is a
   better argument and an honest one about the subset's limits.
 
-## The four views
+## The five views
 
 | route | what it is |
 |---|---|
 | `/` | the six cards — root cause and lever per question, one of which fails |
+| `/scoring` | row-level predictions on installs whose label was withheld, and the score |
 | `/map` | the exhaustive sweep the cards came out of: 827 cells, 18 statements |
 | `/explore` | every value a link; narrow endlessly and watch the engine hedge |
 | `/patterns` | conjunctions nobody proposed, their real cases, and a sentence |
@@ -86,6 +106,7 @@ watching:
 | `src/load.py` | `COPY` over pgwire — nothing else |
 | `sql/01_schema.sql` | 13 tables; `REFERENCES` declares the Aito links the cards traverse |
 | `src/cards.py` | the six cards, each four SQL statements and nothing else |
+| `src/holdout.py` | scoring the withheld installs, and why accuracy is the wrong metric |
 | `src/app.py` | thin routes; every response carries the SQL that produced it |
 | `docs/design.md` | the design, and every measured limit found building it |
 

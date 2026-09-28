@@ -25,7 +25,10 @@ from __future__ import annotations
 from pathlib import Path
 
 import json
+import os
+import re
 import threading
+from urllib.parse import urlparse
 from functools import lru_cache
 
 from fastapi import FastAPI, HTTPException, Request, Response
@@ -45,6 +48,36 @@ app = FastAPI(
     description="A 360° view of the business — root causes and the lever that moves each, in SQL.",
     version="0.1.0",
 )
+
+
+@app.on_event("startup")
+def _warm_connection() -> None:
+    """Resolve the host and open the pool before the first visitor waits.
+
+    Mitigation, not a fix: the multi-second page loads reported in the demo
+    review were DNS resolution timing out (5s and 8s multiples, glibc's default
+    timeout:5), not slow SQL — the engine answers in ~1ms and the wire adds
+    ~45ms. A pooled connection resolves once and then stops asking, so warming
+    it here moves the expensive first lookup off the critical path.
+
+    All of it on a daemon thread, nothing awaited — the same reasoning
+    _warm_patterns gives below, and it applies to the connection warm-up too:
+    the platform's readiness check hits /api/health, and the one statement that
+    opens the pool is normally ~50ms but is precisely the call that can draw a
+    5s DNS stall. Blocking the port bind on it would let the fault this warm-up
+    exists to hide reappear as a deploy that looks unhealthy.
+
+    Ordered deliberately: the pool first, then the holdout scoring, which is
+    ~7s of per-row inference and wants a warm connection rather than opening
+    its own.
+    """
+    def run() -> None:
+        from src import holdout
+
+        sql.warm()
+        holdout.warm(sql)
+
+    threading.Thread(target=run, name="warm-connection", daemon=True).start()
 
 
 # ── Middleware: surface Aito latency in response headers ─────────────
@@ -114,11 +147,17 @@ def _pct(x: float | None) -> float | None:
 
 
 def _churn_from_predict(rows: list[dict]) -> float | None:
-    """predict() returns the ranked distribution; we want P(churned = true).
+    """predictions() returns the ranked distribution; we want P(churned = true).
 
     It returns the ARGMAX first, which for a healthy book is 'false' — so
     reading rows[0] would silently report the retention rate as the churn rate.
     Pick the row by its value instead.
+
+    The cards ask for `predictions(...)` rather than `predict(...)` precisely so
+    that this function has a 'true' row to find. `predict()` returns the argmax
+    ALONE, so a card showing 37.4% displayed a statement whose only row was
+    ('false', 0.626) — the complement of the number above it. The reader who
+    checked the SQL was the one who got misled, which is the wrong way round.
     """
     for r in rows:
         if str(r.get("$value", r.get("value"))).lower() == "true":
@@ -289,6 +328,11 @@ def nav_badges():
             pass
     if "patterns" in _BADGE_CACHE:
         out["patterns"] = _BADGE_CACHE["patterns"]
+    # Only once the holdout cache has filled — see the docstring: a badge that
+    # appears halfway through the first page load is worse than no badge.
+    from src import holdout
+    if holdout._CACHE is not None and holdout._CACHE.get("n"):
+        out["holdout"] = holdout._CACHE["n"]
     return out
 
 
@@ -347,6 +391,54 @@ async def run_sql(request: Request):
     return {"sql": result.sql, "columns": result.columns,
             "rows": result.rows, "ms": round(result.ms),
             "warnings": result.warnings}
+
+
+@app.get("/api/connect")
+def connect_details():
+    """What an engineer needs to open psql against this demo themselves.
+
+    The key is deliberately NOT `AITO_API_KEY`. That one can write — this demo
+    loads its data with it — and a demo page is a public place. A separate
+    read-only key goes in `AITO_SQL_READONLY_KEY`, and until somebody sets it
+    the box ships with a placeholder and tells the reader where to get one.
+    That way publishing a credential stays an explicit act by a person rather
+    than a side effect of deploying this route.
+    """
+    parsed = urlparse(config.aito_url)
+    host = parsed.hostname or ""
+    m = re.search(r"/db/([^/]+)", config.aito_url)
+    database = m.group(1) if m else "aito"
+    key = os.environ.get("AITO_SQL_READONLY_KEY", "")
+    return {
+        "host": host,
+        "port": 5432,
+        "database": database,
+        "user": "aito",
+        "key_published": bool(key),
+        "key": key or "<your-read-only-key>",
+        "psql": (f"PGPASSWORD={key or '<your-read-only-key>'} "
+                 f"psql -h {host} -p 5432 -U aito -d {database}"),
+        "url": config.aito_url,
+        # The one statement worth running first.
+        "try": "SELECT install_id, predictions(churned) FROM analysis WHERE churned IS NULL LIMIT 5;",
+    }
+
+
+@app.get("/api/scoring")
+def get_scoring():
+    """Row-level predictions on installs whose label was withheld, and the score.
+
+    The demo's honesty beat, and the one route whose numbers are allowed to be
+    unflattering — accuracy here sits BELOW the base rate. See src/holdout.py
+    for why that is the honest thing to print rather than a bug to tune away.
+    """
+    from src import holdout
+
+    try:
+        return holdout.cached(sql)
+    except SqlError as e:
+        raise HTTPException(status_code=502,
+                            detail={"message": str(e), "sql": e.sql})
 
 
 @app.get("/api/patterns")

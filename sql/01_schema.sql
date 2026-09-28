@@ -214,6 +214,21 @@ CREATE TABLE analysis (
   feedback_score      integer,
   order_value         numeric NOT NULL,
   installed_on        date NOT NULL,
+  -- NULLABLE on purpose. The held-out cohort carries every feature and no
+  -- label, which is what makes `SELECT install_id, predictions(churned) FROM
+  -- analysis WHERE churned IS NULL` an honest prediction rather than an echo:
+  -- with the label present, the engine reads the row's own answer back out at
+  -- p=0.98. `reordered` is the label's complement, so it is blanked with it —
+  -- leaving it would leak the answer perfectly through the back door.
+  churned             varchar,
+  reordered           varchar
+);
+
+-- The withheld truth, kept OUT of the table the engine reads so that scoring
+-- the held-out rows is a real test. Joined back only to score the predictions
+-- (src/holdout.py), never queried as evidence.
+CREATE TABLE holdout_truth (
+  install_id          varchar PRIMARY KEY,
   churned             varchar NOT NULL,
   reordered           varchar NOT NULL
 );

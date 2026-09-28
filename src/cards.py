@@ -62,7 +62,7 @@ class Card:
     interaction: bool = False
 
 
-BASELINE = "SELECT value, p FROM predict('analysis','churned')"
+BASELINE = "SELECT value, p FROM predictions('analysis','churned')"
 
 CARDS: list[Card] = [
     Card(
@@ -72,7 +72,7 @@ CARDS: list[Card] = [
         question="Why do hot-climate sites churn twice as often?",
         mechanism="M1",
         rank=1,
-        kpi=q("""SELECT value, p FROM predict('analysis','churned',
+        kpi=q("""SELECT value, p FROM predictions('analysis','churned',
                  where => 'cooling = ''passive'' AND climate = ''hot''')"""),
         causes=q("""SELECT * FROM relate('analysis', to => 'churned = ''true''',
                     fields => 'cooling, climate, had_thermal_fault', k => 6)"""),
@@ -95,7 +95,7 @@ CARDS: list[Card] = [
         question="Which machines are being asked to do more than they are rated for?",
         mechanism="M2",
         rank=2,
-        kpi=q("""SELECT value, p FROM predict('analysis','churned',
+        kpi=q("""SELECT value, p FROM predictions('analysis','churned',
                  where => 'grade = ''consumer'' AND shift_pattern = ''3-shift''')"""),
         causes=q("""SELECT * FROM relate('analysis', to => 'churned = ''true''',
                     fields => 'grade, shift_pattern, duty_cycle_pct', k => 6)"""),
@@ -117,7 +117,7 @@ CARDS: list[Card] = [
         question="Does answering faster actually keep customers?",
         mechanism="M4",
         rank=3,
-        kpi=q("""SELECT value, p FROM predict('analysis','churned',
+        kpi=q("""SELECT value, p FROM predictions('analysis','churned',
                  where => 'slow_first_response = ''true''')"""),
         causes=q("""SELECT * FROM relate('analysis', to => 'churned = ''true''',
                     fields => 'slow_first_response, support_tier, ticket_count', k => 6)"""),
@@ -135,7 +135,7 @@ CARDS: list[Card] = [
         question="Should we cut spend on the distributor channel?",
         mechanism="M3",
         rank=4,
-        kpi=q("""SELECT value, p FROM predict('analysis','churned',
+        kpi=q("""SELECT value, p FROM predictions('analysis','churned',
                  where => 'channel = ''distributor-ME''')"""),
         causes=q("""SELECT * FROM relate('analysis', to => 'churned = ''true''',
                     fields => 'channel, region', k => 6)"""),
@@ -157,7 +157,7 @@ CARDS: list[Card] = [
         question="Is on-site commissioning worth what it costs us?",
         mechanism="NEG",
         rank=5,
-        kpi=q("""SELECT value, p FROM predict('analysis','churned',
+        kpi=q("""SELECT value, p FROM predictions('analysis','churned',
                  where => 'commissioning = ''self''')"""),
         causes=q("""SELECT * FROM relate('analysis', to => 'churned = ''true''',
                     fields => 'commissioning', k => 3)"""),
@@ -176,7 +176,7 @@ CARDS: list[Card] = [
         question="Which plan should we push, and what is it worth?",
         mechanism="lever",
         rank=6,
-        kpi=q("""SELECT value, p FROM predict('analysis','churned',
+        kpi=q("""SELECT value, p FROM predictions('analysis','churned',
                  where => 'service_plan = ''none''')"""),
         causes=q("""SELECT * FROM relate('analysis', to => 'churned = ''true''',
                     fields => 'service_plan, order_value', k => 5)"""),

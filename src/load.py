@@ -25,7 +25,7 @@ from urllib.parse import urlparse
 LOAD_ORDER = [
     "products", "customers", "sites", "campaigns", "sessions",
     "orders", "installs", "tickets", "feedback", "events", "actions", "reorders",
-    "analysis",
+    "analysis", "holdout_truth",
 ]
 
 
