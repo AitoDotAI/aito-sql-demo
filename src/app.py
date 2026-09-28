@@ -25,6 +25,7 @@ from __future__ import annotations
 from pathlib import Path
 
 import json
+import threading
 from functools import lru_cache
 
 from fastapi import FastAPI, HTTPException, Request, Response
@@ -253,6 +254,14 @@ def _card_payload(card: Card, full: bool) -> dict:
 # rather than merely convenient.
 _BADGE_CACHE: dict[str, int] = {}
 
+# The mined patterns themselves, for the same reason and with more at stake:
+# mining is 19 sequential statements to Aito and measured 13-16 seconds on the
+# live instance, every single request. The dataset is static — it changes only
+# when `./do provision` reloads it — so a per-process cache is correct, not a
+# shortcut. `?refresh=true` re-mines, mirroring /api/map.
+_PATTERNS_CACHE: dict[str, object] = {}
+_PATTERNS_LOCK = threading.Lock()
+
 
 @app.get("/api/nav/badges")
 def nav_badges():
@@ -333,16 +342,54 @@ async def run_sql(request: Request):
 
 
 @app.get("/api/patterns")
-def get_patterns():
-    """Mined conjunctions, the rows behind each, and a generated sentence."""
+def get_patterns(refresh: bool = False):
+    """Mined conjunctions, the rows behind each, and a generated sentence.
+
+    Served from an in-process cache. The mine is 19 statements and took 13-16s
+    on every request before this, which is a long time to look at a page that
+    says "mining…" — and /patterns is one of four nav items, so a good share of
+    first-time visitors were paying it.
+
+    The lock makes it single-flight: without it, N visitors arriving on a cold
+    process would each start their own 19-statement mine, which is how a slow
+    endpoint becomes a thundering one.
+    """
     from src import patterns as pat
 
-    try:
-        result = pat.mine(sql)
+    if not refresh and "result" in _PATTERNS_CACHE:
+        return _PATTERNS_CACHE["result"]
+
+    with _PATTERNS_LOCK:
+        # Re-check inside the lock: whoever was ahead of us has filled it.
+        if not refresh and "result" in _PATTERNS_CACHE:
+            return _PATTERNS_CACHE["result"]
+        try:
+            result = pat.mine(sql)
+        except SqlError as e:
+            raise HTTPException(status_code=502, detail={"message": str(e), "sql": e.sql})
+        _PATTERNS_CACHE["result"] = result
         _BADGE_CACHE["patterns"] = len(result["patterns"])
         return result
-    except SqlError as e:
-        raise HTTPException(status_code=502, detail={"message": str(e), "sql": e.sql})
+
+
+@app.on_event("startup")
+def _warm_patterns() -> None:
+    """Mine once in the background at startup, so the first visitor to
+    /patterns does not pay for it.
+
+    Deliberately a daemon thread rather than awaited: the platform's readiness
+    check hits /api/health, and blocking startup on 19 Aito statements would
+    make a deploy look unhealthy for a quarter of a minute. Failure is
+    swallowed on purpose — a warm-up that cannot reach Aito must not stop the
+    app from serving, and the route will simply mine on demand as before.
+    """
+    def run() -> None:
+        try:
+            get_patterns()
+        except Exception:
+            pass
+
+    threading.Thread(target=run, name="warm-patterns", daemon=True).start()
 
 
 @app.get("/api/explore")
