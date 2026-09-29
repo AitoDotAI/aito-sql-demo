@@ -192,4 +192,17 @@ export interface Scoring {
   sample: ScoringSample[];
   sql: Record<string, string>;
   ms: number;
+  /** The engine's non-fatal channel. `select.predictions_in_sample` says the
+   *  scored rows are still in the population the prediction is read from, so
+   *  the figures above read better than a true held-out estimate. Shown, not
+   *  swallowed. */
+  warnings?: { code?: string; message?: string; severity?: string; field?: string }[];
+  /** The engine's own train/test estimate — the test rows are held out of the
+   *  population, not just of their own prediction. Where this and the holdout
+   *  numbers disagree, this is the one to trust. Null on an engine build
+   *  without `evaluate()`. */
+  evaluate?: {
+    n: number; train: number; test: number;
+    accuracy: number; base_accuracy: number; gain: number;
+  } | null;
 }

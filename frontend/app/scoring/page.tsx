@@ -19,9 +19,10 @@ const PANEL_CONFIG: AitoPanelConfig = {
     { value: "1", label: "SQL statement" },
   ],
   description:
-    "One statement scores every install whose outcome was withheld. The " +
-    "<code>WHERE churned IS NULL</code> is what makes it a prediction: with the label " +
-    "present, the engine reads the row's own answer back out at p&nbsp;=&nbsp;0.98.",
+    "One statement scores every install whose outcome was withheld. Run it without the " +
+    "<code>WHERE</code> and every row comes back at p&nbsp;=&nbsp;0.9808 &mdash; not because the " +
+    "engine reads the target back (it holds that out), but because <code>reordered</code> is a " +
+    "perfect complement sitting on the same row.",
   query:
     "SELECT install_id,\n" +
     "       predictions(churned)\n" +
@@ -136,7 +137,7 @@ export default function ScoringPage() {
           {!error && (
             <>
               <div className="lede">
-                <h2>One statement, on rows the engine was never told the answer to.</h2>
+                <h2>One statement, on rows whose outcome was withheld.</h2>
                 <p>
                   Everything else on this site asks about a <em>group</em>. This asks about a{" "}
                   <strong>row</strong>{" "}— the form people mean when they say &ldquo;predict&rdquo;,
@@ -152,10 +153,14 @@ export default function ScoringPage() {
               </pre>
               <p className="sc-hero-note">
                 Drop that <code>WHERE</code> and every prediction comes back agreeing with the
-                label at <code>p&nbsp;=&nbsp;0.98</code>, for every row, whatever its features —
-                because the row&rsquo;s own outcome is part of the evidence. That is not a model
-                being good, it is a lookup wearing a model&rsquo;s clothes. This page exists
-                because an earlier version of it showed exactly that.
+                label at <code>p&nbsp;=&nbsp;0.9808</code> &mdash; the <em>same</em>{" "}number for
+                every row, whatever its climate, cooling or grade. That is a lookup wearing a
+                model&rsquo;s clothes, and it is what this page showed until someone checked.
+                The cause is worth naming precisely, because we first got it wrong: the engine
+                does <strong>not</strong> read the target&rsquo;s own value back &mdash; it holds{" "}
+                <code>churned</code> out when predicting <code>churned</code>. The leak was{" "}
+                <code>reordered</code>, a perfect complement sitting on the same row, which is why
+                the generator blanks both.
               </p>
 
               {!data && <div className="card-loading">scoring…</div>}
@@ -210,6 +215,59 @@ export default function ScoringPage() {
                     </p>
                   </section>
 
+                  {(data.warnings?.length || data.evaluate) && (
+                    <section className="sc-warn">
+                      <h3 className="ex-h">What the engine says about this number</h3>
+                      {data.warnings?.map((w, i) => (
+                        <div className="sc-warn-box" key={i}>
+                          <code className="sc-warn-code">{w.code}</code>
+                          <p>{w.message}</p>
+                        </div>
+                      ))}
+                      <p className="sc-warn-note">
+                        It is right, and it is worth stating plainly rather than burying: the
+                        withheld installs are still <em>in</em> <code>analysis</code>. Their
+                        outcome is gone, but their other columns still count toward the
+                        co-occurrence statistics every prediction is read from &mdash; so the
+                        scorecard above is <strong>optimistic</strong>. A demo page is exactly
+                        where that gets swallowed, so here is the unbiased version instead.
+                      </p>
+                      {data.evaluate && (
+                        <>
+                          <div className="sc-ev">
+                            <div className="sc-ev-cell">
+                              <span className="sc-ev-v">{data.evaluate.accuracy}%</span>
+                              <span className="sc-ev-l">accuracy, held out properly</span>
+                            </div>
+                            <div className="sc-ev-cell">
+                              <span className="sc-ev-v">{data.evaluate.base_accuracy}%</span>
+                              <span className="sc-ev-l">base rate</span>
+                            </div>
+                            <div className="sc-ev-cell">
+                              <span className={`sc-ev-v ${data.evaluate.gain < 0 ? "sc-ev-neg" : ""}`}>
+                                {data.evaluate.gain > 0 ? "+" : ""}{data.evaluate.gain}pp
+                              </span>
+                              <span className="sc-ev-l">gain over base</span>
+                            </div>
+                            <div className="sc-ev-cell">
+                              <span className="sc-ev-v">{data.evaluate.test}</span>
+                              <span className="sc-ev-l">test rows, {data.evaluate.train} train</span>
+                            </div>
+                          </div>
+                          <pre className="sc-ev-sql">{data.sql.evaluate}</pre>
+                          <p className="sc-warn-note">
+                            <code>evaluate()</code>{" "}splits train from test for real &mdash; the test
+                            rows are held out of the <em>population</em>, not just of their own
+                            prediction. It reaches the same verdict by a cleaner route:{" "}
+                            <strong>the model does not beat the base rate</strong>. Both numbers are
+                            here because they disagree in the third significant figure and agree on
+                            everything that matters, and because the one to trust is this one.
+                          </p>
+                        </>
+                      )}
+                    </section>
+                  )}
+
                   <section className="sc-cal">
                     <h3 className="ex-h">Is the probability honest?</h3>
                     <p className="ex-sub">
@@ -256,10 +314,13 @@ export default function ScoringPage() {
                     <h3>How this is set up</h3>
                     <ul>
                       <li>
-                        <strong>The held-out rows are in the same table.</strong> They sit in{" "}
-                        <code>analysis</code>{" "}with every feature and no outcome, which is exactly
-                        the shape of an install commissioned this morning. There is no separate
-                        &ldquo;test set&rdquo; the engine was pointed at.
+                        <strong>The held-out rows are in the same table &mdash; which is both
+                        the point and the limitation.</strong> They sit in <code>analysis</code>{" "}
+                        with every feature and no outcome, exactly the shape of an install
+                        commissioned this morning. But they are still in the population the
+                        prediction is read from, so the scorecard flatters itself; that is what the
+                        engine&rsquo;s warning above says, and why <code>evaluate()</code> is shown
+                        beside it.
                       </li>
                       <li>
                         <strong>Both spellings of the label were blanked.</strong>{" "}
