@@ -15,7 +15,7 @@ export const NAV_SECTIONS: NavSection[] = [
     section: "Check the working",
     items: [
       { href: "/scoring", label: "Does it actually work?",
-        hint: "scored on installs it was never told about", badgeKey: "holdout" },
+        hint: "scored on installs whose outcome was withheld", badgeKey: "holdout" },
       { href: "/map", label: "The map behind them", hint: "every field × every slice",
         badgeKey: "cells" },
       { href: "/patterns", label: "Patterns", hint: "combinations nobody proposed",

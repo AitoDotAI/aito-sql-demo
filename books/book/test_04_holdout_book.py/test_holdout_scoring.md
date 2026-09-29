@@ -32,16 +32,31 @@ ok
 
 ok
 
-## The leak this page exists to avoid
+## What the engine says about the score
 
-The same statement, against rows whose label IS present.
+- `select.predictions_in_sample`: 'churned' is predicted with its own value held out, but the row being scored is still part of the population the prediction is read from, so this confidence is in-sample and reads better than held-out accuracy. Use '_evaluate' for an unbiased estimate.
 
-- I00001: label=false, top prediction=false at p=0.9808
-- I00002: label=false, top prediction=false at p=0.9808
-- I00004: label=false, top prediction=false at p=0.9808
-- I00005: label=false, top prediction=false at p=0.9808
-- I00006: label=true, top prediction=true at p=0.9808
-- I00007: label=false, top prediction=false at p=0.9808
+ok
+
+## The unbiased estimate the warning points at
+
+- accuracy: 78.6% on 600 test rows (2400 train, n=551)
+- base rate: 79.1%
+- gain over base: -0.5pp
+
+ok
+ok
+
+## The leak this page exists to avoid, and its real cause
+
+The same statement, against rows whose label IS present. The engine holds `churned` out; what it still sees is `reordered`.
+
+- I00001 (temperate/active): churned=false, reordered=true -> false at p=0.9808
+- I00002 (hot/liquid): churned=false, reordered=true -> false at p=0.9808
+- I00004 (arctic/active): churned=false, reordered=true -> false at p=0.9808
+- I00005 (temperate/liquid): churned=false, reordered=true -> false at p=0.9808
+- I00006 (hot/active): churned=true, reordered=false -> true at p=0.9808
+- I00007 (hot/passive): churned=false, reordered=true -> false at p=0.9808
 
 ok
 ok

@@ -34,10 +34,17 @@ Card 5 fails on purpose. A dashboard where all six cards work is one nobody shou
 
 **8% of installs have their outcome withheld.** They sit in `analysis` with every feature and
 no label, which is what makes `SELECT install_id, predictions(churned) FROM analysis WHERE
-churned IS NULL` a prediction rather than a lookup: run the same statement against a labelled
-row and the engine answers with that row's own label at p = 0.98, every time, whatever the
-features — because the label is part of the evidence it conditions on. `/scoring` joins the
-withheld truth back and reports what it finds, which is not flattering:
+churned IS NULL` a prediction rather than a lookup. Run the same statement against a labelled
+row and every answer comes back at **p = 0.9808** — the *same* number for every row, whatever
+its climate, cooling or grade.
+
+The cause is worth naming exactly, because this README first got it wrong: the engine does
+**not** read the target's own value back. It holds `churned` out when predicting `churned`,
+and says so in a warning. The leak was `reordered`, a perfect complement sitting on the same
+row, which is why the generator blanks both. The giveaway is that identical p across rows with
+completely different features — a real prediction varies, a complement column does not.
+
+`/scoring` joins the withheld truth back and reports what it finds, which is not flattering:
 
 | | |
 |---|---|
@@ -46,10 +53,18 @@ withheld truth back and reports what it finds, which is not flattering:
 | AUC | **0.645** |
 | calibration | honest below 20%, overconfident above it (calls ~80%, delivers ~48%) |
 
+Those figures are themselves **optimistic**, and the engine volunteers it: the withheld rows
+are still in the population the prediction is read from, so `select.predictions_in_sample`
+warns that the confidence "reads better than held-out accuracy". That warning is shown on the
+page rather than swallowed, next to the unbiased number it points at — `evaluate()`, a real
+train/test split, gives **78.6%** against a **79.1%** base rate, a gain of **−0.5pp**. Same
+verdict by a cleaner route.
+
 Accuracy is the wrong question for an 18% outcome and it is printed anyway, beside the base
 rate it loses to. What the engine does well is *rank*, which is what a retention team uses.
-`book/test_04_holdout_book.py` asserts all of this — including the leak, so that if a future
-engine build stops echoing labels, the test fails and this section gets rewritten.
+`book/test_04_holdout_book.py` asserts all of it: that the warning reaches the payload, that
+`evaluate()` keeps agreeing, and that the echo's p stays identical across differing features —
+the signature that distinguishes a complement column from a real prediction.
 
 ## Run it
 
