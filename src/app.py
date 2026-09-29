@@ -309,6 +309,21 @@ _BADGE_CACHE: dict[str, int] = {}
 _PATTERNS_CACHE: dict[str, object] = {}
 _PATTERNS_LOCK = threading.Lock()
 
+# The map sweep gets the same treatment, for the same reason and one more.
+# `?refresh=true` is unauthenticated and recomputes 18 statements, so N
+# concurrent refreshes were N concurrent sweeps: measured four simultaneous
+# requests each taking ~2.8s, i.e. 72 statements to answer one page. Patterns
+# was given a lock for exactly this; the map was not.
+#
+# The second reason is worse. The sweep OVERWRITES the file /map is served
+# from, and `write_text` truncates before it writes — so an interleaved pair of
+# writers, or a reader arriving mid-write, can leave or observe invalid JSON,
+# after which every later /api/map fails on json.loads until someone gets a
+# clean refresh through. A public endpoint should not be able to do that, so
+# the write is now atomic (temp file + os.replace, which is a rename within the
+# directory and therefore all-or-nothing).
+_MAP_LOCK = threading.Lock()
+
 
 @app.get("/api/nav/badges")
 def nav_badges():
@@ -516,6 +531,21 @@ def get_explore(where: str | None = None, lever: str | None = None):
         raise HTTPException(status_code=502, detail={"message": str(e), "sql": e.sql})
 
 
+def _write_atomic(path: Path, text: str) -> None:
+    """Replace `path` in one step, so no reader ever sees half a file.
+
+    The temp file goes in the SAME directory on purpose: os.replace is atomic
+    only within a filesystem, and /tmp is frequently a different one.
+    """
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_name(f".{path.name}.{os.getpid()}.tmp")
+    try:
+        tmp.write_text(text, encoding="utf-8")
+        os.replace(tmp, path)
+    finally:
+        tmp.unlink(missing_ok=True)
+
+
 @app.get("/api/map")
 def get_map(refresh: bool = False):
     """The exhaustive sweep — every (field x value x slice) cell, ranked.
@@ -529,12 +559,18 @@ def get_map(refresh: bool = False):
 
     path = Path(__file__).resolve().parent.parent / "data" / "map.json"
     if refresh or not path.exists():
-        try:
-            data = sweep.build_map(sql, verbose=False)
-        except SqlError as e:
-            raise HTTPException(status_code=502, detail={"message": str(e), "sql": e.sql})
-        path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(json.dumps(data, indent=1), encoding="utf-8")
+        with _MAP_LOCK:
+            # Whoever was ahead of us has already rebuilt it; a refresh that
+            # queued behind another refresh wants that result, not its own.
+            if not refresh and path.exists():
+                data = json.loads(path.read_text(encoding="utf-8"))
+            else:
+                try:
+                    data = sweep.build_map(sql, verbose=False)
+                except SqlError as e:
+                    raise HTTPException(status_code=502,
+                                        detail={"message": str(e), "sql": e.sql})
+                _write_atomic(path, json.dumps(data, indent=1))
     else:
         data = json.loads(path.read_text(encoding="utf-8"))
 
