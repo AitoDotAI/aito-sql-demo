@@ -97,7 +97,11 @@ def check_kpi_matches_card(body: dict, churn: float) -> str:
     the bug aito-sql-demo #3 fixed. So: the `true` row's p must equal the card."""
     rows = body.get("rows") or []
     p = next((r.get("p") for r in rows if isinstance(r, dict) and str(r.get("value")).lower() == "true"), None)
-    assert p is not None, f"KPI SQL has no 'true' row: predict() rather than predictions()? {rows}"
+    assert p is not None, (
+        f"KPI SQL has no 'true' row: predict() rather than predictions()? {rows}. If EVERY card fails "
+        "this way, the deployed build predates aito-sql-demo #3: deploy it; do not relax this check.")
+    # both numbers come from the same request; a miss by a hair after a data
+    # regeneration is rounding, a miss by a whole true/false flip is the bug
     assert abs(100 * p - churn) < 0.15, f"card shows {churn}% but its own SQL says {100 * p:.1f}%"
     return f"SQL says {100 * p:.1f}%, card {churn}%"
 
