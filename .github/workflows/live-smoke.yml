@@ -1,0 +1,49 @@
+name: Live demo smoke (sql.aito.ai)
+
+# Opens every view on the DEPLOYED site and runs each card's own KPI SQL,
+# read-only (GETs, plus /api/sql, which is backed by Aito's read-only _sql), and
+# fails if one errors OR comes back hollow. Three handlers here turn a failed
+# query into a quiet result, and the map and patterns pages are served from
+# files and a startup cache, so a broken query could hide for a long time.
+# Board td-20260929184223822327.
+
+on:
+  schedule:
+    - cron: '15 3 * * *'           # 06:15 EEST / 05:15 EET: outside the 08-10 demo window
+  workflow_dispatch: {}
+  repository_dispatch:
+    types: [demos-deployed]         # fired after a demos deploy
+  push:
+    branches: [main]
+    paths: ['scripts/live_smoke.py', '.github/workflows/live-smoke.yml']
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Pick the host the deploy targeted
+        id: target
+        env:
+          # the payload arrives through env vars, never interpolated into the script
+          DEPLOY_ENV: ${{ github.event.client_payload.env }}
+          IMAGE_TAG: ${{ github.event.client_payload.image_tag }}
+          IMAGE_ID: ${{ github.event.client_payload.image_id }}
+          DIGEST: ${{ github.event.client_payload.digest }}
+        run: |
+          BASE="https://sql.aito.ai"
+          if [ "$DEPLOY_ENV" = "test" ]; then
+            echo "::warning::sql has no -test host; a test-deploy dispatch is not verified here"
+            exit 0
+          fi
+          echo "base=$BASE" >> "$GITHUB_OUTPUT"
+          echo "Verifying ${DEPLOY_ENV:-prod (scheduled/manual)} at $BASE: image ${IMAGE_TAG:-n/a} (${DIGEST:-n/a}), built ${IMAGE_ID:-n/a}"
+      - name: Smoke the sql demo on that host (read-only)
+        if: steps.target.outputs.base != ''
+        env:
+          BASE: ${{ steps.target.outputs.base }}
+        run: python scripts/live_smoke.py --base "$BASE"
