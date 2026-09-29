@@ -56,3 +56,14 @@ def test_a_dropped_connection_is_a_recorded_failure_not_a_crash(monkeypatch, cap
     monkeypatch.setattr(smoke.sys, "argv", ["live_smoke.py", "--base", "http://x"])
     assert smoke.main() == 1
     assert "checks FAILED" in capsys.readouterr().out
+
+
+def test_the_kpi_sql_must_say_what_the_card_says():
+    # aito-sql-demo #3: predict() gave only the complement row under a 38.2% card
+    bug = {"rows": [{"value": "false", "p": 0.618}]}
+    with pytest.raises(AssertionError, match="no 'true' row"):
+        smoke.check_kpi_matches_card(bug, 38.2)
+    fixed = {"rows": [{"value": "false", "p": 0.618}, {"value": "true", "p": 0.382}]}
+    assert "38.2%" in smoke.check_kpi_matches_card(fixed, 38.2)
+    with pytest.raises(AssertionError, match="card shows 45.0%"):
+        smoke.check_kpi_matches_card(fixed, 45.0)

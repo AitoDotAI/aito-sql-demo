@@ -90,6 +90,18 @@ def check_sql_rows(body: dict) -> str:
     return f"{len(rows)} rows"
 
 
+def check_kpi_matches_card(body: dict, churn: float) -> str:
+    """The card's KPI statement must produce the card's number. 'Returns rows'
+    can't tell a card from its complement: predict() yields only the argmax,
+    which for a healthy book is `false` (p 0.618 under a card reading 38.2%),
+    the bug aito-sql-demo #3 fixed. So: the `true` row's p must equal the card."""
+    rows = body.get("rows") or []
+    p = next((r.get("p") for r in rows if isinstance(r, dict) and str(r.get("value")).lower() == "true"), None)
+    assert p is not None, f"KPI SQL has no 'true' row: predict() rather than predictions()? {rows}"
+    assert abs(100 * p - churn) < 0.15, f"card shows {churn}% but its own SQL says {100 * p:.1f}%"
+    return f"SQL says {100 * p:.1f}%, card {churn}%"
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     parser.add_argument("--base", default=LIVE_BASE)
@@ -126,10 +138,11 @@ def main() -> int:
         detail = step(f"card {key}", get(f"/api/cards/{key}", check_card))
         kpi_sql = ((detail or {}).get("sql") or {}).get("kpi")
         if kpi_sql:
-            # the card's own KPI statement, as a visitor would run it from the card
-            def run_card_sql(stmt=kpi_sql):
+            # the card's own KPI statement, as a visitor would run it from the card,
+            # must produce the number the card shows
+            def run_card_sql(stmt=kpi_sql, churn=detail.get("churn")):
                 body = fetch(args.base, "/api/sql", args.timeout, sql=stmt)
-                return body, check_sql_rows(body)
+                return body, check_kpi_matches_card(body, churn)
             step(f"card {key} SQL", run_card_sql)
     step("patterns", get("/api/patterns", check_patterns))
     step("explore", get("/api/explore", check_explore))
