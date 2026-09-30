@@ -11,12 +11,15 @@ import { apiFetch } from "@/lib/api";
 import type { AitoPanelConfig } from "@/lib/types";
 import type { MapResult, MapCell } from "@/lib/cardTypes";
 
-const PANEL_CONFIG: AitoPanelConfig = {
-  operation: "relate() x 18",
+/** Derived from the sweep's own output. Hand-typed, the sweep time drifts the
+ *  moment the data changes: this panel still claimed 2.4s after the sweep had
+ *  grown to 3.9s. */
+const panelConfig = (d: MapResult | null): AitoPanelConfig => ({
+  operation: d ? `relate() x ${d.statements}` : "relate()",
   stats: [
-    { value: "827", label: "cells" },
-    { value: "18", label: "statements" },
-    { value: "2.4s", label: "whole sweep" },
+    { value: d ? d.cells.toLocaleString() : "—", label: "cells" },
+    { value: d ? String(d.statements) : "—", label: "statements" },
+    { value: d ? `${(d.generated_ms / 1000).toFixed(1)}s` : "—", label: "whole sweep" },
   ],
   description:
     "The map exists to answer one objection: <em>you found that because you went looking for it.</em> " +
@@ -31,7 +34,7 @@ const PANEL_CONFIG: AitoPanelConfig = {
     { label: "Aito SQL guide", url: "https://aito.ai/docs/api/sql/guide" },
     { label: "This demo on GitHub", url: "https://github.com/AitoDotAI/aito-sql-demo" },
   ],
-};
+});
 
 function Bar({ value, max }: { value: number; max: number }) {
   const w = Math.max(2, Math.min(100, (value / max) * 100));
@@ -314,7 +317,7 @@ export default function MapPage() {
           )}
         </div>
       </div>
-      <AitoPanel config={PANEL_CONFIG} />
+      <AitoPanel config={panelConfig(data)} />
     </div>
   );
 }
