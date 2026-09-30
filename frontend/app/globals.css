@@ -892,10 +892,15 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tex
 .cx-v{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--text)}
 .cx-cmd,.cx-try{display:flex;align-items:center;gap:10px;background:var(--surface2);
   border:1px solid var(--border2);border-radius:6px;padding:10px 12px;margin-bottom:10px}
-/* The CODE scrolls, not the row — otherwise a long connection string pushes the
-   copy button out past the right edge, where it cannot be clicked. */
+/* The command WRAPS rather than scrolls. A box whose whole purpose is "paste
+   this and go" has to show the whole thing: at 1500px the nowrap version cut
+   off at `-U aito -…`, hiding the database name behind the copy button, and a
+   reader cannot check what they are about to paste. The copy button keeps its
+   own width so it can never be pushed off the edge. */
 .cx-cmd code,.cx-try code{font-family:'IBM Plex Mono',monospace;font-size:12.5px;
-  color:var(--text);white-space:nowrap;flex:1 1 auto;min-width:0;overflow-x:auto}
+  color:var(--text);white-space:pre-wrap;word-break:break-word;flex:1 1 auto;min-width:0}
+.cx-cmd,.cx-try{align-items:flex-start}
+.cx-copy{margin-top:1px}
 .cx-try{flex-wrap:wrap}
 .cx-try .cx-k{flex:0 0 auto}
 .cx-copy{flex:0 0 auto;background:var(--surface);border:1px solid var(--border);
@@ -905,7 +910,6 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tex
 .cx-note{margin:0 0 10px;font-size:12.5px;line-height:1.6;color:var(--text3);max-width:76ch}
 @media (max-width:760px){
   .cx{padding:16px}
-  .cx-cmd code,.cx-try code{white-space:pre-wrap;word-break:break-all}
 }
 
 /* The engine's own warning about the number above it, and the unbiased
