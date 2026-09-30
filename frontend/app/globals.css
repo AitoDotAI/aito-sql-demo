@@ -793,10 +793,13 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tex
 /* ── Held-out scoring page ─────────────────────────────────────────
    The lead statement gets display weight, because on this page the SQL IS
    the argument: one statement, and the WHERE clause is what makes it honest. */
+/* WRAPS, not scrolls. The statement is one long line and the clause that
+   matters most — the LIMIT the backend adds — sits at the end of it, so a
+   horizontal scrollbar hid exactly the thing this pane exists to show. */
 .sc-hero-sql{background:var(--surface);border:1px solid var(--border);
   border-left:3px solid var(--gold-mid);border-radius:6px;padding:18px 20px;margin:0 0 10px;
-  font-family:'IBM Plex Mono',monospace;font-size:14px;line-height:1.65;color:var(--text);
-  overflow-x:auto;white-space:pre}
+  font-family:'IBM Plex Mono',monospace;font-size:13.5px;line-height:1.7;color:var(--text);
+  white-space:pre-wrap;word-break:break-word}
 .sc-hl{background:var(--gold-light);border-bottom:2px solid var(--gold-mid);
   padding:1px 3px;font-weight:600}
 .sc-hero-note{margin:0 0 26px;font-size:13.5px;line-height:1.65;color:var(--text2);max-width:72ch}
@@ -932,3 +935,8 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tex
 .sc-ev-sql{background:var(--surface2);border:1px solid var(--border2);border-radius:6px;
   padding:11px 13px;margin:0 0 4px;font-family:'IBM Plex Mono',monospace;font-size:12px;
   line-height:1.6;color:var(--text2);overflow-x:auto;white-space:pre-wrap;word-break:break-word}
+/* The LIMIT caveat under the scoring page's lead statement. Amber rather than
+   red: nothing is broken, but a reader who copies the query without it gets a
+   quietly different answer. */
+.sc-limit{background:var(--amber-bg);border-left:3px solid var(--amber);border-radius:0 6px 6px 0;
+  padding:11px 15px;margin:0 0 22px;font-size:13px;line-height:1.65;color:var(--text2);max-width:80ch}

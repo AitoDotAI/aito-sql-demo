@@ -11,12 +11,12 @@ import { apiFetch } from "@/lib/api";
 import type { AitoPanelConfig } from "@/lib/types";
 import type { PatternsResult, MinedPattern } from "@/lib/cardTypes";
 
-const PANEL_CONFIG: AitoPanelConfig = {
+const panelConfig = (d: PatternsResult | null): AitoPanelConfig => ({
   operation: "patterns(…)",
   stats: [
-    { value: "5", label: "column groups" },
+    { value: d ? String(d.groups.length) : "—", label: "column groups" },
     { value: "0", label: "hypotheses" },
-    { value: "100%", label: "cases checkable" },
+    { value: d ? String(d.statements) : "—", label: "SQL statements" },
   ],
   description:
     "<code>patterns()</code> mines conjunctions — combinations of values that co-occur more than " +
@@ -31,7 +31,7 @@ const PANEL_CONFIG: AitoPanelConfig = {
     { label: "Aito SQL guide", url: "https://aito.ai/docs/api/sql/guide" },
     { label: "This demo on GitHub", url: "https://github.com/AitoDotAI/aito-sql-demo" },
   ],
-};
+});
 
 function Term({ field, value }: { field: string; value: string }) {
   return (
@@ -187,7 +187,7 @@ export default function PatternsPage() {
                       <li>
                         <strong>Patterns cannot yet cross a link.</strong> <code>$patterns</code>{" "}
                         mines the columns of one table, which is why this runs on the flat{" "}
-                        <code>analysis</code> table rather than the normalised schema (filed as
+                        <code>analysis</code>{" "}table rather than the normalised schema (filed as
                         td-20260823192630739057).
                       </li>
                     </ul>
@@ -198,7 +198,7 @@ export default function PatternsPage() {
           )}
         </div>
       </div>
-      <AitoPanel config={PANEL_CONFIG} />
+      <AitoPanel config={panelConfig(data)} />
     </div>
   );
 }

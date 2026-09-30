@@ -14,10 +14,19 @@ import CardPanel from "@/components/cards/CardPanel";
 import ChainStrip from "@/components/cards/ChainStrip";
 import type { CardSummary, Overview } from "@/lib/cardTypes";
 
-const PANEL_CONFIG: AitoPanelConfig = {
+/** Counted from the cards themselves. Typed by hand this said 24 while the six
+ *  cards actually carry 27 statements — the kind of number that is wrong the
+ *  moment a card gains a conditioned query. */
+const panelConfig = (cards: CardSummary[] | null): AitoPanelConfig => ({
   operation: "POST /api/v2/_sql",
   stats: [
-    { value: "24", label: "SQL statements" },
+    {
+      value: cards
+        ? String(cards.reduce(
+            (n, c) => n + Object.values(c.sql ?? {}).filter(Boolean).length, 0))
+        : "—",
+      label: "SQL statements",
+    },
     { value: "0", label: "models trained" },
     { value: "~45ms", label: "per statement" },
   ],
@@ -34,7 +43,7 @@ const PANEL_CONFIG: AitoPanelConfig = {
     { label: "Aito SQL guide", url: "https://aito.ai/docs/api/sql/guide" },
     { label: "This demo on GitHub", url: "https://github.com/AitoDotAI/aito-sql-demo" },
   ],
-};
+});
 
 export default function Home() {
   const [cards, setCards] = useState<CardSummary[] | null>(null);
@@ -148,13 +157,22 @@ export default function Home() {
                     shrinks confidence toward the base rate when evidence is thin or redundant, so
                     the card understates a cell it has little data for, on purpose.
                   </li>
+                  <li>
+                    <strong>These six numbers are in-sample.</strong> Each card predicts against
+                    the same <code>analysis</code>{" "}table the installs it is describing live in, so
+                    the rows being summarised are also part of the evidence. That is the right
+                    thing for a question about a population you already have &mdash; but it is not
+                    a measure of how well the engine would do on an install it has never seen.
+                    That measurement is on its own page, it is held out, and{" "}
+                    <Link href="/scoring">it does not flatter us</Link>.
+                  </li>
                 </ul>
               </section>
             </>
           )}
         </div>
       </div>
-      <AitoPanel config={PANEL_CONFIG} />
+      <AitoPanel config={panelConfig(cards)} />
     </div>
   );
 }

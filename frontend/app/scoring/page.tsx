@@ -11,28 +11,29 @@ import { apiFetch } from "@/lib/api";
 import type { AitoPanelConfig } from "@/lib/types";
 import type { Scoring, ScoringBand, ScoringSample } from "@/lib/cardTypes";
 
-const PANEL_CONFIG: AitoPanelConfig = {
+/** Built from the response, not written down. Every figure below is already in
+ *  the payload, and a hand-typed one goes stale the first time the holdout
+ *  fraction changes or a statement is added — this panel claimed "1 SQL
+ *  statement" while the page ran three. */
+const panelConfig = (d: Scoring | null): AitoPanelConfig => ({
   operation: "predictions(col) per row",
   stats: [
-    { value: "240", label: "installs scored" },
+    { value: d ? d.n.toLocaleString() : "—", label: "installs scored" },
     { value: "0", label: "labels seen" },
-    { value: "1", label: "SQL statement" },
+    { value: d ? String(Object.keys(d.sql).length) : "—", label: "SQL statements" },
   ],
   description:
     "One statement scores every install whose outcome was withheld. Run it without the " +
     "<code>WHERE</code> and every row comes back at p&nbsp;=&nbsp;0.9808 &mdash; not because the " +
     "engine reads the target back (it holds that out), but because <code>reordered</code> is a " +
     "perfect complement sitting on the same row.",
-  query:
-    "SELECT install_id,\n" +
-    "       predictions(churned)\n" +
-    "  FROM analysis\n" +
-    " WHERE churned IS NULL;",
+  query: d?.sql.score ?? "SELECT install_id, predictions(churned)\n"
+    + "  FROM analysis WHERE churned IS NULL;",
   links: [
     { label: "Aito SQL guide", url: "https://aito.ai/docs/api/sql/guide" },
     { label: "This demo on GitHub", url: "https://github.com/AitoDotAI/aito-sql-demo" },
   ],
-};
+});
 
 /** Predicted vs actual for one probability band, as a dumbbell.
  *
@@ -68,6 +69,23 @@ function CalibrationRow({ b }: { b: ScoringBand }) {
         </span>
       </td>
     </tr>
+  );
+}
+
+/** The statement as sent, with its WHERE highlighted.
+ *
+ *  The emphasis is the page's argument, so it survives the move from a typed
+ *  string to the real one — but it is found rather than written, because the
+ *  statement now comes from the backend and may change without this file. */
+function heroSql(sql: string | undefined) {
+  if (!sql) return "loading…";
+  const i = sql.search(/\bWHERE\b/i);
+  if (i < 0) return sql;
+  return (
+    <>
+      {sql.slice(0, i)}
+      <span className="sc-hl">{sql.slice(i)}</span>
+    </>
   );
 }
 
@@ -146,11 +164,20 @@ export default function ScoringPage() {
                 </p>
               </div>
 
-              <pre className="sc-hero-sql">
-{`SELECT install_id, predictions(churned)
-  FROM analysis
- WHERE `}<span className="sc-hl">churned IS NULL</span>{`;`}
-              </pre>
+              {/* The statement AS SENT, straight from the payload. It used to be
+                  typed out here without the LIMIT the backend adds, and that
+                  gap was not cosmetic — see the note below. */}
+              <pre className="sc-hero-sql">{heroSql(data?.sql.score)}</pre>
+              {data && (
+                <p className="sc-limit">
+                  <strong>That <code>LIMIT</code> is doing real work.</strong>{" "}
+                  <code>predictions()</code> used as a per-row projection returns{" "}
+                  <strong>10 rows</strong> when no <code>LIMIT</code>{" "}is given &mdash; no warning,
+                  no error, just a short answer. Without it this page would have scored ten
+                  installs and called it a {data.n}-row holdout. Until the engine turns that cap
+                  into an explicit error, say the number you want.
+                </p>
+              )}
               <p className="sc-hero-note">
                 Drop that <code>WHERE</code> and every prediction comes back agreeing with the
                 label at <code>p&nbsp;=&nbsp;0.9808</code> &mdash; the <em>same</em>{" "}number for
@@ -360,7 +387,7 @@ export default function ScoringPage() {
           )}
         </div>
       </div>
-      <AitoPanel config={PANEL_CONFIG} />
+      <AitoPanel config={panelConfig(data)} />
     </div>
   );
 }
