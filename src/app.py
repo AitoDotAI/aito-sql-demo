@@ -463,7 +463,7 @@ def connect_details():
 
 
 @app.get("/api/scoring")
-def get_scoring():
+def get_scoring(response: Response):
     """Row-level predictions on installs whose label was withheld, and the score.
 
     The demo's honesty beat, and the one route whose numbers are allowed to be
@@ -473,10 +473,19 @@ def get_scoring():
     from src import holdout
 
     try:
-        return holdout.cached(sql)
+        result = holdout.ensure(sql)
     except SqlError as e:
         raise HTTPException(status_code=502,
                             detail={"message": str(e), "sql": e.sql})
+
+    if result is None:
+        # 202, not a 28-second wait. The scoring takes ~7s of per-row inference
+        # plus a ~9s evaluate(), and the startup warm-up needs ~40s end to end;
+        # a visitor landing inside that window used to block for the remainder.
+        # The page renders its "scoring…" state for this and polls.
+        response.status_code = 202
+        return {"status": "scoring", "retry_after_ms": 1500}
+    return result
 
 
 @app.get("/api/patterns")

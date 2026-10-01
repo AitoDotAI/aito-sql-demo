@@ -88,6 +88,9 @@ EVALUATE_SQL = (f"SELECT * FROM evaluate('analysis','churned', "
 
 _CACHE: dict[str, Any] | None = None
 _LOCK = threading.Lock()
+# True while a background fill is in flight, so eight simultaneous
+# visitors start one computation rather than eight.
+_FILLING = False
 
 
 def _p_true(raw: str | list | None) -> float | None:
@@ -220,20 +223,69 @@ def _evaluate(sql: SqlClient) -> dict[str, Any] | None:
     }
 
 
-def cached(sql: SqlClient) -> dict[str, Any]:
-    """Single-flight cache. ~7s to compute, and it never changes between loads."""
-    global _CACHE
+def ensure(sql: SqlClient) -> dict[str, Any] | None:
+    """The scored holdout, or None while it is still being computed.
+
+    Nobody waits here. The previous version held `_LOCK` across the whole
+    computation, so a request arriving mid-warm queued behind it — measured at
+    **27.9 seconds** on a real startup, against 0.002s once filled. The warm-up
+    itself takes about 40s end to end, and forty seconds after a deploy is
+    exactly when someone opens the page to check the deploy worked. The page
+    that argues this demo is honest was the slowest thing on the site at the
+    worst possible moment.
+
+    So the lock is now held only long enough to decide who computes. One
+    caller starts a background fill; everyone else — including that caller —
+    gets None immediately and the route answers 202. The work still happens
+    once.
+
+    A failed fill clears the in-flight flag, so the next request tries again
+    rather than leaving the page spinning forever. A permanent spinner would be
+    worse than the wait it replaces: at least the wait ended.
+    """
+    global _FILLING
     if _CACHE is not None:
         return _CACHE
     with _LOCK:
-        if _CACHE is None:
-            _CACHE = score(sql)
-    return _CACHE
+        if _CACHE is not None:
+            return _CACHE
+        if not _FILLING:
+            _FILLING = True
+            threading.Thread(target=_fill, args=(sql,),
+                             name="holdout-fill", daemon=True).start()
+    return None
+
+
+def _fill(sql: SqlClient) -> None:
+    """Compute off the request path. Never raises — it is a thread body."""
+    global _CACHE, _FILLING
+    try:
+        result = score(sql)
+        with _LOCK:
+            _CACHE = result
+    except Exception as e:                      # noqa: BLE001 — see ensure()
+        print(f"holdout scoring failed (will retry on the next request): {e}")
+    finally:
+        with _LOCK:
+            _FILLING = False
+
+
+def cached(sql: SqlClient) -> dict[str, Any] | None:
+    """Backwards-compatible alias for ensure(). May return None."""
+    return ensure(sql)
 
 
 def warm(sql: SqlClient) -> None:
-    """Fill the cache off the request path. Never raises — see SqlClient.warm."""
+    """Start the fill at boot, so the cache is usually ready before anyone asks."""
     try:
-        cached(sql)
+        ensure(sql)
     except Exception as e:                      # noqa: BLE001
         print(f"holdout warm-up failed (continuing): {e}")
+
+
+def reset_cache() -> None:
+    """Tests only."""
+    global _CACHE, _FILLING
+    with _LOCK:
+        _CACHE = None
+        _FILLING = False
