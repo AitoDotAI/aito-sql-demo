@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { Suspense, useCallback, useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import TopBar from "@/components/shell/TopBar";
 import Nav from "@/components/shell/Nav";
@@ -43,8 +44,10 @@ function Term({ field, value }: { field: string; value: string }) {
   );
 }
 
-function PatternCard({ p, cols }: { p: MinedPattern; cols: string[] }) {
-  const [open, setOpen] = useState(false);
+function PatternCard({ p, cols, open, onToggle }: {
+  p: MinedPattern; cols: string[]; open: boolean; onToggle: () => void;
+}) {
+  const setOpen = (_next: boolean) => onToggle();
   const strong = (p.lift ?? 1) > 1.15;
   const exploreHref =
     "/explore?where=" +
@@ -99,9 +102,21 @@ function PatternCard({ p, cols }: { p: MinedPattern; cols: string[] }) {
   );
 }
 
-export default function PatternsPage() {
+function PatternsInner() {
   const [data, setData] = useState<PatternsResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  // Which pattern's cases are showing lives in the URL, so "look at this one"
+  // is a link rather than a link plus an instruction. Out of range expands
+  // nothing: an index that does not exist must not quietly become index 0.
+  const router = useRouter();
+  const params = useSearchParams();
+  const rawOpen = params.get("open");
+  const openIndex = rawOpen !== null && /^\d+$/.test(rawOpen) ? Number(rawOpen) : null;
+
+  const toggle = (i: number) => {
+    router.push(openIndex === i ? "/patterns" : `/patterns?open=${i}`, { scroll: false });
+  };
 
   const load = useCallback(() => {
     setError(null);
@@ -160,7 +175,9 @@ export default function PatternsPage() {
 
                   <div className="pat-list">
                     {data.patterns.map((p, i) => (
-                      <PatternCard key={i} p={p} cols={data.case_columns} />
+                      <PatternCard key={i} p={p} cols={data.case_columns}
+                                   open={openIndex === i}
+                                   onToggle={() => toggle(i)} />
                     ))}
                   </div>
 
@@ -200,5 +217,14 @@ export default function PatternsPage() {
       </div>
       <AitoPanel config={panelConfig(data)} />
     </div>
+  );
+}
+
+export default function PatternsPage() {
+  // useSearchParams needs a Suspense boundary for the static export.
+  return (
+    <Suspense fallback={<div className="card-loading">loading…</div>}>
+      <PatternsInner />
+    </Suspense>
   );
 }

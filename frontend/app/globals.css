@@ -940,3 +940,9 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tex
    quietly different answer. */
 .sc-limit{background:var(--amber-bg);border-left:3px solid var(--amber);border-radius:0 6px 6px 0;
   padding:11px 15px;margin:0 0 22px;font-size:13px;line-height:1.65;color:var(--text2);max-width:80ch}
+
+/* A link that names something that does not exist. Said out loud rather than
+   silently resolved to a default — the whole point of putting state in the URL
+   is that the URL is believed. */
+.url-miss{background:var(--amber-bg);border-left:3px solid var(--amber);border-radius:0 6px 6px 0;
+  padding:11px 15px;margin:0 0 20px;font-size:13px;line-height:1.65;color:var(--text2);max-width:80ch}
