@@ -51,7 +51,14 @@ cmd_dev() {
   [ -d frontend/node_modules ] || cmd_install
   say "backend → http://localhost:${BACKEND_PORT} (uvicorn, hot-reload)"
   say "frontend → http://localhost:${FRONTEND_PORT} (next dev, proxies /api/* → backend)"
-  ( BACKEND_PORT="$BACKEND_PORT" uv run uvicorn src.app:app --host 127.0.0.1 --port "$BACKEND_PORT" --reload ) &
+  # DEMO_WARM=0: no startup burst in the dev loop.
+  #
+  # The warm-up is ~22 statements against a SHARED instance, including the
+  # ~7s holdout scoring and a ~9s evaluate(). With --reload that fires on
+  # every save. Export DEMO_WARM=1 before ./do dev if you are specifically
+  # testing the warm path.
+  ( DEMO_WARM="${DEMO_WARM:-0}" BACKEND_PORT="$BACKEND_PORT" \
+      uv run uvicorn src.app:app --host 127.0.0.1 --port "$BACKEND_PORT" --reload ) &
   BACK=$!
   trap 'kill $BACK 2>/dev/null || true' EXIT INT TERM
   ( cd frontend && BACKEND_PORT="$BACKEND_PORT" npx next dev -p "$FRONTEND_PORT" )

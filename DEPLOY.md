@@ -44,6 +44,15 @@ AITO_SQL_API_KEY=<READ-ONLY key>        # not the one used above
 # mid-meeting.
 AITO_SQL_READONLY_KEY=<the same READ-ONLY key, if it should be published>
 
+# OPTIONAL. Leave unset in production: the app warms its caches at startup
+# (~22 statements, including ~7s of holdout scoring and a ~9s evaluate()), and
+# a deployed process starts once per deploy, so that cost buys every visitor a
+# fast first page. Set DEMO_WARM=0 to boot without touching Aito at all — the
+# caches are lazy, so the first request pays instead of the deploy. `./do dev`
+# already sets it, because --reload fires the whole burst on every save
+# against an instance other demos share.
+# DEMO_WARM=0
+
 # 3. deploy
 cd ../aito-azure && ./do deploy-demos
 ```

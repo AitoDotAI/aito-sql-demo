@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import TopBar from "@/components/shell/TopBar";
 import Nav from "@/components/shell/Nav";
@@ -77,6 +77,16 @@ function CalibrationRow({ b }: { b: ScoringBand }) {
  *  The emphasis is the page's argument, so it survives the move from a typed
  *  string to the real one — but it is found rather than written, because the
  *  statement now comes from the backend and may change without this file. */
+/** What /api/scoring answers with while it is still computing (HTTP 202). */
+interface Pending {
+  status: "scoring";
+  retry_after_ms?: number;
+}
+
+function isPending(payload: Scoring | Pending): payload is Pending {
+  return (payload as Pending).status === "scoring";
+}
+
 function heroSql(sql: string | undefined) {
   if (!sql) return "loading…";
   const i = sql.search(/\bWHERE\b/i);
@@ -127,14 +137,35 @@ export default function ScoringPage() {
   const [data, setData] = useState<Scoring | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  // The backend answers 202 with {status: "scoring"} while the holdout is
+  // still being computed, instead of holding the request open. Scoring is ~7s
+  // of per-row inference plus a ~9s evaluate(), and the startup warm-up needs
+  // ~40s end to end — a visitor landing inside that window used to wait 27.9s
+  // for a response. So: poll, and leave `data` null meanwhile, which renders
+  // the "scoring…" state that was already here.
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   const load = useCallback(() => {
     setError(null);
-    apiFetch<Scoring>("/api/scoring")
-      .then(setData)
+    apiFetch<Scoring | Pending>("/api/scoring")
+      .then((payload) => {
+        if (isPending(payload)) {
+          timer.current = setTimeout(load, payload.retry_after_ms ?? 1500);
+          return;
+        }
+        setData(payload);
+      })
       .catch((e) => setError(e?.message || "Could not reach the API"));
   }, []);
 
-  useEffect(load, [load]);
+  useEffect(() => {
+    load();
+    // Stop polling when the reader leaves mid-computation; otherwise a tab
+    // left open on a failing instance retries forever.
+    return () => {
+      if (timer.current) clearTimeout(timer.current);
+    };
+  }, [load]);
 
   const beatsBase = data ? data.accuracy > data.base_accuracy : false;
 

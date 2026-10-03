@@ -50,6 +50,25 @@ app = FastAPI(
 )
 
 
+def warm_on_startup() -> bool:
+    """Whether to spend ~22 statements on Aito at boot.
+
+    The warm-up is worth it in production, where a process starts once per
+    deploy and the first visitor would otherwise pay ~7s of holdout scoring,
+    ~9s of evaluate() and a 19-statement patterns mine — plus the DNS lookup
+    that can stall for 5s. It is NOT worth it in a dev loop, where the same
+    burst fires on every reload. Mine fired it a dozen times in an afternoon
+    while shared was being investigated for load, which is how this got
+    noticed.
+
+    Default on, so deploys keep the behaviour they were tuned for. Set
+    DEMO_WARM=0 to boot silent — the caches are lazy anyway (`holdout.cached`,
+    the patterns cache), so skipping the warm-up moves the cost to the first
+    request rather than losing it.
+    """
+    return os.environ.get("DEMO_WARM", "1").strip().lower() not in {"0", "false", "no", ""}
+
+
 @app.on_event("startup")
 def _warm_connection() -> None:
     """Resolve the host and open the pool before the first visitor waits.
@@ -71,6 +90,10 @@ def _warm_connection() -> None:
     ~7s of per-row inference and wants a warm connection rather than opening
     its own.
     """
+    if not warm_on_startup():
+        print("DEMO_WARM=0 — not warming at startup; the first request pays instead")
+        return
+
     def run() -> None:
         from src import holdout
 
@@ -440,7 +463,7 @@ def connect_details():
 
 
 @app.get("/api/scoring")
-def get_scoring():
+def get_scoring(response: Response):
     """Row-level predictions on installs whose label was withheld, and the score.
 
     The demo's honesty beat, and the one route whose numbers are allowed to be
@@ -450,10 +473,19 @@ def get_scoring():
     from src import holdout
 
     try:
-        return holdout.cached(sql)
+        result = holdout.ensure(sql)
     except SqlError as e:
         raise HTTPException(status_code=502,
                             detail={"message": str(e), "sql": e.sql})
+
+    if result is None:
+        # 202, not a 28-second wait. The scoring takes ~7s of per-row inference
+        # plus a ~9s evaluate(), and the startup warm-up needs ~40s end to end;
+        # a visitor landing inside that window used to block for the remainder.
+        # The page renders its "scoring…" state for this and polls.
+        response.status_code = 202
+        return {"status": "scoring", "retry_after_ms": 1500}
+    return result
 
 
 @app.get("/api/patterns")
@@ -497,6 +529,9 @@ def _warm_patterns() -> None:
     swallowed on purpose — a warm-up that cannot reach Aito must not stop the
     app from serving, and the route will simply mine on demand as before.
     """
+    if not warm_on_startup():
+        return
+
     def run() -> None:
         try:
             get_patterns()
