@@ -8,6 +8,7 @@
 #   ./do build                    build the frontend static export (frontend/out/)
 #   ./do backend                  run backend only (foreground; matches production shape)
 #   ./do test                     run all tests (pytest discovers book/ + tests/)
+#   ./do test-routes           cold-load URL tests (needs a built frontend)
 #   ./do test-book                run booktest snapshot tests only (book/)
 #   ./do screenshot-teaser        render assets/teaser.html → assets/teaser.png (1200×630)
 #   ./do screenshot-pages [...]   desktop full-page screenshots of given paths
@@ -62,6 +63,17 @@ cmd_dev() {
   BACK=$!
   trap 'kill $BACK 2>/dev/null || true' EXIT INT TERM
   ( cd frontend && BACKEND_PORT="$BACKEND_PORT" npx next dev -p "$FRONTEND_PORT" )
+}
+
+cmd_test_routes() {
+  # Cold-load route tests: does a pasted link open what it says?
+  # Needs a built frontend being served — ./do build && ./do backend — and a
+  # Chrome. Each case runs in a FRESH browser context, which is what a
+  # recipient has.
+  [ -d frontend/node_modules ] || cmd_install
+  BASE_URL="${BASE_URL:-http://localhost:${BACKEND_PORT}}" \
+    CHROME_PATH="${CHROME_PATH:-$(command -v google-chrome-stable || command -v chromium || true)}" \
+    node frontend/scripts/route-state.cjs "$@"
 }
 
 cmd_test() {
@@ -166,6 +178,7 @@ case "${1:-help}" in
   build)               shift; cmd_build "$@" ;;
   backend)             shift; cmd_backend "$@" ;;
   test)                shift; cmd_test "$@" ;;
+  test-routes)         shift; cmd_test_routes "$@" ;;
   test-book)           shift; cmd_test_book "$@" ;;
   provision)           shift; cmd_provision "$@" ;;
   federate)            shift; cmd_federate "$@" ;;

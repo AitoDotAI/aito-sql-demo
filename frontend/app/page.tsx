@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { Suspense, useCallback, useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import TopBar from "@/components/shell/TopBar";
 import Nav from "@/components/shell/Nav";
@@ -45,11 +46,30 @@ const panelConfig = (cards: CardSummary[] | null): AitoPanelConfig => ({
   ],
 });
 
-export default function Home() {
+function HomeInner() {
   const [cards, setCards] = useState<CardSummary[] | null>(null);
   const [overview, setOverview] = useState<Overview | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [openKey, setOpenKey] = useState<string | null>("thermal");
+
+  // Which card is expanded lives in the URL, so a pasted link opens on the one
+  // the sender was reading. Derived, not mirrored into state: a second copy is
+  // how a URL and a view drift apart.
+  //
+  // No parameter means the first card — a default view, not a claim about
+  // data. An UNRECOGNISED one expands nothing and says so, because quietly
+  // opening a different card than the link named is the same lie as
+  // /product/<id> rendering product 0.
+  const router = useRouter();
+  const params = useSearchParams();
+  const requested = params.get("card");
+  const recognised = (cards ?? []).some((c) => c.key === requested);
+  const openKey = requested === null
+    ? (cards && cards.length ? cards[0].key : null)
+    : (recognised ? requested : null);
+
+  const setOpenKey = (next: string | null) => {
+    router.push(next ? `/?card=${encodeURIComponent(next)}` : "/", { scroll: false });
+  };
 
   const load = useCallback(() => {
     setError(null);
@@ -83,6 +103,14 @@ export default function Home() {
           {!error && (
             <>
               <ChainStrip overview={overview} />
+
+              {requested !== null && cards && !recognised && (
+                <p className="url-miss">
+                  This link points at a card called <code>{requested}</code>, and there is
+                  no such card — so nothing is expanded, rather than something else being
+                  opened in its place. The six below are all of them.
+                </p>
+              )}
 
               {/* The idiomatic form, first — an engineer looking for "what does
                   this actually look like in SQL" should not have to find it on
@@ -174,5 +202,14 @@ export default function Home() {
       </div>
       <AitoPanel config={panelConfig(cards)} />
     </div>
+  );
+}
+
+export default function Home() {
+  // useSearchParams needs a Suspense boundary for the static export.
+  return (
+    <Suspense fallback={<div className="card-loading">loading…</div>}>
+      <HomeInner />
+    </Suspense>
   );
 }

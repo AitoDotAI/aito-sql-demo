@@ -109,7 +109,10 @@ export default function CardPanel({
     (a, b) => (a == null || (b.p_good ?? 0) > (a.p_good ?? 0) ? b : a), null);
 
   return (
-    <article className={`card ${open ? "card-open" : ""} ${isNull ? "card-null" : ""}`}>
+    <article
+      data-card={summary.key}
+      className={`card ${open ? "card-open" : ""} ${isNull ? "card-null" : ""}`}
+    >
       <header className="card-head">
         <div className="card-titles">
           <span className="card-rank">map #{summary.rank}</span>
