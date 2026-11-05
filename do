@@ -91,7 +91,15 @@ cmd_test_book() {
   #   ./do test-book -a           accept the current output as the snapshot
   #   ./do test-book -v           verbose (prints the book as it runs)
   #   ./do test-book -i           interactive review of diffs
-  exec uv run booktest book/ "$@"
+  #
+  # Refuses a non-loopback AITO_API_URL (src/target_guard.py). To use one knowingly, pass
+  # --allow-shared AND set AITO_TEST_ALLOW_SHARED=1; either alone is refused.
+  local allow=() args=()
+  for a in "$@"; do
+    if [ "$a" = "--allow-shared" ]; then allow=(--allow-shared); else args+=("$a"); fi
+  done
+  uv run python -m src.target_guard "${allow[@]}" || exit 2
+  exec uv run booktest book/ "${args[@]}"
 }
 
 cmd_provision() {
