@@ -66,6 +66,27 @@ rate it loses to. What the engine does well is *rank*, which is what a retention
 `evaluate()` keeps agreeing, and that the echo's p stays identical across differing features —
 the signature that distinguishes a complement column from a real prediction.
 
+### Engine versions move the held-out numbers
+
+The held-out scoring depends on how the engine treats a predictor column that holds nulls. `feedback_score`
+is 60% null (1,791 of 3,000 installs), and Aito v2.12.0 changed that (a `_predict` condition on a column
+that holds nulls now counts every row). Measured locally on the same 3,000 rows (identical on both servers:
+sha256 of the rows ordered by `install_id`), scoring the 240 held-out installs with
+`predictions(churned) … WHERE churned IS NULL`:
+
+| | v2.11.9 | v2.12.0 |
+|---|---|---|
+| accuracy | 78.8% (189/240) | 77.9% (187/240) |
+| AUC | 0.649 | 0.660 |
+| per-row P(churned), table with `feedback_score` | — | 82 of 240 rows differ by more than 0.001 (max 0.148) |
+| per-row P(churned), table without `feedback_score` | — | bit-identical to v2.11.9 |
+
+The headline accuracy moved by two rows and the AUC went up, so this is not a quality regression, but the
+probabilities underneath did change. `scripts/holdout_cause.py` reproduces the comparison on a local server.
+The accepted snapshot in `books/` was recorded on the shared instance; re-accept it against the shared
+instance (which runs v2.12.0), not from a local load (the local data differs slightly from the shared
+load: the lift lines read ×1.59 locally against ×1.57 in the snapshot on both engine versions).
+
 ## Run it
 
 ```bash
